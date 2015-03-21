@@ -1,0 +1,277 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Suscriptor proyecto Details</f:facet>
+
+        <s:decorate id="idSuscriptor" template="layout/display.xhtml">
+            <ui:define name="label">Id suscriptor</ui:define>
+            <h:outputText value="#{suscriptorProyectoHome.instance.id.idSuscriptor}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+        <s:decorate id="idProyecto" template="layout/display.xhtml">
+            <ui:define name="label">Id proyecto</ui:define>
+            <h:outputText value="#{suscriptorProyectoHome.instance.id.idProyecto}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="estadoSuscriptorProyecto" template="layout/display.xhtml">
+            <ui:define name="label">Estado suscriptor proyecto</ui:define>
+            <h:outputText value="#{suscriptorProyectoHome.instance.estadoSuscriptorProyecto}"/>
+        </s:decorate>
+
+        <s:decorate id="estadoSuscriptorModulo" template="layout/display.xhtml">
+            <ui:define name="label">Estado suscriptor modulo</ui:define>
+            <h:outputText value="#{suscriptorProyectoHome.instance.estadoSuscriptorModulo}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/SuscriptorProyectoEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty suscriptorProyectoFrom ? 'SuscriptorProyectoList' : suscriptorProyectoFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Proyecto</h:panelGroup>
+        </f:facet>
+    <div class="association" id="proyectoParent">
+
+        <h:outputText value="There is no proyecto associated with this suscriptorProyecto."
+                   rendered="#{suscriptorProyectoHome.instance.proyecto == null}"/>
+
+        <rich:dataTable var="_proyecto"
+                   value="#{suscriptorProyectoHome.instance.proyecto}"
+                rendered="#{suscriptorProyectoHome.instance.proyecto != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="proyectoTable">
+            <h:column>
+                <f:facet name="header">Id proyecto</f:facet>
+                <h:outputText value="#{_proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_proyecto.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_proyecto.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_proyecto.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_proyecto.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_proyecto.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_proyecto.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_proyecto.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_proyecto.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_proyecto.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado proyecto</f:facet>
+                <h:outputText value="#{_proyecto.estadoProyecto}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_proyecto.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero corto</f:facet>
+                <h:outputText value="#{_proyecto.numeroCorto}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewproyecto"
+                     value="View"
+                      view="/Proyecto.xhtml">
+                    <f:param name="proyectoIdProyecto"
+                           value="#{_proyecto.idProyecto}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Suscriptor</h:panelGroup>
+        </f:facet>
+    <div class="association" id="suscriptorParent">
+
+        <h:outputText value="There is no suscriptor associated with this suscriptorProyecto."
+                   rendered="#{suscriptorProyectoHome.instance.suscriptor == null}"/>
+
+        <rich:dataTable var="_suscriptor"
+                   value="#{suscriptorProyectoHome.instance.suscriptor}"
+                rendered="#{suscriptorProyectoHome.instance.suscriptor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="suscriptorTable">
+            <h:column>
+                <f:facet name="header">Id suscriptor</f:facet>
+                <h:outputText value="#{_suscriptor.idSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero</f:facet>
+                <h:outputText value="#{_suscriptor.numero}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_suscriptor.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo alta</f:facet>
+                <h:outputText value="#{_suscriptor.tipoAlta}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewsuscriptor"
+                     value="View"
+                      view="/Suscriptor.xhtml">
+                    <f:param name="suscriptorIdSuscriptor"
+                           value="#{_suscriptor.idSuscriptor}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Modulo</h:panelGroup>
+        </f:facet>
+    <div class="association" id="moduloParent">
+
+        <h:outputText value="There is no modulo associated with this suscriptorProyecto."
+                   rendered="#{suscriptorProyectoHome.instance.modulo == null}"/>
+
+        <rich:dataTable var="_modulo"
+                   value="#{suscriptorProyectoHome.instance.modulo}"
+                rendered="#{suscriptorProyectoHome.instance.modulo != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="moduloTable">
+            <h:column>
+                <f:facet name="header">Id modulo</f:facet>
+                <h:outputText value="#{_modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Proyecto id proyecto</f:facet>
+                <h:outputText value="#{_modulo.proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_modulo.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_modulo.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_modulo.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_modulo.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_modulo.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado modulo</f:facet>
+                <h:outputText value="#{_modulo.estadoModulo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_modulo.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion envio tip</f:facet>
+                <h:outputText value="#{_modulo.configuracionEnvioTip}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo modulo</f:facet>
+                <h:outputText value="#{_modulo.tipoModulo}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewmodulo"
+                     value="View"
+                      view="/Modulo.xhtml">
+                    <f:param name="moduloIdModulo"
+                           value="#{_modulo.idModulo}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

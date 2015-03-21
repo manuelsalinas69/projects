@@ -1,0 +1,70 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			Cambiar contrase&ntilde;a - usuario: #{credentials.username}
+		</ui:define>
+		</s:decorate>
+		<h:form id="contrasenaForm" styleClass="edit">
+
+			<s:decorate id="contrasenaActualField" template="layout/edit2.xhtml">
+				<ui:define name="label">Contrase&ntilde;a actual</ui:define>
+				<h:inputSecret id="contrasenaActual" required="true" size="50" redisplay="true"
+					value="#{cambiarContrasenaController.contrasenaActual}">
+					<a:ajax event="blur" render="contrasenaActualField" bypassUpdates="true" execute="@this"/>
+				</h:inputSecret>
+			</s:decorate>
+
+			<s:decorate id="contrasenaNuevaField" template="layout/edit2.xhtml"
+				>
+				<ui:define name="label">Contrase&ntilde;a nueva</ui:define>
+				<h:inputSecret id="contrasenaNueva" required="true" size="50" redisplay="true"
+					value="#{cambiarContrasenaController.contrasenaNueva}">
+					<a:ajax event="blur" render="contrasenaNuevaField" bypassUpdates="true" execute="@this"/>
+				</h:inputSecret>
+
+			</s:decorate>
+
+			<s:decorate id="contrasenaConfirmaField"
+				template="layout/edit2.xhtml" >
+				<ui:define name="label">Confirme la contrase&ntilde;a nueva</ui:define>
+				<h:inputSecret id="contrasenaConfirma" required="true" size="50" redisplay="true"
+					value="#{cambiarContrasenaController.contrasenaConfirma}">
+					<a:ajax event="blur" render="contrasenaConfirmaField" bypassUpdates="true" execute="@this"/>
+				</h:inputSecret>
+
+			</s:decorate>
+			
+
+			<div style="clear: both; margin-top: 10px; margin-bottom: 10px;">
+				<span class="required">*</span> #{messages.msg_required_fields}
+			</div>
+
+
+
+			<div class="actionButtons">
+
+				<a:commandButton id="save" value="#{messages.msg_update}"
+					action="#{cambiarContrasenaController.updateContrasena()}" />
+
+
+
+				<s:button view="/home.xhtml" id="cancel" propagation="none"
+					value="#{messages.msg_cancel}">
+				</s:button>
+			</div>
+
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

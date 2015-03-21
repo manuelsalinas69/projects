@@ -1,0 +1,294 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			Suscriptores
+		</ui:define>
+		</s:decorate>
+		<h:form id="suscriptorProyectoSearch" styleClass="edit">
+
+			<rich:collapsiblePanel header="#{messages.msg_list_search_filter}"
+				switchType="client">
+
+				<h:panelGrid columns="3">
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">N&uacute;mero</ui:define>
+						<h:inputText id="numeroSuscriptor"
+							value="#{suscriptorProyectoList.numeroSuscriptor}" />
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Estado en el proyecto</ui:define>
+						<h:selectOneMenu id="estadoSuscriptorProyecto"
+							value="#{suscriptorProyectoList.suscriptorProyecto.estadoSuscriptorProyecto}">
+							<f:selectItems
+								value="#{enumAppHelper.enumsValueItems('EstadoSuscriptorProyecto','name',true)}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Estado en el m&oacute;dulo</ui:define>
+						<h:selectOneMenu id="estadoSuscriptorModulo"
+							value="#{suscriptorProyectoList.suscriptorProyecto.estadoSuscriptorModulo}">
+							<f:selectItems
+								value="#{enumAppHelper.enumsValueItems('EstadoSuscriptorModulo','name',true)}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Tipo de suscripci&oacute;n</ui:define>
+						<h:selectOneMenu id="tipoAlta"
+							value="#{suscriptorProyectoList.tipoAlta}">
+							<f:selectItems
+								value="#{enumAppHelper.enumsValueItems('TipoSuscripcion','name',true)}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Proyecto</ui:define>
+						<h:selectOneMenu id="idProyecto"
+							value="#{suscriptorProyectoList.idProyecto}">
+							<f:selectItems value="#{proyectoSelectItems}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">M&oacute;dulo Actual</ui:define>
+						<h:selectOneMenu id="idModuloActual"
+							value="#{suscriptorProyectoList.idModuloActual}">
+							<f:selectItems value="#{modulosSelectItems}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<rich:panel style="border:0px;">
+						<fieldset>
+							<legend>Fecha de alta</legend>
+							<h:panelGrid> 
+								<s:decorate template="layout/display.xhtml">
+									<ui:define name="label">#{messages.GENERICO_FECHA_DESDE}</ui:define>
+									<rich:calendar id="fechaAltaDesde"
+										value="#{suscriptorProyectoList.fechaAltaDesde}"
+										datePattern="dd/MM/yyyy">
+										<s:convertDateTime />
+									</rich:calendar>
+								</s:decorate>
+								<s:decorate template="layout/display.xhtml">
+									<ui:define name="label">#{messages.GENERICO_FECHA_HASTA}</ui:define>
+									<rich:calendar id="fechaAltaHasta"
+										value="#{suscriptorProyectoList.fechaAltaHasta}"
+										datePattern="dd/MM/yyyy">
+										<s:convertDateTime />
+									</rich:calendar>
+								</s:decorate>
+							</h:panelGrid>
+						</fieldset>
+					</rich:panel>
+				</h:panelGrid>
+
+
+			</rich:collapsiblePanel>
+
+			<div class="actionButtons">
+				<h:commandButton id="search"
+					value="#{messages.msg_list_search_button}"
+					action="/SuscriptorProyectoList.xhtml" />
+				<s:button id="reset"
+					value="#{messages.msg_list_search_reset_button}"
+					includePageParams="false" />
+			</div>
+
+		</h:form>
+
+		<rich:panel>
+			<f:facet name="header">#{messages.msg_list_search_results} (#{empty suscriptorProyectoList.resultList ? 0 : (suscriptorProyectoList.paginated ? suscriptorProyectoList.resultCount : suscriptorProyectoList.resultList.size)})</f:facet>
+			<s:div>
+				<h:form>
+					<h:commandButton id="export" propagation="none"
+						action="#{dynamicEntityReportHelper.excelReport('suscriptorProyecto',suscriptorProyectoList)}"
+						value="#{messages.DynamicEntityReport_excel}" />
+				</h:form>
+			</s:div>
+
+			<div class="results" id="suscriptorProyectoList">
+
+				<h:outputText value="#{messages.msg_list_search_no_results}."
+					rendered="#{empty suscriptorProyectoList.resultList}" />
+
+				<rich:dataTable id="suscriptorProyectoList"
+					var="_suscriptorProyecto"
+					value="#{suscriptorProyectoList.resultList}"
+					rendered="#{not empty suscriptorProyectoList.resultList}">
+					<h:column rendered="false">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{suscriptorProyectoList}" />
+								<ui:param name="propertyLabel" value="Id suscriptor" />
+								<ui:param name="propertyPath"
+									value="suscriptorProyecto.suscriptor.idSuscriptor" />
+							</ui:include>
+						</f:facet>
+						<h:outputText
+							value="#{_suscriptorProyecto.suscriptor.idSuscriptor}">
+							<f:convertNumber />
+						</h:outputText>
+					</h:column> 
+					
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{suscriptorProyectoList}" />
+								<ui:param name="propertyLabel" value="N&uacute;mero" />
+								<ui:param name="propertyPath"
+									value="suscriptorProyecto.suscriptor.numero" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_suscriptorProyecto.suscriptor.numero}" />
+
+					</rich:column>
+					
+					<rich:column styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{suscriptorProyectoList}" />
+								<ui:param name="propertyLabel" value="Proyecto" />
+								<ui:param name="propertyPath"
+									value="suscriptorProyecto.proyecto.nombre" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_suscriptorProyecto.proyecto.nombre}" />
+
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{suscriptorProyectoList}" />
+								<ui:param name="propertyLabel" value="N&uacute;mero corto" />
+								<ui:param name="propertyPath"
+									value="suscriptorProyecto.proyecto.numeroCorto" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_suscriptorProyecto.proyecto.numeroCorto}" />
+
+					</rich:column>
+					
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{suscriptorProyectoList}" />
+								<ui:param name="propertyLabel" value="Fecha de alta" />
+								<ui:param name="propertyPath"
+									value="suscriptorProyecto.suscriptor.fechaAlta" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_suscriptorProyecto.suscriptor.fechaAlta}">
+							<s:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{suscriptorProyectoList}" />
+								<ui:param name="propertyLabel" value="Tipo de suscripci&oacute;n" />
+								<ui:param name="propertyPath"
+									value="suscriptorProyecto.suscriptor.tipoAlta" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_suscriptorProyecto.suscriptor.tipoAlta}" />
+
+
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{suscriptorProyectoList}" />
+								<ui:param name="propertyLabel"
+									value="Estado en el proyecto" />
+								<ui:param name="propertyPath"
+									value="suscriptorProyecto.estadoSuscriptorProyecto" />
+							</ui:include>
+						</f:facet>
+						<h:outputText
+							value="#{_suscriptorProyecto.estadoSuscriptorProyecto}" />
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{suscriptorProyectoList}" />
+								<ui:param name="propertyLabel" value="M&oacute;dulo actual" />
+								<ui:param name="propertyPath"
+									value="suscriptorProyecto.modulo.nombre" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_suscriptorProyecto.modulo.nombre}">
+							<f:convertNumber />
+						</h:outputText>
+					</rich:column>
+
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{suscriptorProyectoList}" />
+								<ui:param name="propertyLabel" value="Estado en el m&oacute;dulo" />
+								<ui:param name="propertyPath"
+									value="suscriptorProyecto.estadoSuscriptorModulo" />
+							</ui:include>
+						</f:facet>
+						<h:outputText
+							value="#{_suscriptorProyecto.estadoSuscriptorModulo}" />
+					</rich:column>
+
+				</rich:dataTable>
+
+			</div>
+		</rich:panel>
+
+		<div class="tableControl">
+
+			<s:link view="/SuscriptorProyectoList.xhtml"
+				rendered="#{suscriptorProyectoList.previousExists}"
+				value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+				id="firstPage">
+				<f:param name="firstResult" value="0" />
+			</s:link>
+
+			<s:link view="/SuscriptorProyectoList.xhtml"
+				rendered="#{suscriptorProyectoList.previousExists}"
+				value="#{messages.left} #{messages.msg_list_previous_page}"
+				id="previousPage">
+				<f:param name="firstResult"
+					value="#{suscriptorProyectoList.previousFirstResult}" />
+			</s:link>
+
+			<s:link view="/SuscriptorProyectoList.xhtml"
+				rendered="#{suscriptorProyectoList.nextExists}"
+				value="#{messages.msg_list_next_page} #{messages.right}"
+				id="nextPage">
+				<f:param name="firstResult"
+					value="#{suscriptorProyectoList.nextFirstResult}" />
+			</s:link>
+
+			<s:link view="/SuscriptorProyectoList.xhtml"
+				rendered="#{suscriptorProyectoList.nextExists}"
+				value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+				id="lastPage">
+				<f:param name="firstResult"
+					value="#{suscriptorProyectoList.lastFirstResult}" />
+			</s:link>
+
+		</div>
+
+
+
+	</ui:define>
+
+</ui:composition>

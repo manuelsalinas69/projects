@@ -1,0 +1,257 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Proyecto Details</f:facet>
+
+        <s:decorate id="idProyecto" template="layout/display.xhtml">
+            <ui:define name="label">Id proyecto</ui:define>
+            <h:outputText value="#{proyectoHome.instance.idProyecto}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="nombre" template="layout/display.xhtml">
+            <ui:define name="label">Nombre</ui:define>
+            <h:outputText value="#{proyectoHome.instance.nombre}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcion" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion</ui:define>
+            <h:outputText value="#{proyectoHome.instance.descripcion}"/>
+        </s:decorate>
+
+        <s:decorate id="objetivos" template="layout/display.xhtml">
+            <ui:define name="label">Objetivos</ui:define>
+            <h:outputText value="#{proyectoHome.instance.objetivos}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaInicio" template="layout/display.xhtml">
+            <ui:define name="label">Fecha inicio</ui:define>
+            <h:outputText value="#{proyectoHome.instance.fechaInicio}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="fechaFin" template="layout/display.xhtml">
+            <ui:define name="label">Fecha fin</ui:define>
+            <h:outputText value="#{proyectoHome.instance.fechaFin}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="usuarioAlta" template="layout/display.xhtml">
+            <ui:define name="label">Usuario alta</ui:define>
+            <h:outputText value="#{proyectoHome.instance.usuarioAlta}"/>
+        </s:decorate>
+
+        <s:decorate id="usuarioModificacion" template="layout/display.xhtml">
+            <ui:define name="label">Usuario modificacion</ui:define>
+            <h:outputText value="#{proyectoHome.instance.usuarioModificacion}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaAlta" template="layout/display.xhtml">
+            <ui:define name="label">Fecha alta</ui:define>
+            <h:outputText value="#{proyectoHome.instance.fechaAlta}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="fechaModificacion" template="layout/display.xhtml">
+            <ui:define name="label">Fecha modificacion</ui:define>
+            <h:outputText value="#{proyectoHome.instance.fechaModificacion}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="estadoProyecto" template="layout/display.xhtml">
+            <ui:define name="label">Estado proyecto</ui:define>
+            <h:outputText value="#{proyectoHome.instance.estadoProyecto}"/>
+        </s:decorate>
+
+        <s:decorate id="estadoRegistro" template="layout/display.xhtml">
+            <ui:define name="label">Estado registro</ui:define>
+            <h:outputText value="#{proyectoHome.instance.estadoRegistro}"/>
+        </s:decorate>
+
+        <s:decorate id="numeroCorto" template="layout/display.xhtml">
+            <ui:define name="label">Numero corto</ui:define>
+            <h:outputText value="#{proyectoHome.instance.numeroCorto}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ProyectoEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty proyectoFrom ? 'ProyectoList' : proyectoFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Modulos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="modulosChildren">
+
+        <h:outputText value="There are no modulos associated with this proyecto."
+                   rendered="#{empty proyectoHome.modulos}"/>
+
+        <rich:dataTable value="#{proyectoHome.modulos}"
+                       var="_modulo"
+                  rendered="#{not empty proyectoHome.modulos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="modulosTable">
+            <rich:column sortBy="#{_modulo.idModulo}">
+                <f:facet name="header">Id modulo</f:facet>
+                <h:outputText value="#{_modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_modulo.nombre}">
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_modulo.nombre}"/>
+            </rich:column>
+            <rich:column sortBy="#{_modulo.descripcion}">
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_modulo.descripcion}"/>
+            </rich:column>
+            <rich:column sortBy="#{_modulo.objetivos}">
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_modulo.objetivos}"/>
+            </rich:column>
+            <rich:column sortBy="#{_modulo.fechaInicio}">
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_modulo.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_modulo.fechaFin}">
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_modulo.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_modulo.estadoModulo}">
+                <f:facet name="header">Estado modulo</f:facet>
+                <h:outputText value="#{_modulo.estadoModulo}"/>
+            </rich:column>
+            <rich:column sortBy="#{_modulo.estadoRegistro}">
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_modulo.estadoRegistro}"/>
+            </rich:column>
+            <rich:column sortBy="#{_modulo.configuracionEnvioTip}">
+                <f:facet name="header">Configuracion envio tip</f:facet>
+                <h:outputText value="#{_modulo.configuracionEnvioTip}"/>
+            </rich:column>
+            <rich:column sortBy="#{_modulo.tipoModulo}">
+                <f:facet name="header">Tipo modulo</f:facet>
+                <h:outputText value="#{_modulo.tipoModulo}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectmodulo"
+                     value="Select"
+                      view="/Modulo.xhtml">
+                    <f:param name="moduloIdModulo"
+                            value="#{_modulo.idModulo}"/>
+                    <f:param name="moduloFrom" value="Proyecto"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add modulo"
+                view="/ModuloEdit.xhtml">
+            <f:param name="proyectoIdProyecto"
+                    value="#{proyectoHome.instance.idProyecto}"/>
+            <f:param name="moduloFrom" value="Proyecto"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Suscriptor proyectos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="suscriptorProyectosChildren">
+
+        <h:outputText value="There are no suscriptorProyectos associated with this proyecto."
+                   rendered="#{empty proyectoHome.suscriptorProyectos}"/>
+
+        <rich:dataTable value="#{proyectoHome.suscriptorProyectos}"
+                       var="_suscriptorProyecto"
+                  rendered="#{not empty proyectoHome.suscriptorProyectos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="suscriptorProyectosTable">
+            <rich:column sortBy="#{_suscriptorProyecto.id.idSuscriptor}">
+                <f:facet name="header">Id suscriptor</f:facet>
+                <h:outputText value="#{_suscriptorProyecto.id.idSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_suscriptorProyecto.id.idProyecto}">
+                <f:facet name="header">Id proyecto</f:facet>
+                <h:outputText value="#{_suscriptorProyecto.id.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_suscriptorProyecto.estadoSuscriptorProyecto}">
+                <f:facet name="header">Estado suscriptor proyecto</f:facet>
+                <h:outputText value="#{_suscriptorProyecto.estadoSuscriptorProyecto}"/>
+            </rich:column>
+            <rich:column sortBy="#{_suscriptorProyecto.estadoSuscriptorModulo}">
+                <f:facet name="header">Estado suscriptor modulo</f:facet>
+                <h:outputText value="#{_suscriptorProyecto.estadoSuscriptorModulo}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectsuscriptorProyecto"
+                     value="Select"
+                      view="/SuscriptorProyecto.xhtml">
+                    <f:param name="suscriptorProyectoIdSuscriptor"
+                            value="#{_suscriptorProyecto.id.idSuscriptor}"/>
+                    <f:param name="suscriptorProyectoIdProyecto"
+                            value="#{_suscriptorProyecto.id.idProyecto}"/>
+                    <f:param name="suscriptorProyectoFrom" value="Proyecto"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add suscriptorProyecto"
+                view="/SuscriptorProyectoEdit.xhtml">
+            <f:param name="proyectoIdProyecto"
+                    value="#{proyectoHome.instance.idProyecto}"/>
+            <f:param name="suscriptorProyectoFrom" value="Proyecto"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

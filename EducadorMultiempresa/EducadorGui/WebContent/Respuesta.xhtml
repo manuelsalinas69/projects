@@ -1,0 +1,146 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Respuesta Details</f:facet>
+
+        <s:decorate id="idRespuesta" template="layout/display.xhtml">
+            <ui:define name="label">Id respuesta</ui:define>
+            <h:outputText value="#{respuestaHome.instance.idRespuesta}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="contenidoRespuesta" template="layout/display.xhtml">
+            <ui:define name="label">Contenido respuesta</ui:define>
+            <h:outputText value="#{respuestaHome.instance.contenidoRespuesta}"/>
+        </s:decorate>
+
+        <s:decorate id="ordenRespuesta" template="layout/display.xhtml">
+            <ui:define name="label">Orden respuesta</ui:define>
+            <h:outputText value="#{respuestaHome.instance.ordenRespuesta}"/>
+        </s:decorate>
+
+        <s:decorate id="esRespuestaCorrecta" template="layout/display.xhtml">
+            <ui:define name="label">Es respuesta correcta</ui:define>
+            <h:outputText value="#{respuestaHome.instance.esRespuestaCorrecta}"/>
+        </s:decorate>
+
+        <s:decorate id="estadoRegistro" template="layout/display.xhtml">
+            <ui:define name="label">Estado registro</ui:define>
+            <h:outputText value="#{respuestaHome.instance.estadoRegistro}"/>
+        </s:decorate>
+
+        <s:decorate id="valorEsperado" template="layout/display.xhtml">
+            <ui:define name="label">Valor esperado</ui:define>
+            <h:outputText value="#{respuestaHome.instance.valorEsperado}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/RespuestaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty respuestaFrom ? 'RespuestaList' : respuestaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Pregunta</h:panelGroup>
+        </f:facet>
+    <div class="association" id="preguntaParent">
+
+        <h:outputText value="There is no pregunta associated with this respuesta."
+                   rendered="#{respuestaHome.instance.pregunta == null}"/>
+
+        <rich:dataTable var="_pregunta"
+                   value="#{respuestaHome.instance.pregunta}"
+                rendered="#{respuestaHome.instance.pregunta != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="preguntaTable">
+            <h:column>
+                <f:facet name="header">Id pregunta</f:facet>
+                <h:outputText value="#{_pregunta.idPregunta}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Evaluacion id evaluacion</f:facet>
+                <h:outputText value="#{_pregunta.evaluacion.idEvaluacion}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido pregunta</f:facet>
+                <h:outputText value="#{_pregunta.contenidoPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Orden pregunta</f:facet>
+                <h:outputText value="#{_pregunta.ordenPregunta}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_pregunta.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_pregunta.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_pregunta.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_pregunta.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_pregunta.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Pregunta final</f:facet>
+                <h:outputText value="#{_pregunta.preguntaFinal}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewpregunta"
+                     value="View"
+                      view="/Pregunta.xhtml">
+                    <f:param name="preguntaIdPregunta"
+                           value="#{_pregunta.idPregunta}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

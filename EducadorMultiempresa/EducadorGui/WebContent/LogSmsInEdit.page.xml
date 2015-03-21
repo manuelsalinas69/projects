@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd"
+      no-conversation-view-id="/LogSmsInList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{logSmsInHome.wire}"/>
+
+   <param name="logSmsInFrom"/>
+   <param name="logSmsInIdLogSmsIn" value="#{logSmsInHome.logSmsInIdLogSmsIn}"/>
+
+
+   <navigation from-action="#{logSmsInHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/LogSmsIn.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{logSmsInHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/LogSmsIn.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{logSmsInHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/LogSmsInList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

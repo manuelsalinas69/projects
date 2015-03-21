@@ -1,0 +1,157 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Parametro proyecto Details</f:facet>
+
+        <s:decorate id="parametro" template="layout/display.xhtml">
+            <ui:define name="label">Parametro</ui:define>
+            <h:outputText value="#{parametroProyectoHome.instance.id.parametro}"/>
+        </s:decorate>
+        <s:decorate id="idProyecto" template="layout/display.xhtml">
+            <ui:define name="label">Id proyecto</ui:define>
+            <h:outputText value="#{parametroProyectoHome.instance.id.idProyecto}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="valor" template="layout/display.xhtml">
+            <ui:define name="label">Valor</ui:define>
+            <h:outputText value="#{parametroProyectoHome.instance.valor}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcion" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion</ui:define>
+            <h:outputText value="#{parametroProyectoHome.instance.descripcion}"/>
+        </s:decorate>
+
+        <s:decorate id="editable" template="layout/display.xhtml">
+            <ui:define name="label">Editable</ui:define>
+            <h:outputText value="#{parametroProyectoHome.instance.editable}"/>
+        </s:decorate>
+
+        <s:decorate id="visible" template="layout/display.xhtml">
+            <ui:define name="label">Visible</ui:define>
+            <h:outputText value="#{parametroProyectoHome.instance.visible}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ParametroProyectoEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty parametroProyectoFrom ? 'ParametroProyectoList' : parametroProyectoFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Proyecto</h:panelGroup>
+        </f:facet>
+    <div class="association" id="proyectoParent">
+
+        <h:outputText value="There is no proyecto associated with this parametroProyecto."
+                   rendered="#{parametroProyectoHome.instance.proyecto == null}"/>
+
+        <rich:dataTable var="_proyecto"
+                   value="#{parametroProyectoHome.instance.proyecto}"
+                rendered="#{parametroProyectoHome.instance.proyecto != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="proyectoTable">
+            <h:column>
+                <f:facet name="header">Id proyecto</f:facet>
+                <h:outputText value="#{_proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario by usuario modificacion usuario</f:facet>
+                <h:outputText value="#{_proyecto.usuarioByUsuarioModificacion.usuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario by usuario alta usuario</f:facet>
+                <h:outputText value="#{_proyecto.usuarioByUsuarioAlta.usuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_proyecto.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_proyecto.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_proyecto.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_proyecto.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_proyecto.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_proyecto.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_proyecto.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado proyecto</f:facet>
+                <h:outputText value="#{_proyecto.estadoProyecto}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_proyecto.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero corto</f:facet>
+                <h:outputText value="#{_proyecto.numeroCorto}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewproyecto"
+                     value="View"
+                      view="/Proyecto.xhtml">
+                    <f:param name="proyectoIdProyecto"
+                           value="#{_proyecto.idProyecto}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+	no-conversation-view-id="/ParametroSistemaList.xhtml" login-required="true">
+
+	<restrict>#{usuario.rolAdminSistema}</restrict>
+
+	
+
+	<action execute="#{parametroSistemaHome.wire}" />
+
+	<param name="parametroSistemaFrom" />
+	<param name="parametroSistemaParametro" value="#{parametroSistemaHome.parametroSistemaParametro}" />
+
+
+	<navigation from-action="#{parametroSistemaHome.persist}">
+		<rule if-outcome="persisted">
+			<end-conversation />
+			<redirect view-id="/ParametroSistemaList.xhtml" />
+		</rule>
+	</navigation>
+
+	<navigation from-action="#{parametroSistemaHome.update}">
+		<rule if-outcome="updated">
+			<end-conversation />
+			<redirect view-id="/ParametroSistemaList.xhtml" />
+		</rule>
+	</navigation>
+
+	<navigation from-action="#{parametroSistemaHome.remove}">
+		<rule if-outcome="removed">
+			<end-conversation />
+			<redirect view-id="/ParametroSistemaList.xhtml" />
+		</rule>
+	</navigation>
+
+</page>

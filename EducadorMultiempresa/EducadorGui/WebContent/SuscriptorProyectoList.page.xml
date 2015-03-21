@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd" login-required="true">
+	
+	<restrict>#{usuario.rolAdminProyectos}</restrict>
+
+	<param name="firstResult" value="#{suscriptorProyectoList.firstResult}" />
+	<param name="sort" value="#{suscriptorProyectoList.orderColumn}" />
+	<param name="dir" value="#{suscriptorProyectoList.orderDirection}" />
+	<param name="logic" value="#{suscriptorProyectoList.restrictionLogicOperator}" />
+
+	<param name="from" />
+	<param name="estadoSuscriptorProyecto"
+		value="#{suscriptorProyectoList.suscriptorProyecto.estadoSuscriptorProyecto}" />
+	<param name="estadoSuscriptorModulo"
+		value="#{suscriptorProyectoList.suscriptorProyecto.estadoSuscriptorModulo}" />
+	<param name="numeroSuscriptor" value="#{suscriptorProyectoList.numeroSuscriptor}" />
+	<param name="tipoAlta" value="#{suscriptorProyectoList.tipoAlta}" />
+	<param name="fechaAltaDesde" value="#{suscriptorProyectoList.fechaAltaDesde}" />
+	<param name="fechaAltaHasta" value="#{suscriptorProyectoList.fechaAltaHasta}" />
+	<param name="idProyecto" value="#{suscriptorProyectoList.idProyecto}" />
+	<param name="idModuloActual" value="#{suscriptorProyectoList.idModuloActual}" />
+
+
+
+</page>

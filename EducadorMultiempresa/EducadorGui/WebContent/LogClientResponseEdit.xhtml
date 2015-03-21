@@ -1,0 +1,161 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="logClientResponse" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{logClientResponseHome.managed ? 'Edit' : 'Add'} Log client response</f:facet>
+
+
+            <s:decorate id="idLogClientResponseField" template="layout/edit.xhtml">
+                <ui:define name="label">Id log client response</ui:define>
+                <h:inputText id="idLogClientResponse"
+                       required="true"
+                          value="#{logClientResponseHome.instance.idLogClientResponse}"
+                           size="29">
+                    <a:ajax event="blur" render="idLogClientResponseField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="mensajeField" template="layout/edit.xhtml">
+                <ui:define name="label">Mensaje</ui:define>
+                <h:inputTextarea id="mensaje"
+                               cols="80"
+                               rows="2"
+                              value="#{logClientResponseHome.instance.mensaje}"/>
+            </s:decorate>
+
+
+            <s:decorate id="fechaRecepcionField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha recepcion</ui:define>
+                <rich:calendar id="fechaRecepcion"
+                          value="#{logClientResponseHome.instance.fechaRecepcion}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="numeroField" template="layout/edit.xhtml">
+                <ui:define name="label">Numero</ui:define>
+                <h:inputText id="numero"
+                           size="50"
+                      maxlength="50"
+                          value="#{logClientResponseHome.instance.numero}">
+                    <a:ajax event="blur" render="numeroField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="numeroCortoField" template="layout/edit.xhtml">
+                <ui:define name="label">Numero corto</ui:define>
+                <h:inputText id="numeroCorto"
+                           size="20"
+                      maxlength="20"
+                          value="#{logClientResponseHome.instance.numeroCorto}">
+                    <a:ajax event="blur" render="numeroCortoField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{logClientResponseHome.persist}"
+                       disabled="#{!logClientResponseHome.wired}"
+                       rendered="#{!logClientResponseHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{logClientResponseHome.update}"
+                       rendered="#{logClientResponseHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{logClientResponseHome.remove}"
+                      immediate="true"
+                       rendered="#{logClientResponseHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/LogClientResponse.xhtml"
+                rendered="#{logClientResponseHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty logClientResponseFrom ? 'LogClientResponseList' : logClientResponseFrom}.xhtml"
+                rendered="#{!logClientResponseHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="client">
+
+    <rich:tab header="Suscriptor">
+    <div class="association" id="suscriptorParent">
+
+        <h:outputText value="There is no suscriptor associated with this logClientResponse."
+                   rendered="#{logClientResponseHome.instance.suscriptor == null}"/>
+
+        <rich:dataTable var="_suscriptor"
+                   value="#{logClientResponseHome.instance.suscriptor}"
+                rendered="#{logClientResponseHome.instance.suscriptor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="suscriptorTable">
+            <h:column>
+                <f:facet name="header">Id suscriptor</f:facet>
+                <h:outputText value="#{_suscriptor.idSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero</f:facet>
+                <h:outputText value="#{_suscriptor.numero}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_suscriptor.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo alta</f:facet>
+                <h:outputText value="#{_suscriptor.tipoAlta}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{logClientResponseHome.instance.suscriptor != null ? 'changeParent' : 'selectParent'}" value="#{logClientResponseHome.instance.suscriptor != null ? 'Change' : 'Select'} suscriptor"
+                       view="/SuscriptorList.xhtml">
+                <f:param name="from" value="LogClientResponseEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

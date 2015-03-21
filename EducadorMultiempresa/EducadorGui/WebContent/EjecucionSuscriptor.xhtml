@@ -1,0 +1,273 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Ejecucion suscriptor Details</f:facet>
+
+        <s:decorate id="idEjecucionSuscriptor" template="layout/display.xhtml">
+            <ui:define name="label">Id ejecucion suscriptor</ui:define>
+            <h:outputText value="#{ejecucionSuscriptorHome.instance.idEjecucionSuscriptor}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="estadoEjecucion" template="layout/display.xhtml">
+            <ui:define name="label">Estado ejecucion</ui:define>
+            <h:outputText value="#{ejecucionSuscriptorHome.instance.estadoEjecucion}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaAlta" template="layout/display.xhtml">
+            <ui:define name="label">Fecha alta</ui:define>
+            <h:outputText value="#{ejecucionSuscriptorHome.instance.fechaAlta}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="motivoCancelacion" template="layout/display.xhtml">
+            <ui:define name="label">Motivo cancelacion</ui:define>
+            <h:outputText value="#{ejecucionSuscriptorHome.instance.motivoCancelacion}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EjecucionSuscriptorEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty ejecucionSuscriptorFrom ? 'EjecucionSuscriptorList' : ejecucionSuscriptorFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Suscriptor</h:panelGroup>
+        </f:facet>
+    <div class="association" id="suscriptorParent">
+
+        <h:outputText value="There is no suscriptor associated with this ejecucionSuscriptor."
+                   rendered="#{ejecucionSuscriptorHome.instance.suscriptor == null}"/>
+
+        <rich:dataTable var="_suscriptor"
+                   value="#{ejecucionSuscriptorHome.instance.suscriptor}"
+                rendered="#{ejecucionSuscriptorHome.instance.suscriptor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="suscriptorTable">
+            <h:column>
+                <f:facet name="header">Id suscriptor</f:facet>
+                <h:outputText value="#{_suscriptor.idSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero</f:facet>
+                <h:outputText value="#{_suscriptor.numero}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_suscriptor.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo alta</f:facet>
+                <h:outputText value="#{_suscriptor.tipoAlta}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewsuscriptor"
+                     value="View"
+                      view="/Suscriptor.xhtml">
+                    <f:param name="suscriptorIdSuscriptor"
+                           value="#{_suscriptor.idSuscriptor}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Modulo</h:panelGroup>
+        </f:facet>
+    <div class="association" id="moduloParent">
+
+        <h:outputText value="There is no modulo associated with this ejecucionSuscriptor."
+                   rendered="#{ejecucionSuscriptorHome.instance.modulo == null}"/>
+
+        <rich:dataTable var="_modulo"
+                   value="#{ejecucionSuscriptorHome.instance.modulo}"
+                rendered="#{ejecucionSuscriptorHome.instance.modulo != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="moduloTable">
+            <h:column>
+                <f:facet name="header">Id modulo</f:facet>
+                <h:outputText value="#{_modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Proyecto id proyecto</f:facet>
+                <h:outputText value="#{_modulo.proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_modulo.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_modulo.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_modulo.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_modulo.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_modulo.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado modulo</f:facet>
+                <h:outputText value="#{_modulo.estadoModulo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_modulo.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion envio tip</f:facet>
+                <h:outputText value="#{_modulo.configuracionEnvioTip}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo modulo</f:facet>
+                <h:outputText value="#{_modulo.tipoModulo}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewmodulo"
+                     value="View"
+                      view="/Modulo.xhtml">
+                    <f:param name="moduloIdModulo"
+                           value="#{_modulo.idModulo}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Ejecucion suscriptor detalles</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="ejecucionSuscriptorDetallesChildren">
+
+        <h:outputText value="There are no ejecucionSuscriptorDetalles associated with this ejecucionSuscriptor."
+                   rendered="#{empty ejecucionSuscriptorHome.ejecucionSuscriptorDetalles}"/>
+
+        <rich:dataTable value="#{ejecucionSuscriptorHome.ejecucionSuscriptorDetalles}"
+                       var="_ejecucionSuscriptorDetalle"
+                  rendered="#{not empty ejecucionSuscriptorHome.ejecucionSuscriptorDetalles}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="ejecucionSuscriptorDetallesTable">
+            <rich:column sortBy="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}">
+                <f:facet name="header">Id ejecucion detalle</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptorDetalle.estadoEjecucion}">
+                <f:facet name="header">Estado ejecucion</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.estadoEjecucion}"/>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptorDetalle.orden}">
+                <f:facet name="header">Orden</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.orden}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptorDetalle.envioFinal}">
+                <f:facet name="header">Envio final</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.envioFinal}"/>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptorDetalle.enviar}">
+                <f:facet name="header">Enviar</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.enviar}"/>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptorDetalle.esperarHorasAnterior}">
+                <f:facet name="header">Esperar horas anterior</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.esperarHorasAnterior}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptorDetalle.fechaEjecucion}">
+                <f:facet name="header">Fecha ejecucion</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEjecucion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptorDetalle.fechaEnvio}">
+                <f:facet name="header">Fecha envio</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptorDetalle.respuestaSmsc}">
+                <f:facet name="header">Respuesta smsc</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.respuestaSmsc}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectejecucionSuscriptorDetalle"
+                     value="Select"
+                      view="/EjecucionSuscriptorDetalle.xhtml">
+                    <f:param name="ejecucionSuscriptorDetalleIdEjecucionDetalle"
+                            value="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}"/>
+                    <f:param name="ejecucionSuscriptorDetalleFrom" value="EjecucionSuscriptor"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add ejecucionSuscriptorDetalle"
+                view="/EjecucionSuscriptorDetalleEdit.xhtml">
+            <f:param name="ejecucionSuscriptorIdEjecucionSuscriptor"
+                    value="#{ejecucionSuscriptorHome.instance.idEjecucionSuscriptor}"/>
+            <f:param name="ejecucionSuscriptorDetalleFrom" value="EjecucionSuscriptor"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

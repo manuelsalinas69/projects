@@ -1,0 +1,266 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="ejecucionSuscriptorDetalleSearch" styleClass="edit">
+
+        <rich:collapsiblePanel header="EjecucionSuscriptorDetalle Search Filter" switchType="client">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Estado ejecucion</ui:define>
+                <h:inputText id="estadoEjecucion" value="#{ejecucionSuscriptorDetalleList.ejecucionSuscriptorDetalle.estadoEjecucion}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Enviar</ui:define>
+                <h:inputText id="enviar" value="#{ejecucionSuscriptorDetalleList.ejecucionSuscriptorDetalle.enviar}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Respuesta smsc</ui:define>
+                <h:inputText id="respuestaSmsc" value="#{ejecucionSuscriptorDetalleList.ejecucionSuscriptorDetalle.respuestaSmsc}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{ejecucionSuscriptorDetalleList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:collapsiblePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="#{messages.msg_list_search_button}" action="/EjecucionSuscriptorDetalleList.xhtml"/>
+            <s:button id="reset" value="#{messages.msg_list_search_reset_button}" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">EjecucionSuscriptorDetalle Search Results (#{empty ejecucionSuscriptorDetalleList.resultList ? 0 : (ejecucionSuscriptorDetalleList.paginated ? ejecucionSuscriptorDetalleList.resultCount : ejecucionSuscriptorDetalleList.resultList.size)})</f:facet>
+    <div class="results" id="ejecucionSuscriptorDetalleList">
+
+    <h:outputText value="The ejecucionSuscriptorDetalle search returned no results."
+               rendered="#{empty ejecucionSuscriptorDetalleList.resultList}"/>
+
+    <rich:dataTable id="ejecucionSuscriptorDetalleList"
+                var="_ejecucionSuscriptorDetalle"
+              value="#{ejecucionSuscriptorDetalleList.resultList}"
+           rendered="#{not empty ejecucionSuscriptorDetalleList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Id ejecucion detalle"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.idEjecucionDetalle"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Evaluacion id evaluacion"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.evaluacion.idEvaluacion"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.evaluacion.idEvaluacion}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Tip id tip"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.tip.idTip"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.tip.idTip}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Ejecucion suscriptor id ejecucion suscriptor"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.ejecucionSuscriptor.idEjecucionSuscriptor"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.ejecucionSuscriptor.idEjecucionSuscriptor}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Estado ejecucion"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.estadoEjecucion"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.estadoEjecucion}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Orden"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.orden"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.orden}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Envio final"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.envioFinal"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.envioFinal}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Enviar"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.enviar"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.enviar}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Esperar horas anterior"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.esperarHorasAnterior"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.esperarHorasAnterior}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Fecha ejecucion"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.fechaEjecucion"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEjecucion}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Fecha envio"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.fechaEnvio"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEnvio}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{ejecucionSuscriptorDetalleList}"/>
+                    <ui:param name="propertyLabel" value="Respuesta smsc"/>
+                    <ui:param name="propertyPath" value="ejecucionSuscriptorDetalle.respuestaSmsc"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_ejecucionSuscriptorDetalle.respuestaSmsc}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'EjecucionSuscriptorDetalle' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="ejecucionSuscriptorDetalleViewId">
+                <f:param name="ejecucionSuscriptorDetalleIdEjecucionDetalle"
+                        value="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/EjecucionSuscriptorDetalleEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="ejecucionSuscriptorDetalleEdit"
+                rendered="#{empty from}">
+                <f:param name="ejecucionSuscriptorDetalleIdEjecucionDetalle"
+                        value="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/EjecucionSuscriptorDetalleList.xhtml"
+            rendered="#{ejecucionSuscriptorDetalleList.previousExists}"
+               value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/EjecucionSuscriptorDetalleList.xhtml"
+            rendered="#{ejecucionSuscriptorDetalleList.previousExists}"
+               value="#{messages.left} #{messages.msg_list_previous_page}"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{ejecucionSuscriptorDetalleList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/EjecucionSuscriptorDetalleList.xhtml"
+            rendered="#{ejecucionSuscriptorDetalleList.nextExists}"
+               value="#{messages.msg_list_next_page} #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{ejecucionSuscriptorDetalleList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/EjecucionSuscriptorDetalleList.xhtml"
+            rendered="#{ejecucionSuscriptorDetalleList.nextExists}"
+               value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{ejecucionSuscriptorDetalleList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/EjecucionSuscriptorDetalleEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create ejecucionSuscriptorDetalle">
+            <f:param name="ejecucionSuscriptorDetalleIdEjecucionDetalle"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

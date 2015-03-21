@@ -1,0 +1,121 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			#{proyectoHome.managed ? 'Editar' : 'Agregar'} - Proyecto
+		</ui:define>
+		</s:decorate>
+
+		<h:form id="proyecto" styleClass="edit">
+
+			<rich:panel style="border:0px;">
+				<h:panelGrid>
+
+					<h:panelGrid columns="2">
+						<s:decorate id="nombreField" template="layout/edit.xhtml">
+							<ui:define name="label">Nombre</ui:define>
+							<h:inputText id="nombre" size="55" maxlength="100"
+								required="true" value="#{proyectoHome.instance.nombre}">
+								<a:ajax event="blur" render="nombreField" bypassUpdates="true" />
+							</h:inputText>
+						</s:decorate>
+						<s:decorate id="numeroCortoField" template="layout/edit.xhtml">
+							<ui:define name="label">N&uacute;mero corto</ui:define>
+							<h:inputText id="numeroCorto" size="10" maxlength="30"
+								required="true" value="#{proyectoHome.instance.numeroCorto}">
+								<a:ajax event="blur" render="numeroCortoField"
+									bypassUpdates="true" />
+							</h:inputText>
+						</s:decorate>
+					</h:panelGrid>
+
+					<s:decorate id="descripcionField" template="layout/edit.xhtml">
+						<ui:define name="label">Descripci&oacute;n</ui:define>
+						<h:inputTextarea id="descripcion" cols="100" rows="3"
+							value="#{proyectoHome.instance.descripcion}" />
+					</s:decorate>
+
+					<s:decorate id="objetivosField" template="layout/edit.xhtml">
+						<ui:define name="label">Objetivos</ui:define>
+						<h:inputTextarea id="objetivos" cols="100" rows="3"
+							value="#{proyectoHome.instance.objetivos}" />
+					</s:decorate>
+
+				</h:panelGrid>
+
+				<fieldset>
+					<legend>Par&aacute;metros del proyecto</legend>
+					<h:outputText value="El proyecto no cuenta con parametros"
+						rendered="#{empty proyectoHome.parametros}" />
+					<rich:dataTable id="parametroList" var="_parametro" 
+						value="#{proyectoHome.parametros}" 
+						rendered="#{not empty proyectoHome.parametros}">
+
+						<rich:column id="paramDescrField" styleClass="left" sortBy="_parametro.descripcion" >
+							<f:facet name="header">Par&aacute;metro</f:facet>
+							<h:outputText value="#{_parametro.descripcion}" />
+						</rich:column>
+
+						<rich:column id="paramValueField" >
+							<f:facet name="header">Valor</f:facet>
+							<h:inputText value="#{_parametro.valor}" size="80"
+								maxlength="160">
+								<a:ajax event="blur" execute="@this" />
+							</h:inputText>
+						</rich:column>
+
+					</rich:dataTable>
+				</fieldset>
+			</rich:panel>
+
+			<div style="clear: both; margin-top: 10px; margin-bottom: 10px;">
+				<span class="required">*</span> #{messages.msg_required_fields}
+			</div>
+
+
+
+			<div class="actionButtons">
+
+				<h:commandButton id="save" value="#{messages.msg_save}"
+					onclick="return confirm('#{messages.MSG_CONFIRM_SAVE}');"
+					action="#{proyectoHome.persist}" disabled="#{!proyectoHome.wired}"
+					rendered="#{!proyectoHome.managed}">
+					<s:conversationId />
+				</h:commandButton>
+
+				<h:commandButton id="update" value="#{messages.msg_update}"
+					onclick="return confirm('#{messages.MSG_CONFIRM_UPDATE}');"
+					action="#{proyectoHome.update}" rendered="#{proyectoHome.managed}">
+					<s:conversationId />
+				</h:commandButton>
+
+				<h:commandButton id="delete" value="#{messages.msg_delete}"
+					onclick="return confirm('#{messages.MSG_CONFIRM_DELETE}');"
+					action="#{proyectoHome.remove}" immediate="true"
+					rendered="#{proyectoHome.managed}" />
+
+				<s:button id="cancelEdit" value="#{messages.msg_cancel}"
+					propagation="end" view="/ProyectoList.xhtml"
+					rendered="#{proyectoHome.managed}" />
+
+				<s:button id="cancelAdd" value="#{messages.msg_cancel}"
+					propagation="end"
+					view="/#{empty proyectoFrom ? 'ProyectoList' : proyectoFrom}.xhtml"
+					rendered="#{!proyectoHome.managed}" />
+
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

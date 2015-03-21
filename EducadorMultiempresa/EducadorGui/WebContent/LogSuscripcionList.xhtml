@@ -1,0 +1,277 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			#{messages.ConsultasSuscripciones_menu}
+		</ui:define>
+		</s:decorate>
+
+
+		<h:form id="logSuscripcionSearch" styleClass="edit">
+
+			<rich:collapsiblePanel header="#{messages.msg_list_search_filter}"
+				switchType="client">
+
+				<h:panelGrid columns="3">
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Proyecto</ui:define>
+						<h:inputText id="proyecto"
+							value="#{logSuscripcionList.logSuscripcion.proyecto}" />
+					</s:decorate>
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Mensaje</ui:define>
+						<h:inputText id="mensaje"
+							value="#{logSuscripcionList.logSuscripcion.mensaje}" />
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Acci&oacute;n</ui:define>
+						<h:selectOneMenu id="accion"
+							value="#{logSuscripcionList.logSuscripcion.accion}">
+							<f:selectItems
+								value="#{enumAppHelper.enumsValueItems('TipoOperacionSuscripcion','name',true)}" />
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">N&uacute;mero</ui:define>
+						<h:inputText id="numero"
+							value="#{logSuscripcionList.logSuscripcion.numero}" />
+					</s:decorate>
+
+
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Tipo de suscripci&oacute;n</ui:define>
+						<h:selectOneMenu id="tipoSuscripcion"
+							value="#{logSuscripcionList.logSuscripcion.tipoSuscripcion}">
+							<f:selectItems
+								value="#{enumAppHelper.enumsValueItems('TipoSuscripcion','name',true)}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+			
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<rich:panel style="border:0px;">
+						<fieldset>
+							<legend>Fecha de recepci&oacute;n</legend>
+							<h:panelGrid>
+								<s:decorate template="layout/display.xhtml">
+									<ui:define name="label">#{messages.GENERICO_FECHA_DESDE}</ui:define>
+									<rich:calendar id="fechaRecepcionDesde"
+										value="#{logSuscripcionList.fechaRecepcionDesde}"
+										datePattern="dd/MM/yyyy">
+										<s:convertDateTime />
+									</rich:calendar>
+								</s:decorate>
+								<s:decorate template="layout/display.xhtml">
+									<ui:define name="label">#{messages.GENERICO_FECHA_HASTA}</ui:define>
+									<rich:calendar id="fechaRecepcionHasta"
+										value="#{logSuscripcionList.fechaRecepcionHasta}"
+										datePattern="dd/MM/yyyy">
+										<s:convertDateTime />
+									</rich:calendar>
+								</s:decorate>
+							</h:panelGrid>
+						</fieldset>
+					</rich:panel>
+				<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Resultado</ui:define>
+						<h:selectOneMenu id="resultado"
+							value="#{logSuscripcionList.logSuscripcion.resultado}">
+							<f:selectItems
+								value="#{enumAppHelper.enumsValueItems('SubscriptionOperationResult','name',true)}" />
+						</h:selectOneMenu>
+					</s:decorate>
+				</h:panelGrid>
+
+			</rich:collapsiblePanel>
+
+			<div class="actionButtons">
+				<h:commandButton id="search"
+					value="#{messages.msg_list_search_button}"
+					action="/LogSuscripcionList.xhtml" />
+				<s:button id="reset"
+					value="#{messages.msg_list_search_reset_button}"
+					includePageParams="false" />
+			</div>
+
+		</h:form>
+
+		<rich:panel>
+			<f:facet name="header">#{messages.msg_list_search_results} (#{empty logSuscripcionList.resultList ? 0 : (logSuscripcionList.paginated ? logSuscripcionList.resultCount : logSuscripcionList.resultList.size)})</f:facet>
+			<s:div>
+				<h:form>
+					<h:commandButton id="export" propagation="none"
+						action="#{dynamicEntityReportHelper.excelReport('logSuscripcion',logSuscripcionList)}"
+						value="#{messages.DynamicEntityReport_excel}" />
+				</h:form>
+			</s:div>
+
+			<div class="results" id="logSuscripcionList">
+
+				<h:outputText value="#{messages.msg_list_search_no_results}."
+					rendered="#{empty logSuscripcionList.resultList}" />
+
+				<rich:dataTable id="logSuscripcionList" var="_logSuscripcion"
+					value="#{logSuscripcionList.resultList}"
+					rendered="#{not empty logSuscripcionList.resultList}">
+					<h:column rendered="false">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{logSuscripcionList}" />
+								<ui:param name="propertyLabel" value="Id log suscripcion" />
+								<ui:param name="propertyPath"
+									value="logSuscripcion.idLogSuscripcion" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_logSuscripcion.idLogSuscripcion}">
+							<f:convertNumber />
+						</h:outputText>
+					</h:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{logSuscripcionList}" />
+								<ui:param name="propertyLabel" value="N&uacute;mero" />
+								<ui:param name="propertyPath" value="logSuscripcion.numero" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_logSuscripcion.numero}" />
+					</rich:column>
+					<rich:column  styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{logSuscripcionList}" />
+								<ui:param name="propertyLabel" value="Mensaje" />
+								<ui:param name="propertyPath" value="logSuscripcion.mensaje" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_logSuscripcion.mensaje}" />
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{logSuscripcionList}" />
+								<ui:param name="propertyLabel" value="Acci&oacute;n" />
+								<ui:param name="propertyPath" value="logSuscripcion.accion" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_logSuscripcion.accion}" />
+					</rich:column>
+					<rich:column styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{logSuscripcionList}" />
+								<ui:param name="propertyLabel" value="Resultado" />
+								<ui:param name="propertyPath" value="logSuscripcion.resultado" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_logSuscripcion.resultado}" />
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{logSuscripcionList}" />
+								<ui:param name="propertyLabel" value="Fecha de recepci&oacute;n" />
+								<ui:param name="propertyPath"
+									value="logSuscripcion.fechaRecepcion" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_logSuscripcion.fechaRecepcion}">
+							<s:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+					</rich:column>
+
+					<rich:column styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{logSuscripcionList}" />
+								<ui:param name="propertyLabel" value="Proyecto" />
+								<ui:param name="propertyPath" value="logSuscripcion.proyecto" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_logSuscripcion.proyecto}" />
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{logSuscripcionList}" />
+								<ui:param name="propertyLabel" value="Fecha de respuesta" />
+								<ui:param name="propertyPath"
+									value="logSuscripcion.fechaRespuesta" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_logSuscripcion.fechaRespuesta}">
+							<s:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{logSuscripcionList}" />
+								<ui:param name="propertyLabel" value="Tipo de suscripci&oacute;n" />
+								<ui:param name="propertyPath"
+									value="logSuscripcion.tipoSuscripcion" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_logSuscripcion.tipoSuscripcion}" />
+					</rich:column>
+
+				</rich:dataTable>
+
+			</div>
+		</rich:panel>
+
+		<div class="tableControl">
+
+			<s:link view="/LogSuscripcionList.xhtml"
+				rendered="#{logSuscripcionList.previousExists}"
+				value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+				id="firstPage">
+				<f:param name="firstResult" value="0" />
+			</s:link>
+
+			<s:link view="/LogSuscripcionList.xhtml"
+				rendered="#{logSuscripcionList.previousExists}"
+				value="#{messages.left} #{messages.msg_list_previous_page}"
+				id="previousPage">
+				<f:param name="firstResult"
+					value="#{logSuscripcionList.previousFirstResult}" />
+			</s:link>
+
+			<s:link view="/LogSuscripcionList.xhtml"
+				rendered="#{logSuscripcionList.nextExists}"
+				value="#{messages.msg_list_next_page} #{messages.right}"
+				id="nextPage">
+				<f:param name="firstResult"
+					value="#{logSuscripcionList.nextFirstResult}" />
+			</s:link>
+
+			<s:link view="/LogSuscripcionList.xhtml"
+				rendered="#{logSuscripcionList.nextExists}"
+				value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+				id="lastPage">
+				<f:param name="firstResult"
+					value="#{logSuscripcionList.lastFirstResult}" />
+			</s:link>
+
+		</div>
+
+
+
+	</ui:define>
+
+</ui:composition>

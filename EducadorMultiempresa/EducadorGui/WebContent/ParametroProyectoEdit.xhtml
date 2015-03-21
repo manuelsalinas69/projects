@@ -1,0 +1,207 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="parametroProyecto" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{parametroProyectoHome.managed ? 'Edit' : 'Add'} Parametro proyecto</f:facet>
+
+
+            <s:decorate id="parametroField" template="layout/edit.xhtml">
+                <ui:define name="label">Parametro</ui:define>
+                <h:inputTextarea id="parametro"
+                               cols="80"
+                               rows="3"
+                           disabled="#{parametroProyectoHome.managed}"
+                           required="true"
+                              value="#{parametroProyectoHome.instance.id.parametro}"/>
+            </s:decorate>
+
+            <s:decorate id="idProyectoField" template="layout/edit.xhtml">
+                <ui:define name="label">Id proyecto</ui:define>
+                <h:inputText id="idProyecto"
+                       required="true"
+                          value="#{parametroProyectoHome.instance.id.idProyecto}"
+                           size="29">
+                    <a:ajax event="blur" render="idProyectoField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="valorField" template="layout/edit.xhtml">
+                <ui:define name="label">Valor</ui:define>
+                <h:inputTextarea id="valor"
+                               cols="80"
+                               rows="6"
+                              value="#{parametroProyectoHome.instance.valor}"/>
+            </s:decorate>
+
+
+            <s:decorate id="descripcionField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion</ui:define>
+                <h:inputTextarea id="descripcion"
+                               cols="80"
+                               rows="6"
+                              value="#{parametroProyectoHome.instance.descripcion}"/>
+            </s:decorate>
+
+
+            <s:decorate id="editableField" template="layout/edit.xhtml">
+                <ui:define name="label">Editable</ui:define>
+                <h:selectBooleanCheckbox id="editable"
+                                      value="#{parametroProyectoHome.instance.editable}"/>
+            </s:decorate>
+
+
+            <s:decorate id="visibleField" template="layout/edit.xhtml">
+                <ui:define name="label">Visible</ui:define>
+                <h:selectBooleanCheckbox id="visible"
+                                      value="#{parametroProyectoHome.instance.visible}"/>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{parametroProyectoHome.persist}"
+                       disabled="#{!parametroProyectoHome.wired}"
+                       rendered="#{!parametroProyectoHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{parametroProyectoHome.update}"
+                       rendered="#{parametroProyectoHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{parametroProyectoHome.remove}"
+                      immediate="true"
+                       rendered="#{parametroProyectoHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/ParametroProyecto.xhtml"
+                rendered="#{parametroProyectoHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty parametroProyectoFrom ? 'ParametroProyectoList' : parametroProyectoFrom}.xhtml"
+                rendered="#{!parametroProyectoHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="client">
+
+    <rich:tab header="Proyecto *" labelClass="required">
+    <div class="association" id="proyectoParent">
+
+        <h:outputText value="There is no proyecto associated with this parametroProyecto."
+                   rendered="#{parametroProyectoHome.instance.proyecto == null}"/>
+
+        <rich:dataTable var="_proyecto"
+                   value="#{parametroProyectoHome.instance.proyecto}"
+                rendered="#{parametroProyectoHome.instance.proyecto != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="proyectoTable">
+            <h:column>
+                <f:facet name="header">Id proyecto</f:facet>
+                <h:outputText value="#{_proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario by usuario modificacion usuario</f:facet>
+                <h:outputText value="#{_proyecto.usuarioByUsuarioModificacion.usuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario by usuario alta usuario</f:facet>
+                <h:outputText value="#{_proyecto.usuarioByUsuarioAlta.usuario}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_proyecto.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_proyecto.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_proyecto.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_proyecto.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_proyecto.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_proyecto.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_proyecto.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado proyecto</f:facet>
+                <h:outputText value="#{_proyecto.estadoProyecto}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_proyecto.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero corto</f:facet>
+                <h:outputText value="#{_proyecto.numeroCorto}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{parametroProyectoHome.instance.proyecto != null ? 'changeParent' : 'selectParent'}" value="#{parametroProyectoHome.instance.proyecto != null ? 'Change' : 'Select'} proyecto"
+                       view="/ProyectoList.xhtml">
+                <f:param name="from" value="ParametroProyectoEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

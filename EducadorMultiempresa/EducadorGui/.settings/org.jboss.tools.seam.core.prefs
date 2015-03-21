@@ -1,0 +1,16 @@
+action.package=py.com.global.educador.gui.session
+action.sources=/EducadorGui-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=py.com.global.educador.gui.entity
+model.sources=/EducadorGui-ejb/ejbModule
+seam.ear.project=EducadorGui-ear
+seam.ejb.project=EducadorGui-ejb
+seam.project.connection.profile=Educador_localhost
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/EducadorGui/WebContent
+seam.runtime.name=jboss-seam-2.3.1.Final
+seam.test.creating=false
+seam.test.project=EducadorGui-test
+test.package=org.domain.educadorgui.test
+test.sources=/EducadorGui-test/test-src

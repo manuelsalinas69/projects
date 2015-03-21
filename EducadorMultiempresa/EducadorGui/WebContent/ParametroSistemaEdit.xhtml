@@ -1,0 +1,59 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			Editar - Par&aacute;metro de Sistema	
+		</ui:define>
+		</s:decorate>
+
+		<h:form id="parametroSistema" styleClass="edit">
+			<h:panelGrid>
+
+				<s:decorate id="descripcionField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages.Systemparameter_param}</ui:define>
+					<h:inputText id="descripcion" size="100" disabled="true"
+						value="#{parametroSistemaHome.instance.descripcion}" />
+				</s:decorate>
+
+				<s:decorate id="valorField" template="layout/edit.xhtml">
+					<ui:define name="label">#{messages.Systemparameter_valor}</ui:define>
+					<h:inputText id="valor" size="100" required="true"
+						value="#{parametroSistemaHome.instance.valor}" />
+				</s:decorate>
+
+				<s:decorate id="parametroField" template="layout/edit.xhtml">
+					<ui:define name="label">Dato t&eacute;cnico</ui:define>
+					<h:inputText id="parametro" size="100" disabled="true"
+						value="#{parametroSistemaHome.instance.parametro}" />
+				</s:decorate>
+
+				<div style="clear: both; margin-top: 10px; margin-bottom: 10px;">
+					<span class="required">*</span> #{messages.msg_required_fields}
+				</div>
+			</h:panelGrid>
+
+
+			<div class="actionButtons">
+				<h:commandButton id="update" value="#{messages.msg_update}"
+					onclick="return confirm('#{messages.MSG_CONFIRM_UPDATE}');"
+					action="#{parametroSistemaHome.update}"
+					rendered="#{parametroSistemaHome.managed}" />
+				<s:button id="cancelEdit" value="#{messages.msg_cancel}" propagation="none" includePageParams="false"
+					view="/ParametroSistemaList.xhtml"
+					rendered="#{parametroSistemaHome.managed}" />
+			</div>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

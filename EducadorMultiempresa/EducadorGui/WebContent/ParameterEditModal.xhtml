@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.org/schema/seam/taglib">
+	<h:form>
+		<table>
+			<tr>
+				<td>
+					<a:region>
+						<s:decorate id="descripcionField" template="/layout/edit.xhtml">
+							<ui:define name="label">#{messages.Systemparameter_param}</ui:define>
+							<h:inputText required="true"
+								value="#{parameterController.parametroSelected.descripcion}" size="100"
+								disabled="#{!edit}" >
+								<a:ajax event="blur" render="descripcionField" execute="@region"/>
+							</h:inputText>
+						</s:decorate>
+						
+					
+					</a:region>
+					<s:decorate id="valorField" template="/layout/edit.xhtml">
+						<ui:define name="label">#{messages.Systemparameter_valor}</ui:define>
+						<h:inputText
+							value="#{parameterController.parametroSelected.valor}" size="100"
+							disabled="#{!edit}" >
+							<a:ajax event="blur" render="valorField" execute="@this" />
+						</h:inputText>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">Dato técnico</ui:define>
+						<h:inputText
+							value="#{parameterController.parametroSelected.parametro}"
+							disabled="true" size="100" />
+					</s:decorate> 
+					
+					</td>
+			</tr>
+			<tr align="center">
+				<td><s:div rendered="#{edit}">
+						<ui:insert name="actionButton" />
+						<ui:insert name="cancelButton" />
+					</s:div>
+					<s:div rendered="#{!edit}">
+						<ui:insert name="aceptButton"/>
+					</s:div>	
+				</td>
+					
+			</tr>
+		</table>
+	</h:form>
+</ui:composition>

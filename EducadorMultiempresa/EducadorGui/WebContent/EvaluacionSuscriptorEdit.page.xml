@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd"
+      no-conversation-view-id="/EvaluacionSuscriptorList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{evaluacionSuscriptorHome.wire}"/>
+
+   <param name="evaluacionSuscriptorFrom"/>
+   <param name="evaluacionSuscriptorIdEvaluacionSuscriptor" value="#{evaluacionSuscriptorHome.evaluacionSuscriptorIdEvaluacionSuscriptor}"/>
+   <param name="evaluacionFrom"/>
+   <param name="evaluacionIdEvaluacion" value="#{evaluacionHome.evaluacionIdEvaluacion}"/>
+   <param name="moduloFrom"/>
+   <param name="moduloIdModulo" value="#{moduloHome.moduloIdModulo}"/>
+   <param name="proyectoFrom"/>
+   <param name="proyectoIdProyecto" value="#{proyectoHome.proyectoIdProyecto}"/>
+
+
+
+   <param name="suscriptorFrom"/>
+   <param name="suscriptorIdSuscriptor" value="#{suscriptorHome.suscriptorIdSuscriptor}"/>
+
+   <param name="preguntaFrom"/>
+   <param name="preguntaIdPregunta" value="#{preguntaHome.preguntaIdPregunta}"/>
+
+   <param name="ejecucionSuscriptorDetalleFrom"/>
+   <param name="ejecucionSuscriptorDetalleIdEjecucionDetalle" value="#{ejecucionSuscriptorDetalleHome.ejecucionSuscriptorDetalleIdEjecucionDetalle}"/>
+   <param name="tipFrom"/>
+   <param name="tipIdTip" value="#{tipHome.tipIdTip}"/>
+
+   <param name="ejecucionSuscriptorFrom"/>
+   <param name="ejecucionSuscriptorIdEjecucionSuscriptor" value="#{ejecucionSuscriptorHome.ejecucionSuscriptorIdEjecucionSuscriptor}"/>
+
+
+
+
+   <navigation from-action="#{evaluacionSuscriptorHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/EvaluacionSuscriptor.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{evaluacionSuscriptorHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/EvaluacionSuscriptor.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{evaluacionSuscriptorHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/EvaluacionSuscriptorList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

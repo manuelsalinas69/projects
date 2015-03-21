@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd"
+      no-conversation-view-id="/EjecucionSuscriptorList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{ejecucionSuscriptorHome.wire}"/>
+
+   <param name="ejecucionSuscriptorFrom"/>
+   <param name="ejecucionSuscriptorIdEjecucionSuscriptor" value="#{ejecucionSuscriptorHome.ejecucionSuscriptorIdEjecucionSuscriptor}"/>
+   <param name="suscriptorFrom"/>
+   <param name="suscriptorIdSuscriptor" value="#{suscriptorHome.suscriptorIdSuscriptor}"/>
+
+   <param name="moduloFrom"/>
+   <param name="moduloIdModulo" value="#{moduloHome.moduloIdModulo}"/>
+   <param name="proyectoFrom"/>
+   <param name="proyectoIdProyecto" value="#{proyectoHome.proyectoIdProyecto}"/>
+
+
+
+
+   <navigation from-action="#{ejecucionSuscriptorHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/EjecucionSuscriptor.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{ejecucionSuscriptorHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/EjecucionSuscriptor.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{ejecucionSuscriptorHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/EjecucionSuscriptorList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

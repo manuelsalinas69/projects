@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="ejbModule"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget/JBoss 7.1 Runtime Educador">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.ejb"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/EducadorGui-ear/EarContent/jboss-seam.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/org/apache/log4j/main/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/py/com/global/lib/reports/main/jasperreports-5.5.1.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/py/com/global/lib/reports/main/jasperreports-applet-5.5.1.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/py/com/global/lib/reports/main/jasperreports-fonts-5.5.1.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/py/com/global/lib/reports/main/jasperreports-functions-5.5.1.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/py/com/global/lib/reports/main/dynamicreports-adhoc-3.2.1.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/py/com/global/lib/reports/main/dynamicreports-core-3.2.1.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/py/com/global/lib/reports/main/dynamicreports-googlecharts-3.2.1.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/py/com/global/lib/reports/main/poi-3.7.jar"/>
+	<classpathentry kind="lib" path="G:/desarrollo/SERVERS/Jboss/jboss-as-7.1.0.Final/modules/py/com/global/lib/reports/main/poi-ooxml-3.8-20120326.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jre7">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

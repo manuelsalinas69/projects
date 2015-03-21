@@ -1,0 +1,302 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="ejecucionSuscriptor" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{ejecucionSuscriptorHome.managed ? 'Edit' : 'Add'} Ejecucion suscriptor</f:facet>
+
+
+            <s:decorate id="idEjecucionSuscriptorField" template="layout/edit.xhtml">
+                <ui:define name="label">Id ejecucion suscriptor</ui:define>
+                <h:inputText id="idEjecucionSuscriptor"
+                       required="true"
+                          value="#{ejecucionSuscriptorHome.instance.idEjecucionSuscriptor}"
+                           size="29">
+                    <a:ajax event="blur" render="idEjecucionSuscriptorField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+            <s:decorate id="estadoEjecucionField" template="layout/edit.xhtml">
+                <ui:define name="label">Estado ejecucion</ui:define>
+                <h:inputText id="estadoEjecucion"
+                           size="30"
+                      maxlength="30"
+                          value="#{ejecucionSuscriptorHome.instance.estadoEjecucion}">
+                    <a:ajax event="blur" render="estadoEjecucionField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="fechaAltaField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha alta</ui:define>
+                <rich:calendar id="fechaAlta"
+                          value="#{ejecucionSuscriptorHome.instance.fechaAlta}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="motivoCancelacionField" template="layout/edit.xhtml">
+                <ui:define name="label">Motivo cancelacion</ui:define>
+                <h:inputTextarea id="motivoCancelacion"
+                               cols="80"
+                               rows="2"
+                              value="#{ejecucionSuscriptorHome.instance.motivoCancelacion}"/>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{ejecucionSuscriptorHome.persist}"
+                       disabled="#{!ejecucionSuscriptorHome.wired}"
+                       rendered="#{!ejecucionSuscriptorHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{ejecucionSuscriptorHome.update}"
+                       rendered="#{ejecucionSuscriptorHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{ejecucionSuscriptorHome.remove}"
+                      immediate="true"
+                       rendered="#{ejecucionSuscriptorHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/EjecucionSuscriptor.xhtml"
+                rendered="#{ejecucionSuscriptorHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty ejecucionSuscriptorFrom ? 'EjecucionSuscriptorList' : ejecucionSuscriptorFrom}.xhtml"
+                rendered="#{!ejecucionSuscriptorHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="client">
+
+    <rich:tab header="Suscriptor">
+    <div class="association" id="suscriptorParent">
+
+        <h:outputText value="There is no suscriptor associated with this ejecucionSuscriptor."
+                   rendered="#{ejecucionSuscriptorHome.instance.suscriptor == null}"/>
+
+        <rich:dataTable var="_suscriptor"
+                   value="#{ejecucionSuscriptorHome.instance.suscriptor}"
+                rendered="#{ejecucionSuscriptorHome.instance.suscriptor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="suscriptorTable">
+            <h:column>
+                <f:facet name="header">Id suscriptor</f:facet>
+                <h:outputText value="#{_suscriptor.idSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero</f:facet>
+                <h:outputText value="#{_suscriptor.numero}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_suscriptor.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo alta</f:facet>
+                <h:outputText value="#{_suscriptor.tipoAlta}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{ejecucionSuscriptorHome.instance.suscriptor != null ? 'changeParent' : 'selectParent'}" value="#{ejecucionSuscriptorHome.instance.suscriptor != null ? 'Change' : 'Select'} suscriptor"
+                       view="/SuscriptorList.xhtml">
+                <f:param name="from" value="EjecucionSuscriptorEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab header="Modulo">
+    <div class="association" id="moduloParent">
+
+        <h:outputText value="There is no modulo associated with this ejecucionSuscriptor."
+                   rendered="#{ejecucionSuscriptorHome.instance.modulo == null}"/>
+
+        <rich:dataTable var="_modulo"
+                   value="#{ejecucionSuscriptorHome.instance.modulo}"
+                rendered="#{ejecucionSuscriptorHome.instance.modulo != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="moduloTable">
+            <h:column>
+                <f:facet name="header">Id modulo</f:facet>
+                <h:outputText value="#{_modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Proyecto id proyecto</f:facet>
+                <h:outputText value="#{_modulo.proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_modulo.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_modulo.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_modulo.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_modulo.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_modulo.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado modulo</f:facet>
+                <h:outputText value="#{_modulo.estadoModulo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_modulo.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion envio tip</f:facet>
+                <h:outputText value="#{_modulo.configuracionEnvioTip}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo modulo</f:facet>
+                <h:outputText value="#{_modulo.tipoModulo}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{ejecucionSuscriptorHome.instance.modulo != null ? 'changeParent' : 'selectParent'}" value="#{ejecucionSuscriptorHome.instance.modulo != null ? 'Change' : 'Select'} modulo"
+                       view="/ModuloList.xhtml">
+                <f:param name="from" value="EjecucionSuscriptorEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab header="Ejecucion suscriptor detalles">
+        <h:form styleClass="association" id="ejecucionSuscriptorDetallesChildren">
+
+            <h:outputText value="There are no ejecucionSuscriptorDetalles associated with this ejecucionSuscriptor."
+                       rendered="#{empty ejecucionSuscriptorHome.ejecucionSuscriptorDetalles}"/>
+
+            <rich:dataTable value="#{ejecucionSuscriptorHome.ejecucionSuscriptorDetalles}"
+                           var="_ejecucionSuscriptorDetalle"
+                      rendered="#{not empty ejecucionSuscriptorHome.ejecucionSuscriptorDetalles}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="ejecucionSuscriptorDetallesTable">
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}">
+                    <f:facet name="header">Id ejecucion detalle</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.estadoEjecucion}">
+                    <f:facet name="header">Estado ejecucion</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.estadoEjecucion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.orden}">
+                    <f:facet name="header">Orden</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.orden}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.envioFinal}">
+                    <f:facet name="header">Envio final</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.envioFinal}"/>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.enviar}">
+                    <f:facet name="header">Enviar</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.enviar}"/>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.esperarHorasAnterior}">
+                    <f:facet name="header">Esperar horas anterior</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.esperarHorasAnterior}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.fechaEjecucion}">
+                    <f:facet name="header">Fecha ejecucion</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEjecucion}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.fechaEnvio}">
+                    <f:facet name="header">Fecha envio</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.respuestaSmsc}">
+                    <f:facet name="header">Respuesta smsc</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.respuestaSmsc}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{ejecucionSuscriptorHome.managed}" id="ejecucionSuscriptorDetalles">
+        <div class="actionButtons">
+            <s:button id="addejecucionSuscriptorDetalle"
+                   value="Add ejecucionSuscriptorDetalle"
+                    view="/EjecucionSuscriptorDetalleEdit.xhtml"
+             propagation="none">
+                 <f:param name="ejecucionSuscriptorIdEjecucionSuscriptor"
+                         value="#{ejecucionSuscriptorHome.instance.idEjecucionSuscriptor}"/>
+                 <f:param name="ejecucionSuscriptorDetalleFrom" value="EjecucionSuscriptor"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,126 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="logSmsIn" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{logSmsInHome.managed ? 'Edit' : 'Add'} Log sms in</f:facet>
+
+
+            <s:decorate id="idLogSmsInField" template="layout/edit.xhtml">
+                <ui:define name="label">Id log sms in</ui:define>
+                <h:inputText id="idLogSmsIn"
+                       required="true"
+                          value="#{logSmsInHome.instance.idLogSmsIn}"
+                           size="29">
+                    <a:ajax event="blur" render="idLogSmsInField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="numeroDestinoField" template="layout/edit.xhtml">
+                <ui:define name="label">Numero destino</ui:define>
+                <h:inputText id="numeroDestino"
+                           size="30"
+                      maxlength="30"
+                          value="#{logSmsInHome.instance.numeroDestino}">
+                    <a:ajax event="blur" render="numeroDestinoField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="numeroOrigenField" template="layout/edit.xhtml">
+                <ui:define name="label">Numero origen</ui:define>
+                <h:inputText id="numeroOrigen"
+                           size="30"
+                      maxlength="30"
+                          value="#{logSmsInHome.instance.numeroOrigen}">
+                    <a:ajax event="blur" render="numeroOrigenField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="mensajeField" template="layout/edit.xhtml">
+                <ui:define name="label">Mensaje</ui:define>
+                <h:inputTextarea id="mensaje"
+                               cols="80"
+                               rows="2"
+                              value="#{logSmsInHome.instance.mensaje}"/>
+            </s:decorate>
+
+
+            <s:decorate id="fechaRecepcionField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha recepcion</ui:define>
+                <rich:calendar id="fechaRecepcion"
+                          value="#{logSmsInHome.instance.fechaRecepcion}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="jmsMessageIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Jms message id</ui:define>
+                <h:inputText id="jmsMessageId"
+                           size="100"
+                      maxlength="100"
+                          value="#{logSmsInHome.instance.jmsMessageId}">
+                    <a:ajax event="blur" render="jmsMessageIdField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{logSmsInHome.persist}"
+                       disabled="#{!logSmsInHome.wired}"
+                       rendered="#{!logSmsInHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{logSmsInHome.update}"
+                       rendered="#{logSmsInHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{logSmsInHome.remove}"
+                      immediate="true"
+                       rendered="#{logSmsInHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/LogSmsIn.xhtml"
+                rendered="#{logSmsInHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty logSmsInFrom ? 'LogSmsInList' : logSmsInFrom}.xhtml"
+                rendered="#{!logSmsInHome.managed}"/>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,290 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="evaluacionSuscriptorSearch" styleClass="edit">
+
+        <rich:collapsiblePanel header="EvaluacionSuscriptor Search Filter" switchType="client">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Estado evaluacion</ui:define>
+                <h:inputText id="estadoEvaluacion" value="#{evaluacionSuscriptorList.evaluacionSuscriptor.estadoEvaluacion}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Respuesta sender smsc</ui:define>
+                <h:inputText id="respuestaSenderSmsc" value="#{evaluacionSuscriptorList.evaluacionSuscriptor.respuestaSenderSmsc}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Estado envio</ui:define>
+                <h:inputText id="estadoEnvio" value="#{evaluacionSuscriptorList.evaluacionSuscriptor.estadoEnvio}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{evaluacionSuscriptorList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:collapsiblePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="#{messages.msg_list_search_button}" action="/EvaluacionSuscriptorList.xhtml"/>
+            <s:button id="reset" value="#{messages.msg_list_search_reset_button}" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">EvaluacionSuscriptor Search Results (#{empty evaluacionSuscriptorList.resultList ? 0 : (evaluacionSuscriptorList.paginated ? evaluacionSuscriptorList.resultCount : evaluacionSuscriptorList.resultList.size)})</f:facet>
+    <div class="results" id="evaluacionSuscriptorList">
+
+    <h:outputText value="The evaluacionSuscriptor search returned no results."
+               rendered="#{empty evaluacionSuscriptorList.resultList}"/>
+
+    <rich:dataTable id="evaluacionSuscriptorList"
+                var="_evaluacionSuscriptor"
+              value="#{evaluacionSuscriptorList.resultList}"
+           rendered="#{not empty evaluacionSuscriptorList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Id evaluacion suscriptor"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.idEvaluacionSuscriptor"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.idEvaluacionSuscriptor}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Evaluacion id evaluacion"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.evaluacion.idEvaluacion"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.evaluacion.idEvaluacion}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Suscriptor id suscriptor"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.suscriptor.idSuscriptor"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.suscriptor.idSuscriptor}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Pregunta id pregunta"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.pregunta.idPregunta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.pregunta.idPregunta}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Ejecucion suscriptor detalle id ejecucion detalle"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.ejecucionSuscriptorDetalle.idEjecucionDetalle"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.ejecucionSuscriptorDetalle.idEjecucionDetalle}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Id respuesta"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.idRespuesta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.idRespuesta}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Respuesta correcta"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.respuestaCorrecta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.respuestaCorrecta}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Estado evaluacion"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.estadoEvaluacion"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.estadoEvaluacion}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Fecha alta"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.fechaAlta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.fechaAlta}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Fecha respuesta"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.fechaRespuesta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.fechaRespuesta}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Fecha envio pregunta"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.fechaEnvioPregunta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.fechaEnvioPregunta}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Intento"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.intento"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.intento}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Respuesta sender smsc"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.respuestaSenderSmsc"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.respuestaSenderSmsc}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{evaluacionSuscriptorList}"/>
+                    <ui:param name="propertyLabel" value="Estado envio"/>
+                    <ui:param name="propertyPath" value="evaluacionSuscriptor.estadoEnvio"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_evaluacionSuscriptor.estadoEnvio}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'EvaluacionSuscriptor' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="evaluacionSuscriptorViewId">
+                <f:param name="evaluacionSuscriptorIdEvaluacionSuscriptor"
+                        value="#{_evaluacionSuscriptor.idEvaluacionSuscriptor}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/EvaluacionSuscriptorEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="evaluacionSuscriptorEdit"
+                rendered="#{empty from}">
+                <f:param name="evaluacionSuscriptorIdEvaluacionSuscriptor"
+                        value="#{_evaluacionSuscriptor.idEvaluacionSuscriptor}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/EvaluacionSuscriptorList.xhtml"
+            rendered="#{evaluacionSuscriptorList.previousExists}"
+               value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/EvaluacionSuscriptorList.xhtml"
+            rendered="#{evaluacionSuscriptorList.previousExists}"
+               value="#{messages.left} #{messages.msg_list_previous_page}"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{evaluacionSuscriptorList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/EvaluacionSuscriptorList.xhtml"
+            rendered="#{evaluacionSuscriptorList.nextExists}"
+               value="#{messages.msg_list_next_page} #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{evaluacionSuscriptorList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/EvaluacionSuscriptorList.xhtml"
+            rendered="#{evaluacionSuscriptorList.nextExists}"
+               value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{evaluacionSuscriptorList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/EvaluacionSuscriptorEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create evaluacionSuscriptor">
+            <f:param name="evaluacionSuscriptorIdEvaluacionSuscriptor"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

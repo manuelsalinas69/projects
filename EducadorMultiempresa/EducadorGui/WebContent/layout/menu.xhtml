@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j">
+	<div class="mainMenu">
+		<h:form>
+			<ul class="menu">
+				<ui:insert name="menu">
+					<h:panelGroup>
+						<li class="top"><span> <s:link styleClass="top_link"
+									id="menuHomeId" view="/home.xhtml"
+									value="#{messages.menu_home}" propagation="none" /></span></li>
+					</h:panelGroup>
+
+					<h:panelGroup id="menu_educador" rendered="#{usuario.rolAdminProyectos}">
+						<li class="top"><h:commandLink styleClass="top_link">
+								<span><h:outputText value="#{messages.menu_educador}" /></span>
+							</h:commandLink>
+							<ul class="sub">
+								<h:panelGroup>
+									<s:div >
+										<li><s:link view="/ProyectoList.seam"
+												value="#{messages.Proyecto_menu}" includePageParams="false"
+												propagation="none" /></li>
+									</s:div>
+									<s:div>
+										<li><s:link view="/ModuloList.seam"
+												value="#{messages.Modulo_menu}" includePageParams="false"
+												propagation="none" /></li>
+									</s:div>
+									<s:div>
+										<li><s:link view="/ClientsImport.seam"
+												value="Operaci&oacute;n sobre suscriptores" includePageParams="false"
+												propagation="none" /></li>
+									</s:div>
+									
+									<s:div>
+										<li><s:link view="/SuscriptorProyectoList.seam"
+												value="Suscriptores" includePageParams="false"
+												propagation="none" /></li>
+									</s:div>
+								</h:panelGroup>
+							</ul></li>
+					</h:panelGroup>
+
+					<h:panelGroup id="menu_sistema" rendered="#{usuario.rolAdminSistema}">
+						<li class="top"><h:commandLink styleClass="top_link">
+								<span><h:outputText value="#{messages.menu_sistema}" /></span>
+							</h:commandLink>
+							<ul class="sub">
+								<h:panelGroup>
+									<s:div>
+										<li><s:link view="/ParametroSistemaList.seam"
+												value="#{messages.ParametrosSistema_menu}"
+												includePageParams="false" propagation="none" /></li>
+									</s:div>
+									<s:div>
+										<li><s:link view="/UsuarioList.seam"
+												value="#{messages.Usuarios_menu}" includePageParams="false"
+												propagation="none" /></li>
+									</s:div>
+								</h:panelGroup>
+							</ul></li>
+					</h:panelGroup>
+					<h:panelGroup id="menu_consultas" rendered="#{usuario.rolConsultas or usuario.rolAdminProyectos}">
+						<li class="top"><h:commandLink styleClass="top_link">
+								<span><h:outputText value="#{messages.menu_consultas}" /></span>
+							</h:commandLink>
+							<ul class="sub">
+								<h:panelGroup>
+									<s:div>
+										<li><s:link view="/LogSmsInList.seam"
+												value="#{messages.ConsultasMensajeEntrada_menu}"
+												includePageParams="false" propagation="none" /></li>
+									</s:div>
+									<s:div>
+										<li><s:link view="/LogSmsOutList.seam"
+												value="#{messages.ConsultasMensajeSalida_menu}"
+												includePageParams="false" propagation="none" /></li>
+									</s:div>
+									<s:div>
+										<li><s:link view="/ModuleReports.seam"
+												value="#{messages.ConsultasPorModulo_menu}"
+												includePageParams="false" propagation="none" /></li>
+									</s:div>
+									<s:div>
+										<li><s:link view="/LogSuscripcionList.seam"
+												value="#{messages.ConsultasSuscripciones_menu}"
+												includePageParams="false" propagation="none" /></li>
+									</s:div>
+									<s:div>
+										<li><s:link view="/Consultas.seam"
+												value="#{messages.ConsultasDinamicas_menu}"
+												includePageParams="false" propagation="none" /></li>
+									</s:div>
+
+								</h:panelGroup>
+							</ul></li>
+					</h:panelGroup>
+
+					<li class="top" style="float:right;margin-right:300px;"><span><s:link id="menuLogoutId"
+								view="/home.xhtml" action="#{identity.logout}"
+								value="#{messages.menu_cerrar_sesion}"
+								rendered="#{identity.loggedIn}" propagation="none"
+								styleClass="top_link">
+
+							</s:link></span></li>
+					<li class="top" style="float:right;"><span><s:link id="cambiarContrasena"
+								view="/CambiarContrasena.xhtml" 
+								value="Cambiar contrase&ntilde;a"
+								rendered="#{identity.loggedIn}" propagation="none"
+								styleClass="top_link">
+
+							</s:link></span></li>		
+							
+					<li class="top" style="float:right; "><span><s:link
+								value="Usuario : #{credentials.username}"
+								rendered="#{identity.loggedIn}" styleClass="top_link">
+							</s:link></span></li>
+					
+
+
+
+				</ui:insert>
+			</ul>
+
+		</h:form>
+	</div>
+</ui:composition>

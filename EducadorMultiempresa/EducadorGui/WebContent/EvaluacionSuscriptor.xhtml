@@ -1,0 +1,396 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Evaluacion suscriptor Details</f:facet>
+
+        <s:decorate id="idEvaluacionSuscriptor" template="layout/display.xhtml">
+            <ui:define name="label">Id evaluacion suscriptor</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.idEvaluacionSuscriptor}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="idRespuesta" template="layout/display.xhtml">
+            <ui:define name="label">Id respuesta</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.idRespuesta}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="respuestaCorrecta" template="layout/display.xhtml">
+            <ui:define name="label">Respuesta correcta</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.respuestaCorrecta}"/>
+        </s:decorate>
+
+        <s:decorate id="estadoEvaluacion" template="layout/display.xhtml">
+            <ui:define name="label">Estado evaluacion</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.estadoEvaluacion}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaAlta" template="layout/display.xhtml">
+            <ui:define name="label">Fecha alta</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.fechaAlta}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="fechaRespuesta" template="layout/display.xhtml">
+            <ui:define name="label">Fecha respuesta</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.fechaRespuesta}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="fechaEnvioPregunta" template="layout/display.xhtml">
+            <ui:define name="label">Fecha envio pregunta</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.fechaEnvioPregunta}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="intento" template="layout/display.xhtml">
+            <ui:define name="label">Intento</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.intento}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="respuestaSenderSmsc" template="layout/display.xhtml">
+            <ui:define name="label">Respuesta sender smsc</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.respuestaSenderSmsc}"/>
+        </s:decorate>
+
+        <s:decorate id="estadoEnvio" template="layout/display.xhtml">
+            <ui:define name="label">Estado envio</ui:define>
+            <h:outputText value="#{evaluacionSuscriptorHome.instance.estadoEnvio}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EvaluacionSuscriptorEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty evaluacionSuscriptorFrom ? 'EvaluacionSuscriptorList' : evaluacionSuscriptorFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Evaluacion</h:panelGroup>
+        </f:facet>
+    <div class="association" id="evaluacionParent">
+
+        <h:outputText value="There is no evaluacion associated with this evaluacionSuscriptor."
+                   rendered="#{evaluacionSuscriptorHome.instance.evaluacion == null}"/>
+
+        <rich:dataTable var="_evaluacion"
+                   value="#{evaluacionSuscriptorHome.instance.evaluacion}"
+                rendered="#{evaluacionSuscriptorHome.instance.evaluacion != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="evaluacionTable">
+            <h:column>
+                <f:facet name="header">Id evaluacion</f:facet>
+                <h:outputText value="#{_evaluacion.idEvaluacion}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Modulo id modulo</f:facet>
+                <h:outputText value="#{_evaluacion.modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_evaluacion.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_evaluacion.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_evaluacion.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_evaluacion.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_evaluacion.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_evaluacion.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion envio modulo</f:facet>
+                <h:outputText value="#{_evaluacion.configuracionEnvioModulo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_evaluacion.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado evaluacion</f:facet>
+                <h:outputText value="#{_evaluacion.estadoEvaluacion}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewevaluacion"
+                     value="View"
+                      view="/Evaluacion.xhtml">
+                    <f:param name="evaluacionIdEvaluacion"
+                           value="#{_evaluacion.idEvaluacion}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Suscriptor</h:panelGroup>
+        </f:facet>
+    <div class="association" id="suscriptorParent">
+
+        <h:outputText value="There is no suscriptor associated with this evaluacionSuscriptor."
+                   rendered="#{evaluacionSuscriptorHome.instance.suscriptor == null}"/>
+
+        <rich:dataTable var="_suscriptor"
+                   value="#{evaluacionSuscriptorHome.instance.suscriptor}"
+                rendered="#{evaluacionSuscriptorHome.instance.suscriptor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="suscriptorTable">
+            <h:column>
+                <f:facet name="header">Id suscriptor</f:facet>
+                <h:outputText value="#{_suscriptor.idSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero</f:facet>
+                <h:outputText value="#{_suscriptor.numero}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_suscriptor.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo alta</f:facet>
+                <h:outputText value="#{_suscriptor.tipoAlta}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewsuscriptor"
+                     value="View"
+                      view="/Suscriptor.xhtml">
+                    <f:param name="suscriptorIdSuscriptor"
+                           value="#{_suscriptor.idSuscriptor}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Pregunta</h:panelGroup>
+        </f:facet>
+    <div class="association" id="preguntaParent">
+
+        <h:outputText value="There is no pregunta associated with this evaluacionSuscriptor."
+                   rendered="#{evaluacionSuscriptorHome.instance.pregunta == null}"/>
+
+        <rich:dataTable var="_pregunta"
+                   value="#{evaluacionSuscriptorHome.instance.pregunta}"
+                rendered="#{evaluacionSuscriptorHome.instance.pregunta != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="preguntaTable">
+            <h:column>
+                <f:facet name="header">Id pregunta</f:facet>
+                <h:outputText value="#{_pregunta.idPregunta}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Evaluacion id evaluacion</f:facet>
+                <h:outputText value="#{_pregunta.evaluacion.idEvaluacion}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido pregunta</f:facet>
+                <h:outputText value="#{_pregunta.contenidoPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Orden pregunta</f:facet>
+                <h:outputText value="#{_pregunta.ordenPregunta}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_pregunta.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_pregunta.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_pregunta.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_pregunta.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_pregunta.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Pregunta final</f:facet>
+                <h:outputText value="#{_pregunta.preguntaFinal}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewpregunta"
+                     value="View"
+                      view="/Pregunta.xhtml">
+                    <f:param name="preguntaIdPregunta"
+                           value="#{_pregunta.idPregunta}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Ejecucion suscriptor detalle</h:panelGroup>
+        </f:facet>
+    <div class="association" id="ejecucionSuscriptorDetalleParent">
+
+        <h:outputText value="There is no ejecucionSuscriptorDetalle associated with this evaluacionSuscriptor."
+                   rendered="#{evaluacionSuscriptorHome.instance.ejecucionSuscriptorDetalle == null}"/>
+
+        <rich:dataTable var="_ejecucionSuscriptorDetalle"
+                   value="#{evaluacionSuscriptorHome.instance.ejecucionSuscriptorDetalle}"
+                rendered="#{evaluacionSuscriptorHome.instance.ejecucionSuscriptorDetalle != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="ejecucionSuscriptorDetalleTable">
+            <h:column>
+                <f:facet name="header">Id ejecucion detalle</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Evaluacion id evaluacion</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.evaluacion.idEvaluacion}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tip id tip</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.tip.idTip}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Ejecucion suscriptor id ejecucion suscriptor</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.ejecucionSuscriptor.idEjecucionSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado ejecucion</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.estadoEjecucion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Orden</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.orden}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Envio final</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.envioFinal}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Enviar</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.enviar}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Esperar horas anterior</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.esperarHorasAnterior}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha ejecucion</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEjecucion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha envio</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEnvio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Respuesta smsc</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptorDetalle.respuestaSmsc}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewejecucionSuscriptorDetalle"
+                     value="View"
+                      view="/EjecucionSuscriptorDetalle.xhtml">
+                    <f:param name="ejecucionSuscriptorDetalleIdEjecucionDetalle"
+                           value="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

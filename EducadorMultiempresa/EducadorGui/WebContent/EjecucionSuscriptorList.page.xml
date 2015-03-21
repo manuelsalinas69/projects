@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd">
+
+   <param name="firstResult" value="#{ejecucionSuscriptorList.firstResult}"/>
+   <param name="sort" value="#{ejecucionSuscriptorList.orderColumn}"/>
+   <param name="dir" value="#{ejecucionSuscriptorList.orderDirection}"/>
+   <param name="logic" value="#{ejecucionSuscriptorList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="estadoEjecucion" value="#{ejecucionSuscriptorList.ejecucionSuscriptor.estadoEjecucion}"/>
+   <param name="motivoCancelacion" value="#{ejecucionSuscriptorList.ejecucionSuscriptor.motivoCancelacion}"/>
+
+</page>

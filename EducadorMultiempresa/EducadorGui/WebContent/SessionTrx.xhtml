@@ -1,0 +1,129 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Session trx Details</f:facet>
+
+        <s:decorate id="idSessionTrx" template="layout/display.xhtml">
+            <ui:define name="label">Id session trx</ui:define>
+            <h:outputText value="#{sessionTrxHome.instance.idSessionTrx}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="numero" template="layout/display.xhtml">
+            <ui:define name="label">Numero</ui:define>
+            <h:outputText value="#{sessionTrxHome.instance.numero}"/>
+        </s:decorate>
+
+        <s:decorate id="numeroCorto" template="layout/display.xhtml">
+            <ui:define name="label">Numero corto</ui:define>
+            <h:outputText value="#{sessionTrxHome.instance.numeroCorto}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaInicioSession" template="layout/display.xhtml">
+            <ui:define name="label">Fecha inicio session</ui:define>
+            <h:outputText value="#{sessionTrxHome.instance.fechaInicioSession}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="idEvaluacion" template="layout/display.xhtml">
+            <ui:define name="label">Id evaluacion</ui:define>
+            <h:outputText value="#{sessionTrxHome.instance.idEvaluacion}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="idEjecucionDetalle" template="layout/display.xhtml">
+            <ui:define name="label">Id ejecucion detalle</ui:define>
+            <h:outputText value="#{sessionTrxHome.instance.idEjecucionDetalle}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="idEvaluacionSuscriptor" template="layout/display.xhtml">
+            <ui:define name="label">Id evaluacion suscriptor</ui:define>
+            <h:outputText value="#{sessionTrxHome.instance.idEvaluacionSuscriptor}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/SessionTrxEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty sessionTrxFrom ? 'SessionTrxList' : sessionTrxFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Suscriptor</h:panelGroup>
+        </f:facet>
+    <div class="association" id="suscriptorParent">
+
+        <h:outputText value="There is no suscriptor associated with this sessionTrx."
+                   rendered="#{sessionTrxHome.instance.suscriptor == null}"/>
+
+        <rich:dataTable var="_suscriptor"
+                   value="#{sessionTrxHome.instance.suscriptor}"
+                rendered="#{sessionTrxHome.instance.suscriptor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="suscriptorTable">
+            <h:column>
+                <f:facet name="header">Id suscriptor</f:facet>
+                <h:outputText value="#{_suscriptor.idSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero</f:facet>
+                <h:outputText value="#{_suscriptor.numero}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_suscriptor.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo alta</f:facet>
+                <h:outputText value="#{_suscriptor.tipoAlta}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewsuscriptor"
+                     value="View"
+                      view="/Suscriptor.xhtml">
+                    <f:param name="suscriptorIdSuscriptor"
+                           value="#{_suscriptor.idSuscriptor}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

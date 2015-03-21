@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+    <datasource 
+        jndi-name="EducadorGuiDatasource"
+        enabled="true" 
+        use-java-context="true" pool-name="EducadorGuiDatasource_pool">
+        <connection-url>jdbc:oracle:thin:@10.255.8.14:1521:mts4m</connection-url>
+       <driver-class>oracle.jdbc.OracleDriver</driver-class>  
+		<driver>OracleJDBCDriver</driver>
+        <security>
+		      <user-name>ENCUESTAEXPO</user-name>
+		      <password>Tigo3xpo2014!</password>
+        </security>
+    </datasource>
+</datasources>

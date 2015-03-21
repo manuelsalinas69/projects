@@ -1,0 +1,78 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    template="layout/template.xhtml" >
+
+	<ui:define name="body">
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			Consultas din&aacute;micas
+		</ui:define>
+		</s:decorate>
+		<h:form id="alarmas" styleClass="edit">
+
+			<rich:panel id="pnlParams">
+				<f:facet name="header">Consulta</f:facet>
+
+			
+
+
+				<h:panelGrid columns="2" columnClasses="top,top">
+					<s:decorate template="/layout/edit.xhtml" >
+						<ui:define name="label">
+							SQL
+						</ui:define>
+						<h:inputTextarea value="#{dynamicReportManager.sql}" cols="80"
+							rows="5">
+							<a:ajax event="blur" execute="@this" />
+						</h:inputTextarea>
+					</s:decorate>
+					<h:panelGrid>
+						<a:commandButton value="Ejecutar"
+							
+							action="#{dynamicReportManager.executeSql()}" execute="@this"
+							render="pnlResults" />
+						<h:commandButton action="#{dynamicReportManager.generateReport()}"
+							
+							value="Reporte" />
+						
+					</h:panelGrid>
+				</h:panelGrid>
+			</rich:panel>
+			<rich:panel id="pnlResults">
+				<f:facet name="header">
+					Resultado
+				</f:facet>
+				<s:div styleClass="results">
+					<rich:dataTable value="#{dynamicReportManager.result}" var="_row">
+						<c:forEach items="#{dynamicReportManager.columns}" var="_col" >
+							<rich:column>
+								<f:facet name="header">
+								<h:outputText value="#{_col.toString()}" />
+							</f:facet>
+							<h:outputText rendered="#{!dynamicReportManager.singleRow}"
+								value="#{_row[dynamicReportManager.getIndexOfColumn(_col)].toString()}" />
+							<h:outputText rendered="#{dynamicReportManager.singleRow}"
+								value="#{_row.toString()}" />
+							</rich:column>
+						</c:forEach>
+						
+
+					</rich:dataTable>
+
+				</s:div>
+
+
+			</rich:panel>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+	<datasource jndi-name="java:jboss/datasources/educador-oracle" enabled="true" 
+	     use-java-context="true" pool-name="educador-oracle">
+		<connection-url>jdbc:oracle:thin:@localhost:1521:xe</connection-url>
+		<driver-class>oracle.jdbc.OracleDriver</driver-class>  
+		<driver>OracleJDBCDriver</driver>
+	 	<pool>
+			<min-pool-size>1</min-pool-size>
+			<max-pool-size>10</max-pool-size>
+			<prefill>true</prefill>
+		</pool>
+		<security>
+			<user-name>educador</user-name>
+			<password>educador</password>
+		</security>
+	</datasource>
+</datasources>

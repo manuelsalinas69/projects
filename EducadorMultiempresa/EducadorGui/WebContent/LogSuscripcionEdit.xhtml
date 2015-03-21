@@ -1,0 +1,155 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="logSuscripcion" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{logSuscripcionHome.managed ? 'Edit' : 'Add'} Log suscripcion</f:facet>
+
+
+            <s:decorate id="idLogSuscripcionField" template="layout/edit.xhtml">
+                <ui:define name="label">Id log suscripcion</ui:define>
+                <h:inputText id="idLogSuscripcion"
+                       required="true"
+                          value="#{logSuscripcionHome.instance.idLogSuscripcion}"
+                           size="29">
+                    <a:ajax event="blur" render="idLogSuscripcionField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="mensajeField" template="layout/edit.xhtml">
+                <ui:define name="label">Mensaje</ui:define>
+                <h:inputTextarea id="mensaje"
+                               cols="80"
+                               rows="2"
+                              value="#{logSuscripcionHome.instance.mensaje}"/>
+            </s:decorate>
+
+
+            <s:decorate id="accionField" template="layout/edit.xhtml">
+                <ui:define name="label">Accion</ui:define>
+                <h:inputText id="accion"
+                           size="30"
+                      maxlength="30"
+                          value="#{logSuscripcionHome.instance.accion}">
+                    <a:ajax event="blur" render="accionField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="resultadoField" template="layout/edit.xhtml">
+                <ui:define name="label">Resultado</ui:define>
+                <h:inputText id="resultado"
+                           size="100"
+                      maxlength="100"
+                          value="#{logSuscripcionHome.instance.resultado}">
+                    <a:ajax event="blur" render="resultadoField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="fechaRecepcionField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha recepcion</ui:define>
+                <rich:calendar id="fechaRecepcion"
+                          value="#{logSuscripcionHome.instance.fechaRecepcion}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="numeroField" template="layout/edit.xhtml">
+                <ui:define name="label">Numero</ui:define>
+                <h:inputText id="numero"
+                           size="30"
+                      maxlength="30"
+                          value="#{logSuscripcionHome.instance.numero}">
+                    <a:ajax event="blur" render="numeroField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="proyectoField" template="layout/edit.xhtml">
+                <ui:define name="label">Proyecto</ui:define>
+                <h:inputText id="proyecto"
+                           size="100"
+                      maxlength="100"
+                          value="#{logSuscripcionHome.instance.proyecto}">
+                    <a:ajax event="blur" render="proyectoField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="fechaRespuestaField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha respuesta</ui:define>
+                <rich:calendar id="fechaRespuesta"
+                          value="#{logSuscripcionHome.instance.fechaRespuesta}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="tipoSuscripcionField" template="layout/edit.xhtml">
+                <ui:define name="label">Tipo suscripcion</ui:define>
+                <h:inputText id="tipoSuscripcion"
+                           size="30"
+                      maxlength="30"
+                          value="#{logSuscripcionHome.instance.tipoSuscripcion}">
+                    <a:ajax event="blur" render="tipoSuscripcionField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{logSuscripcionHome.persist}"
+                       disabled="#{!logSuscripcionHome.wired}"
+                       rendered="#{!logSuscripcionHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{logSuscripcionHome.update}"
+                       rendered="#{logSuscripcionHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{logSuscripcionHome.remove}"
+                      immediate="true"
+                       rendered="#{logSuscripcionHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/LogSuscripcion.xhtml"
+                rendered="#{logSuscripcionHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty logSuscripcionFrom ? 'LogSuscripcionList' : logSuscripcionFrom}.xhtml"
+                rendered="#{!logSuscripcionHome.managed}"/>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

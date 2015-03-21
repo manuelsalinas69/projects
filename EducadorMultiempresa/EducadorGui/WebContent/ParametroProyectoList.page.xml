@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd">
+
+   <param name="firstResult" value="#{parametroProyectoList.firstResult}"/>
+   <param name="sort" value="#{parametroProyectoList.orderColumn}"/>
+   <param name="dir" value="#{parametroProyectoList.orderDirection}"/>
+   <param name="logic" value="#{parametroProyectoList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="parametro" value="#{parametroProyectoList.parametroProyecto.id.parametro}"/>
+   <param name="valor" value="#{parametroProyectoList.parametroProyecto.valor}"/>
+   <param name="descripcion" value="#{parametroProyectoList.parametroProyecto.descripcion}"/>
+
+</page>

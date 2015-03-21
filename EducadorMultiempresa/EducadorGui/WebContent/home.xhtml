@@ -1,0 +1,90 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+
+    <ui:define name="body">
+       <div align="center" style="min-height:400px;">
+        <ul class="shortcuts" >
+
+					<s:span title="Acceda al listado de m&oacute;dulos del sistema"
+					rendered="#{usuario.rolAdminProyectos}"
+						>
+						<li><s:link view="/ModuloList.xhtml" propagation="none">
+								<span class="shortcuts-icon iconsi-event">
+									<p style="font-size: 25px">M</p>
+								</span>
+								<span class="shortcuts-label">M&oacute;dulos</span>
+							</s:link></li>
+					</s:span>
+
+					<s:span title="Acceda a la pantalla de Consultas por m&oacute;dulo"
+					rendered="#{usuario.rolAdminProyectos or usuario.rolConsultas}">
+						<li class="products"><s:link view="/ModuleReports.xhtml"
+								propagation="none">
+								<span class="shortcuts-icon iconsi-cart">
+									<p style="font-size: 25px">CM</p>
+								</span>
+								<span class="shortcuts-label">Cons. M&oacute;dulo</span>
+							</s:link></li>
+					</s:span>
+
+					<s:span title="Vea los mensajes de texto que los usuarios de Tigo han enviado a la plataforma"
+					rendered="#{usuario.rolAdminProyectos or usuario.rolConsultas}">
+						<li class="archive"><s:link view="/LogSmsInList.xhtml"
+								propagation="none">
+
+								<span class="shortcuts-icon">
+									<p style="font-size: 25px">IN</p>
+								</span>
+								<span class="shortcuts-label">SMS Entrada</span>
+							</s:link></li>
+					</s:span>
+					<s:span title="Acceda a la lista de mensajes de salida que la plataforma ha enviado a los usuarios de Tigo"
+					rendered="#{usuario.rolAdminProyectos or usuario.rolConsultas}">
+						<li class="archive"><s:link view="/LogSmsOutList.xhtml"
+								propagation="none">
+
+								<span class="shortcuts-icon">
+									<p style="font-size: 25px">OUT</p>
+								</span>
+								<span class="shortcuts-label">SMS Salida</span>
+							</s:link></li>
+					</s:span>
+
+					<s:span title="Vea la lista de suscriptores a la plataforma"
+						rendered="#{usuario.rolAdminProyectos}">
+						<li><s:link view="/SuscriptorProyectoList.xhtml" propagation="none">
+								<span class="shortcuts-icon iconsi-event">
+									<p style="font-size: 25px">S</p>
+								</span>
+								<span class="shortcuts-label">Suscriptores</span>
+							</s:link></li>
+					</s:span>
+
+				
+
+				
+
+				</ul>
+        <rich:panel >
+            <table align="center">
+            	<tr align="center">
+            		<td align="center" valign="middle">
+            		 	<h1>#{messages.home_text}</h1>
+            		</td>
+            	</tr>
+            </table>
+               
+            
+        </rich:panel>
+	</div>
+    </ui:define>
+    
+</ui:composition>

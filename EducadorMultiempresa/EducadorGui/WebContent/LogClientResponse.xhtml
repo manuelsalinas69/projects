@@ -1,0 +1,113 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Log client response Details</f:facet>
+
+        <s:decorate id="idLogClientResponse" template="layout/display.xhtml">
+            <ui:define name="label">Id log client response</ui:define>
+            <h:outputText value="#{logClientResponseHome.instance.idLogClientResponse}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="mensaje" template="layout/display.xhtml">
+            <ui:define name="label">Mensaje</ui:define>
+            <h:outputText value="#{logClientResponseHome.instance.mensaje}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaRecepcion" template="layout/display.xhtml">
+            <ui:define name="label">Fecha recepcion</ui:define>
+            <h:outputText value="#{logClientResponseHome.instance.fechaRecepcion}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="numero" template="layout/display.xhtml">
+            <ui:define name="label">Numero</ui:define>
+            <h:outputText value="#{logClientResponseHome.instance.numero}"/>
+        </s:decorate>
+
+        <s:decorate id="numeroCorto" template="layout/display.xhtml">
+            <ui:define name="label">Numero corto</ui:define>
+            <h:outputText value="#{logClientResponseHome.instance.numeroCorto}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/LogClientResponseEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty logClientResponseFrom ? 'LogClientResponseList' : logClientResponseFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Suscriptor</h:panelGroup>
+        </f:facet>
+    <div class="association" id="suscriptorParent">
+
+        <h:outputText value="There is no suscriptor associated with this logClientResponse."
+                   rendered="#{logClientResponseHome.instance.suscriptor == null}"/>
+
+        <rich:dataTable var="_suscriptor"
+                   value="#{logClientResponseHome.instance.suscriptor}"
+                rendered="#{logClientResponseHome.instance.suscriptor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="suscriptorTable">
+            <h:column>
+                <f:facet name="header">Id suscriptor</f:facet>
+                <h:outputText value="#{_suscriptor.idSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero</f:facet>
+                <h:outputText value="#{_suscriptor.numero}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_suscriptor.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo alta</f:facet>
+                <h:outputText value="#{_suscriptor.tipoAlta}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewsuscriptor"
+                     value="View"
+                      view="/Suscriptor.xhtml">
+                    <f:param name="suscriptorIdSuscriptor"
+                           value="#{_suscriptor.idSuscriptor}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

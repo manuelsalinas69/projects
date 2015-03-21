@@ -1,0 +1,525 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Modulo Details</f:facet>
+
+        <s:decorate id="idModulo" template="layout/display.xhtml">
+            <ui:define name="label">Id modulo</ui:define>
+            <h:outputText value="#{moduloHome.instance.idModulo}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="nombre" template="layout/display.xhtml">
+            <ui:define name="label">Nombre</ui:define>
+            <h:outputText value="#{moduloHome.instance.nombre}"/>
+        </s:decorate>
+
+        <s:decorate id="descripcion" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion</ui:define>
+            <h:outputText value="#{moduloHome.instance.descripcion}"/>
+        </s:decorate>
+
+        <s:decorate id="objetivos" template="layout/display.xhtml">
+            <ui:define name="label">Objetivos</ui:define>
+            <h:outputText value="#{moduloHome.instance.objetivos}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaInicio" template="layout/display.xhtml">
+            <ui:define name="label">Fecha inicio</ui:define>
+            <h:outputText value="#{moduloHome.instance.fechaInicio}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="fechaFin" template="layout/display.xhtml">
+            <ui:define name="label">Fecha fin</ui:define>
+            <h:outputText value="#{moduloHome.instance.fechaFin}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="estadoModulo" template="layout/display.xhtml">
+            <ui:define name="label">Estado modulo</ui:define>
+            <h:outputText value="#{moduloHome.instance.estadoModulo}"/>
+        </s:decorate>
+
+        <s:decorate id="estadoRegistro" template="layout/display.xhtml">
+            <ui:define name="label">Estado registro</ui:define>
+            <h:outputText value="#{moduloHome.instance.estadoRegistro}"/>
+        </s:decorate>
+
+        <s:decorate id="configuracionEnvioTip" template="layout/display.xhtml">
+            <ui:define name="label">Configuracion envio tip</ui:define>
+            <h:outputText value="#{moduloHome.instance.configuracionEnvioTip}"/>
+        </s:decorate>
+
+        <s:decorate id="tipoModulo" template="layout/display.xhtml">
+            <ui:define name="label">Tipo modulo</ui:define>
+            <h:outputText value="#{moduloHome.instance.tipoModulo}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ModuloEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty moduloFrom ? 'ModuloList' : moduloFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Proyecto</h:panelGroup>
+        </f:facet>
+    <div class="association" id="proyectoParent">
+
+        <h:outputText value="There is no proyecto associated with this modulo."
+                   rendered="#{moduloHome.instance.proyecto == null}"/>
+
+        <rich:dataTable var="_proyecto"
+                   value="#{moduloHome.instance.proyecto}"
+                rendered="#{moduloHome.instance.proyecto != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="proyectoTable">
+            <h:column>
+                <f:facet name="header">Id proyecto</f:facet>
+                <h:outputText value="#{_proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_proyecto.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_proyecto.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_proyecto.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_proyecto.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_proyecto.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_proyecto.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_proyecto.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_proyecto.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_proyecto.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado proyecto</f:facet>
+                <h:outputText value="#{_proyecto.estadoProyecto}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_proyecto.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Numero corto</f:facet>
+                <h:outputText value="#{_proyecto.numeroCorto}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewproyecto"
+                     value="View"
+                      view="/Proyecto.xhtml">
+                    <f:param name="proyectoIdProyecto"
+                           value="#{_proyecto.idProyecto}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Ejecucion suscriptors</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="ejecucionSuscriptorsChildren">
+
+        <h:outputText value="There are no ejecucionSuscriptors associated with this modulo."
+                   rendered="#{empty moduloHome.ejecucionSuscriptors}"/>
+
+        <rich:dataTable value="#{moduloHome.ejecucionSuscriptors}"
+                       var="_ejecucionSuscriptor"
+                  rendered="#{not empty moduloHome.ejecucionSuscriptors}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="ejecucionSuscriptorsTable">
+            <rich:column sortBy="#{_ejecucionSuscriptor.idEjecucionSuscriptor}">
+                <f:facet name="header">Id ejecucion suscriptor</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptor.idEjecucionSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptor.estadoEjecucion}">
+                <f:facet name="header">Estado ejecucion</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptor.estadoEjecucion}"/>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptor.fechaAlta}">
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptor.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_ejecucionSuscriptor.motivoCancelacion}">
+                <f:facet name="header">Motivo cancelacion</f:facet>
+                <h:outputText value="#{_ejecucionSuscriptor.motivoCancelacion}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectejecucionSuscriptor"
+                     value="Select"
+                      view="/EjecucionSuscriptor.xhtml">
+                    <f:param name="ejecucionSuscriptorIdEjecucionSuscriptor"
+                            value="#{_ejecucionSuscriptor.idEjecucionSuscriptor}"/>
+                    <f:param name="ejecucionSuscriptorFrom" value="Modulo"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add ejecucionSuscriptor"
+                view="/EjecucionSuscriptorEdit.xhtml">
+            <f:param name="moduloIdModulo"
+                    value="#{moduloHome.instance.idModulo}"/>
+            <f:param name="ejecucionSuscriptorFrom" value="Modulo"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Planificacion envios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="planificacionEnviosChildren">
+
+        <h:outputText value="There are no planificacionEnvios associated with this modulo."
+                   rendered="#{empty moduloHome.planificacionEnvios}"/>
+
+        <rich:dataTable value="#{moduloHome.planificacionEnvios}"
+                       var="_planificacionEnvio"
+                  rendered="#{not empty moduloHome.planificacionEnvios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="planificacionEnviosTable">
+            <rich:column sortBy="#{_planificacionEnvio.idPlanificacionEnvio}">
+                <f:facet name="header">Id planificacion envio</f:facet>
+                <h:outputText value="#{_planificacionEnvio.idPlanificacionEnvio}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_planificacionEnvio.enviar}">
+                <f:facet name="header">Enviar</f:facet>
+                <h:outputText value="#{_planificacionEnvio.enviar}"/>
+            </rich:column>
+            <rich:column sortBy="#{_planificacionEnvio.orden}">
+                <f:facet name="header">Orden</f:facet>
+                <h:outputText value="#{_planificacionEnvio.orden}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_planificacionEnvio.envioFinal}">
+                <f:facet name="header">Envio final</f:facet>
+                <h:outputText value="#{_planificacionEnvio.envioFinal}"/>
+            </rich:column>
+            <rich:column sortBy="#{_planificacionEnvio.esperarHorasAnterior}">
+                <f:facet name="header">Esperar horas anterior</f:facet>
+                <h:outputText value="#{_planificacionEnvio.esperarHorasAnterior}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectplanificacionEnvio"
+                     value="Select"
+                      view="/PlanificacionEnvio.xhtml">
+                    <f:param name="planificacionEnvioIdPlanificacionEnvio"
+                            value="#{_planificacionEnvio.idPlanificacionEnvio}"/>
+                    <f:param name="planificacionEnvioFrom" value="Modulo"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add planificacionEnvio"
+                view="/PlanificacionEnvioEdit.xhtml">
+            <f:param name="moduloIdModulo"
+                    value="#{moduloHome.instance.idModulo}"/>
+            <f:param name="planificacionEnvioFrom" value="Modulo"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Suscriptor proyectos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="suscriptorProyectosChildren">
+
+        <h:outputText value="There are no suscriptorProyectos associated with this modulo."
+                   rendered="#{empty moduloHome.suscriptorProyectos}"/>
+
+        <rich:dataTable value="#{moduloHome.suscriptorProyectos}"
+                       var="_suscriptorProyecto"
+                  rendered="#{not empty moduloHome.suscriptorProyectos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="suscriptorProyectosTable">
+            <rich:column sortBy="#{_suscriptorProyecto.id.idSuscriptor}">
+                <f:facet name="header">Id suscriptor</f:facet>
+                <h:outputText value="#{_suscriptorProyecto.id.idSuscriptor}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_suscriptorProyecto.id.idProyecto}">
+                <f:facet name="header">Id proyecto</f:facet>
+                <h:outputText value="#{_suscriptorProyecto.id.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_suscriptorProyecto.estadoSuscriptorProyecto}">
+                <f:facet name="header">Estado suscriptor proyecto</f:facet>
+                <h:outputText value="#{_suscriptorProyecto.estadoSuscriptorProyecto}"/>
+            </rich:column>
+            <rich:column sortBy="#{_suscriptorProyecto.estadoSuscriptorModulo}">
+                <f:facet name="header">Estado suscriptor modulo</f:facet>
+                <h:outputText value="#{_suscriptorProyecto.estadoSuscriptorModulo}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectsuscriptorProyecto"
+                     value="Select"
+                      view="/SuscriptorProyecto.xhtml">
+                    <f:param name="suscriptorProyectoIdSuscriptor"
+                            value="#{_suscriptorProyecto.id.idSuscriptor}"/>
+                    <f:param name="suscriptorProyectoIdProyecto"
+                            value="#{_suscriptorProyecto.id.idProyecto}"/>
+                    <f:param name="suscriptorProyectoFrom" value="Modulo"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add suscriptorProyecto"
+                view="/SuscriptorProyectoEdit.xhtml">
+            <f:param name="moduloIdModulo"
+                    value="#{moduloHome.instance.idModulo}"/>
+            <f:param name="suscriptorProyectoFrom" value="Modulo"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Tips</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="tipsChildren">
+
+        <h:outputText value="There are no tips associated with this modulo."
+                   rendered="#{empty moduloHome.tips}"/>
+
+        <rich:dataTable value="#{moduloHome.tips}"
+                       var="_tip"
+                  rendered="#{not empty moduloHome.tips}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="tipsTable">
+            <rich:column sortBy="#{_tip.idTip}">
+                <f:facet name="header">Id tip</f:facet>
+                <h:outputText value="#{_tip.idTip}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_tip.contenido}">
+                <f:facet name="header">Contenido</f:facet>
+                <h:outputText value="#{_tip.contenido}"/>
+            </rich:column>
+            <rich:column sortBy="#{_tip.fechaAlta}">
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_tip.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_tip.usuarioAlta}">
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_tip.usuarioAlta}"/>
+            </rich:column>
+            <rich:column sortBy="#{_tip.fechaModificacion}">
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_tip.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_tip.usuarioModificacion}">
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_tip.usuarioModificacion}"/>
+            </rich:column>
+            <rich:column sortBy="#{_tip.estadoRegistro}">
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_tip.estadoRegistro}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selecttip"
+                     value="Select"
+                      view="/Tip.xhtml">
+                    <f:param name="tipIdTip"
+                            value="#{_tip.idTip}"/>
+                    <f:param name="tipFrom" value="Modulo"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add tip"
+                view="/TipEdit.xhtml">
+            <f:param name="moduloIdModulo"
+                    value="#{moduloHome.instance.idModulo}"/>
+            <f:param name="tipFrom" value="Modulo"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Evaluacions</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="evaluacionsChildren">
+
+        <h:outputText value="There are no evaluacions associated with this modulo."
+                   rendered="#{empty moduloHome.evaluacions}"/>
+
+        <rich:dataTable value="#{moduloHome.evaluacions}"
+                       var="_evaluacion"
+                  rendered="#{not empty moduloHome.evaluacions}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="evaluacionsTable">
+            <rich:column sortBy="#{_evaluacion.idEvaluacion}">
+                <f:facet name="header">Id evaluacion</f:facet>
+                <h:outputText value="#{_evaluacion.idEvaluacion}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_evaluacion.nombre}">
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_evaluacion.nombre}"/>
+            </rich:column>
+            <rich:column sortBy="#{_evaluacion.descripcion}">
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_evaluacion.descripcion}"/>
+            </rich:column>
+            <rich:column sortBy="#{_evaluacion.fechaAlta}">
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_evaluacion.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_evaluacion.usuarioAlta}">
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_evaluacion.usuarioAlta}"/>
+            </rich:column>
+            <rich:column sortBy="#{_evaluacion.fechaModificacion}">
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_evaluacion.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_evaluacion.usuarioModificacion}">
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_evaluacion.usuarioModificacion}"/>
+            </rich:column>
+            <rich:column sortBy="#{_evaluacion.configuracionEnvioModulo}">
+                <f:facet name="header">Configuracion envio modulo</f:facet>
+                <h:outputText value="#{_evaluacion.configuracionEnvioModulo}"/>
+            </rich:column>
+            <rich:column sortBy="#{_evaluacion.estadoRegistro}">
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_evaluacion.estadoRegistro}"/>
+            </rich:column>
+            <rich:column sortBy="#{_evaluacion.estadoEvaluacion}">
+                <f:facet name="header">Estado evaluacion</f:facet>
+                <h:outputText value="#{_evaluacion.estadoEvaluacion}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectevaluacion"
+                     value="Select"
+                      view="/Evaluacion.xhtml">
+                    <f:param name="evaluacionIdEvaluacion"
+                            value="#{_evaluacion.idEvaluacion}"/>
+                    <f:param name="evaluacionFrom" value="Modulo"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add evaluacion"
+                view="/EvaluacionEdit.xhtml">
+            <f:param name="moduloIdModulo"
+                    value="#{moduloHome.instance.idModulo}"/>
+            <f:param name="evaluacionFrom" value="Modulo"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

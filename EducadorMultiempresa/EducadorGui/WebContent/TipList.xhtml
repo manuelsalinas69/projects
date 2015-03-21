@@ -1,0 +1,211 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			#{messages.Tip_menu}
+			</ui:define>
+		</s:decorate>
+
+		
+		<h:form id="tipSearch" styleClass="edit">
+
+			<rich:panel header="Tip Search Filter" >
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Contenido</ui:define>
+					<h:inputText id="contenido" value="#{tipList.tip.contenido}" />
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Usuario alta</ui:define>
+					<h:inputText id="usuarioAlta" value="#{tipList.tip.usuarioAlta}" />
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Usuario modificacion</ui:define>
+					<h:inputText id="usuarioModificacion"
+						value="#{tipList.tip.usuarioModificacion}" />
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Estado registro</ui:define>
+					<h:inputText id="estadoRegistro"
+						value="#{tipList.tip.estadoRegistro}" />
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Match</ui:define>
+					<h:selectOneRadio id="logic"
+						value="#{tipList.restrictionLogicOperator}" styleClass="radio">
+						<f:selectItem itemLabel="All" itemValue="and" />
+				<f:selectItem itemLabel="Any" itemValue="or" />
+					</h:selectOneRadio>
+				</s:decorate>
+
+			</rich:panel>
+
+			<div class="actionButtons">
+				<h:commandButton id="search" value="#{messages.msg_list_search_button}" action="/TipList.xhtml" />
+				<s:button id="reset" value="#{messages.msg_list_search_reset_button}" includePageParams="false" />
+			</div>
+
+		</h:form>
+
+		<rich:panel>
+			<f:facet name="header">Tip Search Results (#{empty tipList.resultList ? 0 : (tipList.paginated ? tipList.resultCount : tipList.resultList.size)})</f:facet>
+			<div class="results" id="tipList">
+
+				<h:outputText value="The tip search returned no results."
+					rendered="#{empty tipList.resultList}" />
+
+				<rich:dataTable id="tipList" var="_tip"
+					value="#{tipList.resultList}"
+					rendered="#{not empty tipList.resultList}">
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{tipList}" />
+								<ui:param name="propertyLabel" value="Id tip" />
+								<ui:param name="propertyPath" value="tip.idTip" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_tip.idTip}">
+							<f:convertNumber />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{tipList}" />
+								<ui:param name="propertyLabel" value="Modulo id modulo" />
+								<ui:param name="propertyPath" value="tip.modulo.idModulo" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_tip.modulo.idModulo}">
+							<f:convertNumber />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{tipList}" />
+								<ui:param name="propertyLabel" value="Contenido" />
+								<ui:param name="propertyPath" value="tip.contenido" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_tip.contenido}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{tipList}" />
+								<ui:param name="propertyLabel" value="Fecha alta" />
+								<ui:param name="propertyPath" value="tip.fechaAlta" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_tip.fechaAlta}">
+							<s:convertDateTime type="date" dateStyle="short" />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{tipList}" />
+								<ui:param name="propertyLabel" value="Usuario alta" />
+								<ui:param name="propertyPath" value="tip.usuarioAlta" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_tip.usuarioAlta}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{tipList}" />
+								<ui:param name="propertyLabel" value="Fecha modificacion" />
+								<ui:param name="propertyPath" value="tip.fechaModificacion" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_tip.fechaModificacion}">
+							<s:convertDateTime type="date" dateStyle="short" />
+						</h:outputText>
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{tipList}" />
+								<ui:param name="propertyLabel" value="Usuario modificacion" />
+								<ui:param name="propertyPath" value="tip.usuarioModificacion" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_tip.usuarioModificacion}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{tipList}" />
+								<ui:param name="propertyLabel" value="Estado registro" />
+								<ui:param name="propertyPath" value="tip.estadoRegistro" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_tip.estadoRegistro}" />
+					</h:column>
+					<rich:column styleClass="action">
+						<f:facet name="header">Action</f:facet>
+						<s:link view="/#{empty from ? 'Tip' : from}.xhtml"
+							value="#{empty from ? 'View' : 'Select'}"
+							propagation="#{empty from ? 'none' : 'default'}" id="tipViewId">
+							<f:param name="tipIdTip" value="#{_tip.idTip}" />
+						</s:link>
+            #{' '}
+            <s:link view="/TipEdit.xhtml" value="Edit"
+							propagation="none" id="tipEdit" rendered="#{empty from}">
+							<f:param name="tipIdTip" value="#{_tip.idTip}" />
+						</s:link>
+					</rich:column>
+				</rich:dataTable>
+
+			</div>
+		</rich:panel>
+
+		<div class="tableControl">
+
+			<s:link view="/TipList.xhtml" rendered="#{tipList.previousExists}"
+				value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}" id="firstPage">
+				<f:param name="firstResult" value="0" />
+			</s:link>
+
+			<s:link view="/TipList.xhtml" rendered="#{tipList.previousExists}"
+				value="#{messages.left} #{messages.msg_list_previous_page}" id="previousPage">
+				<f:param name="firstResult" value="#{tipList.previousFirstResult}" />
+			</s:link>
+
+			<s:link view="/TipList.xhtml" rendered="#{tipList.nextExists}"
+				value="#{messages.msg_list_next_page} #{messages.right}" id="nextPage">
+				<f:param name="firstResult" value="#{tipList.nextFirstResult}" />
+			</s:link>
+
+			<s:link view="/TipList.xhtml" rendered="#{tipList.nextExists}"
+				value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}" id="lastPage">
+				<f:param name="firstResult" value="#{tipList.lastFirstResult}" />
+			</s:link>
+
+		</div>
+
+		<s:div styleClass="actionButtons" rendered="#{empty from}">
+			<s:button view="/TipEdit.xhtml" id="create" propagation="none"
+				value="Create tip">
+				<f:param name="tipIdTip" />
+			</s:button>
+		</s:div>
+
+	</ui:define>
+
+</ui:composition>

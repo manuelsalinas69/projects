@@ -1,0 +1,182 @@
+/*===============================
+		GENERAL
+================================*/
+@charset "utf-8";
+
+@font-face {
+	font-family: "Open Sans";
+	font-style: normal;
+	font-weight: 300;
+	src: url(../css-global/fonts/OpenSans-Light.ttf);
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	color: #808285;
+	font-family: "Open Sans", sans-serif;
+	font-size: 10px;
+}
+
+html,.main {
+	padding: 0;
+	margin: 0;
+}
+
+.clr {
+	clear: both;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	font-size: 0;
+	line-height: 0;
+}
+
+/* =============================
+		LOGIN PAGE
+=================================*/
+#login_bar {
+	margin-top: 180px;
+	background: #406AB6;
+	height: 200px;
+	width: 100%;
+	border-left: 6px solid #2C497D;
+}
+
+#logo_div {
+	float: left;
+	width: 40%;
+	height: 100%;
+}
+
+#logo_div img {
+	margin-top: 42px;
+	margin-left: 180px;
+}
+
+#form_div {
+	float: right;
+	width: 60%;
+	height: 160px;
+	color: #fff;
+	margin: 20px 0px;
+}
+
+.login_page {
+	background: #2E59A6;
+	height: 100%;
+	width: 100%;
+	text-decoration: none;
+	display: block;
+}
+
+.login_button {
+	display: inline;
+	position: relative;
+	height: 30px;
+	width: 100px;
+	margin-right: 40px;
+}
+
+#button_div {
+	padding-top: 20px;
+	padding-left: 200px;
+}
+
+.dialog {
+	padding-top: 10px;
+}
+
+/*========================
+		 BOTONES 
+=========================*/
+input[type=submit],input[type=button],input[type=file] {
+	height: 30px;
+	padding: 0 18px;
+	background: #2E59A6;
+	color: #fff;
+	cursor: pointer;
+	text-decoration: none;
+	font-family: "Open Sans";
+	font-weight: 600;
+	font-size: 14px;
+	border: 1px solid #d8d8d8;
+	/*-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	*/
+}
+
+input[type=submit]:hover,input[type=button]:hover,input[type=file]:hover
+	{
+	background: #406AB6;
+}
+
+input[type=submit]:active,input[type=button]:active,input[type=file]:active
+	{
+	background: #236bb0;
+}
+
+/*====================
+		LABEL
+======================*/
+.name {
+	vertical-align: top;
+	font-weight: 300;
+	width: 110px;
+	float: left;
+	padding: 7px 5px 2px 10px;
+	margin-top: 10px;
+	clear: left;
+	font-family: "Open Sans";
+	font-size: 16px;
+}
+
+/*====================
+		TEXT
+======================*/
+input[type=text],input[type=password],textarea {
+	font-family: "Open Sans";
+	font-size: 16px;
+	border: 1px solid #4C85ED;
+	padding: 2px 7px;
+	outline: 0;
+	-webkit-appearance: none;
+	margin-top: 12px;
+}
+
+input[type=text]:focus,input[type=password]:focus,textarea:focus {
+	border: 1px solid #528FFF;
+}
+
+.loginfooter {
+	font-size: 12px;
+	color: #fff;
+	position: absolute;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	padding: 5px 0;
+}
+
+
+a{
+	text-decoration: none;
+	color: #fff;	
+}
+
+a:hover, a:ACTIVE, a:AFTER{
+	color: #DE620B;
+	
+}
+
+a:hover {
+	text-shadow: 0 0 10px #EAF0F8, 0 0 20px #EAF0F8, 0 0 30px #EAF0F8, 0 0
+		40px #EAF0F8, 0 0 70px #EAF0F8, 0 0 80px #EAF0F8, 0 0 100px #EAF0F8, 0
+		0 150px #EAF0F8;
+}

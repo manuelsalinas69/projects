@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd"
+      login-required="true">
+   <restrict>#{usuario.rolAdminProyectos}</restrict>
+   
+   <param name="firstResult" value="#{proyectoList.firstResult}"/>
+   <param name="sort" value="#{proyectoList.orderColumn}"/>
+   <param name="dir" value="#{proyectoList.orderDirection}"/>
+   <param name="logic" value="#{proyectoList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="nombre" value="#{proyectoList.proyecto.nombre}"/>
+   <param name="descripcion" value="#{proyectoList.proyecto.descripcion}"/>
+   <param name="objetivos" value="#{proyectoList.proyecto.objetivos}"/>
+   <param name="usuarioAlta" value="#{proyectoList.proyecto.usuarioAlta}"/>
+   <param name="usuarioModificacion" value="#{proyectoList.proyecto.usuarioModificacion}"/>
+   <param name="estadoProyecto" value="#{proyectoList.proyecto.estadoProyecto}"/>
+   <param name="estadoRegistro" value="#{proyectoList.proyecto.estadoRegistro}"/>
+   <param name="numeroCorto" value="#{proyectoList.proyecto.numeroCorto}"/>
+
+</page>

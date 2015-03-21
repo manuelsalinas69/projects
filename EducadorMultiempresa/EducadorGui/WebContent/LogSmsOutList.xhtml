@@ -1,0 +1,251 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+	<s:decorate template="/layout/title.xhtml">
+		<ui:define name="label">
+			#{messages.ConsultasMensajeSalida_menu}
+		</ui:define>
+	</s:decorate>
+    <h:form id="logSmsOutSearch" styleClass="edit">
+
+        <rich:collapsiblePanel header="#{messages.msg_list_search_filter}" switchType="client">
+
+            
+            <h:panelGrid columns="3">
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">N&uacute;mero de destino</ui:define>
+					<h:inputText id="numeroDestino" value="#{logSmsOutList.logSmsOut.numeroDestino}"/>
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">N&uacute;mero de origen</ui:define>
+					<h:inputText id="numeroOrigen" value="#{logSmsOutList.logSmsOut.numeroOrigen}"/>
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Mensaje</ui:define>
+					<h:inputText id="mensaje" value="#{logSmsOutList.logSmsOut.mensaje}"/>
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Estado</ui:define>
+					<h:selectOneMenu id="estado" value="#{logSmsOutList.logSmsOut.estado}">
+						<f:selectItems value="#{enumAppHelper.enumsValueItems('EstadoEnvio','name',true)}"/>
+					</h:selectOneMenu>
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Respuesta del SMSC</ui:define>
+					<h:inputText id="respuestaSmsc" value="#{logSmsOutList.logSmsOut.respuestaSmsc}"/>
+				</s:decorate>
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+            	<rich:panel style="border:0px;">
+            	<fieldset>
+					<legend>Fecha de petici&oacute;n de env&iacute;o</legend>
+            		<h:panelGrid>
+            			<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">#{messages.GENERICO_FECHA_DESDE}</ui:define>
+							<rich:calendar id="fechaPeticionEnvioDesde" value="#{logSmsOutList.fechaPeticionEnvioDesde}" datePattern="dd/MM/yyyy">
+								<s:convertDateTime/>
+							</rich:calendar>
+						</s:decorate>
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">#{messages.GENERICO_FECHA_HASTA}</ui:define>
+							<rich:calendar id="fechaPeticionEnvioHasta" value="#{logSmsOutList.fechaPeticionEnvioHasta}" datePattern="dd/MM/yyyy">
+								<s:convertDateTime/>
+							</rich:calendar>
+						</s:decorate>
+            		</h:panelGrid>
+            		</fieldset>
+            	</rich:panel>
+            	<rich:panel style="border:0px;">
+            	<fieldset>
+					<legend>Fecha de env&iacute;o</legend>
+            		<h:panelGrid>
+            			<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">#{messages.GENERICO_FECHA_DESDE}</ui:define>
+							<rich:calendar id="fechaEnvioDesde" value="#{logSmsOutList.fechaEnvioDesde}" datePattern="dd/MM/yyyy">
+								<s:convertDateTime/>
+							</rich:calendar>
+						</s:decorate>
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">#{messages.GENERICO_FECHA_HASTA}</ui:define>
+							<rich:calendar id="fechaEnvioHasta" value="#{logSmsOutList.fechaEnvioHasta}" datePattern="dd/MM/yyyy">
+								<s:convertDateTime/>
+							</rich:calendar>
+						</s:decorate>
+            		</h:panelGrid>
+            		</fieldset> 
+            	</rich:panel>
+            </h:panelGrid>
+
+           
+
+        </rich:collapsiblePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="#{messages.msg_list_search_button}" action="/LogSmsOutList.xhtml"/>
+            <s:button id="reset" value="#{messages.msg_list_search_reset_button}" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">#{messages.msg_list_search_results} (#{empty logSmsOutList.resultList ? 0 : (logSmsOutList.paginated ? logSmsOutList.resultCount : logSmsOutList.resultList.size)})</f:facet>
+  <s:div>
+   		<h:form>
+				<h:commandButton id="export" propagation="none"
+									action="#{dynamicEntityReportHelper.excelReport('logSmsOut',logSmsOutList)}"
+									value="#{messages.DynamicEntityReport_excel}" />
+							</h:form>
+   </s:div>
+    <div class="results" id="logSmsOutList">
+
+    <h:outputText value="#{messages.msg_list_search_no_results}."
+               rendered="#{empty logSmsOutList.resultList}"/>
+
+    <rich:dataTable id="logSmsOutList"
+                var="_logSmsOut"
+              value="#{logSmsOutList.resultList}"
+           rendered="#{not empty logSmsOutList.resultList}">
+        <h:column rendered="false">
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logSmsOutList}"/>
+                    <ui:param name="propertyLabel" value="Id log sms out"/>
+                    <ui:param name="propertyPath" value="logSmsOut.idLogSmsOut"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logSmsOut.idLogSmsOut}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <rich:column styleClass="center">
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logSmsOutList}"/>
+                    <ui:param name="propertyLabel" value="N&uacute;mero de destino"/>
+                    <ui:param name="propertyPath" value="logSmsOut.numeroDestino"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logSmsOut.numeroDestino}"/>
+        </rich:column>
+        <rich:column  styleClass="center">
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logSmsOutList}"/>
+                    <ui:param name="propertyLabel" value="N&uacute;mero de origen"/>
+                    <ui:param name="propertyPath" value="logSmsOut.numeroOrigen"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logSmsOut.numeroOrigen}"/>
+        </rich:column>
+        <rich:column styleClass="left">
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logSmsOutList}"/>
+                    <ui:param name="propertyLabel" value="Mensaje"/>
+                    <ui:param name="propertyPath" value="logSmsOut.mensaje"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logSmsOut.mensaje}"/>
+        </rich:column>
+        <rich:column styleClass="center">
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logSmsOutList}"/>
+                    <ui:param name="propertyLabel" value="Fecha de petici&oacute;n de env&iacute;o"/>
+                    <ui:param name="propertyPath" value="logSmsOut.fechaPeticionEnvio"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logSmsOut.fechaPeticionEnvio}">
+                <s:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+            </h:outputText>
+        </rich:column>
+        <rich:column styleClass="center">
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logSmsOutList}"/>
+                    <ui:param name="propertyLabel" value="Estado"/>
+                    <ui:param name="propertyPath" value="logSmsOut.estado"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logSmsOut.estado}"/>
+        </rich:column>
+        <rich:column styleClass="left">
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logSmsOutList}"/>
+                    <ui:param name="propertyLabel" value="Respuesta del SMSC"/>
+                    <ui:param name="propertyPath" value="logSmsOut.respuestaSmsc"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logSmsOut.respuestaSmsc}"/>
+        </rich:column>
+        <rich:column styleClass="center">
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logSmsOutList}"/>
+                    <ui:param name="propertyLabel" value="Fecha de env&iacute;o"/>
+                    <ui:param name="propertyPath" value="logSmsOut.fechaEnvio"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logSmsOut.fechaEnvio}">
+                <s:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"/>
+            </h:outputText>
+        </rich:column>
+       
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/LogSmsOutList.xhtml"
+            rendered="#{logSmsOutList.previousExists}"
+               value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/LogSmsOutList.xhtml"
+            rendered="#{logSmsOutList.previousExists}"
+               value="#{messages.left} #{messages.msg_list_previous_page}"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{logSmsOutList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/LogSmsOutList.xhtml"
+            rendered="#{logSmsOutList.nextExists}"
+               value="#{messages.msg_list_next_page} #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{logSmsOutList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/LogSmsOutList.xhtml"
+            rendered="#{logSmsOutList.nextExists}"
+               value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{logSmsOutList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    
+
+</ui:define>
+
+</ui:composition>

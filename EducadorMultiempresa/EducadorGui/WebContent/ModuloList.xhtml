@@ -1,0 +1,277 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<h:form id="moduloSearch" styleClass="edit">
+			<s:decorate template="/layout/title.xhtml">
+				<ui:define name="label">
+				M&oacute;dulos
+			</ui:define>
+			</s:decorate>
+			<rich:collapsiblePanel header="#{messages.msg_list_search_filter}"
+				switchType="client">
+
+				<h:panelGrid columns="3">
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Proyecto</ui:define>
+						<h:selectOneMenu id="idProyecto" value="#{moduloList.idProyecto}">
+							<f:selectItems value="#{proyectoSelectItems}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Nombre</ui:define>
+						<h:inputText id="nombre" value="#{moduloList.modulo.nombre}" />
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Estado del m&oacute;dulo</ui:define>
+						<h:selectOneMenu id="estadoModulo"
+							value="#{moduloList.modulo.estadoModulo}">
+							<f:selectItems
+								value="#{enumAppHelper.enumsValueItems('EstadoModulo','name',true)}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+
+
+
+
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<rich:panel style="border:0px;">
+						<fieldset>
+							<legend>Fecha de inicio</legend>
+							<h:panelGrid>
+								<s:decorate template="/layout/display.xhtml">
+									<ui:define name="label">
+            					#{messages.GENERICO_FECHA_DESDE}
+            				</ui:define>
+									<rich:calendar id="fechaInicioDesde"
+										value="#{moduloList.fechaInicioDesde}"
+										datePattern="dd/MM/yyyy">
+										<s:convertDateTime pattern="dd/MM/yyyy" />
+									</rich:calendar>
+								</s:decorate>
+								<s:decorate template="/layout/display.xhtml">
+									<ui:define name="label">
+            					#{messages.GENERICO_FECHA_HASTA}
+            				</ui:define>
+									<rich:calendar id="fechaInicioHasta"
+										value="#{moduloList.fechaInicioHasta}"
+										datePattern="dd/MM/yyyy">
+										<s:convertDateTime pattern="dd/MM/yyyy" />
+									</rich:calendar>
+								</s:decorate>
+							</h:panelGrid>
+						</fieldset>
+					</rich:panel>
+					<rich:panel style="border:0px;">
+						<fieldset>
+							<legend>Fecha de fin</legend>
+							<h:panelGrid>
+								<s:decorate template="/layout/display.xhtml">
+									<ui:define name="label">
+            					#{messages.GENERICO_FECHA_DESDE}
+            				</ui:define>
+									<rich:calendar id="fechaFinDesde"
+										value="#{moduloList.fechaFinDesde}" datePattern="dd/MM/yyyy">
+										<s:convertDateTime pattern="dd/MM/yyyy" />
+									</rich:calendar>
+								</s:decorate>
+								<s:decorate template="/layout/display.xhtml">
+									<ui:define name="label">
+            					#{messages.GENERICO_FECHA_HASTA}
+            				</ui:define>
+									<rich:calendar id="fechaFinHasta"
+										value="#{moduloList.fechaFinHasta}" datePattern="dd/MM/yyyy">
+										<s:convertDateTime pattern="dd/MM/yyyy" />
+									</rich:calendar>
+								</s:decorate>
+							</h:panelGrid>
+						</fieldset>
+					</rich:panel>
+				</h:panelGrid>
+			</rich:collapsiblePanel>
+
+			<div class="actionButtons">
+				<h:commandButton id="search"
+					value="#{messages.msg_list_search_button}"
+					action="/ModuloList.xhtml" />
+				<s:button id="reset"
+					value="#{messages.msg_list_search_reset_button}"
+					includePageParams="false" />
+			</div>
+
+		</h:form>
+
+		<rich:panel>
+			<f:facet name="header">#{messages.msg_list_search_results} (#{empty moduloList.resultList ? 0 : (moduloList.paginated ? moduloList.resultCount : moduloList.resultList.size)})</f:facet>
+
+			<s:div styleClass="actionButtons" rendered="#{empty from}">
+				<h:panelGrid columns="2">
+					<s:button view="/ModuloEdit.xhtml" id="create" propagation="none"
+						value="#{messages.msg_add_male}">
+						<f:param name="moduloIdModulo" />
+					</s:button>
+					<h:form>
+						<h:commandButton id="export" propagation="none"
+							action="#{dynamicEntityReportHelper.excelReport('modulo',moduloList)}"
+							value="#{messages.DynamicEntityReport_excel}" />
+					</h:form>
+				</h:panelGrid>
+			</s:div>
+			<div class="results" id="moduloList">
+
+				<h:outputText value="#{messages.msg_list_search_no_results}."
+					rendered="#{empty moduloList.resultList}" />
+
+				<rich:dataTable id="moduloList" var="_modulo"
+					value="#{moduloList.resultList}"
+					rendered="#{not empty moduloList.resultList}">
+
+					<rich:column styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{moduloList}" />
+								<ui:param name="propertyLabel" value="Proyecto" />
+								<ui:param name="propertyPath" value="modulo.proyecto.nombre" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_modulo.proyecto.nombre}">
+							<f:convertNumber />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{moduloList}" />
+								<ui:param name="propertyLabel" value="Nombre" />
+								<ui:param name="propertyPath" value="modulo.nombre" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_modulo.nombre}" />
+					</rich:column>
+					<rich:column styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{moduloList}" />
+								<ui:param name="propertyLabel" value="Descripci&oacute;n" />
+								<ui:param name="propertyPath" value="modulo.descripcion" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_modulo.descripcion}" />
+					</rich:column>
+					<rich:column rendered="false">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{moduloList}" />
+								<ui:param name="propertyLabel" value="Objetivos" />
+								<ui:param name="propertyPath" value="modulo.objetivos" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_modulo.objetivos}" />
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{moduloList}" />
+								<ui:param name="propertyLabel" value="Fecha de inicio" />
+								<ui:param name="propertyPath" value="modulo.fechaInicio" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_modulo.fechaInicio}">
+							<s:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{moduloList}" />
+								<ui:param name="propertyLabel" value="Fecha de fin" />
+								<ui:param name="propertyPath" value="modulo.fechaFin" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_modulo.fechaFin}">
+							<s:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+						</h:outputText>
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{moduloList}" />
+								<ui:param name="propertyLabel" value="Estado del m&oacute;dulo" />
+								<ui:param name="propertyPath" value="modulo.estadoModulo" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_modulo.estadoModulo}" />
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{moduloList}" />
+								<ui:param name="propertyLabel" value="Estado del registro" />
+								<ui:param name="propertyPath" value="modulo.estadoRegistro" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_modulo.estadoRegistro}" />
+					</rich:column>
+
+					<rich:column styleClass="action">
+						<f:facet name="header">#{messages.msg_list_action_column}</f:facet>
+
+						<s:link view="/ModuloEdit.xhtml" value="#{messages.msg_edit}"
+							propagation="none" id="moduloEdit" rendered="#{empty from}">
+							<f:param name="moduloIdModulo" value="#{_modulo.idModulo}" />
+						</s:link>
+					</rich:column>
+				</rich:dataTable>
+
+			</div>
+		</rich:panel>
+
+		<div class="tableControl">
+
+			<s:link view="/ModuloList.xhtml"
+				rendered="#{moduloList.previousExists}"
+				value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+				id="firstPage">
+				<f:param name="firstResult" value="0" />
+			</s:link>
+
+			<s:link view="/ModuloList.xhtml"
+				rendered="#{moduloList.previousExists}"
+				value="#{messages.left} #{messages.msg_list_previous_page}"
+				id="previousPage">
+				<f:param name="firstResult"
+					value="#{moduloList.previousFirstResult}" />
+			</s:link>
+
+			<s:link view="/ModuloList.xhtml" rendered="#{moduloList.nextExists}"
+				value="#{messages.msg_list_next_page} #{messages.right}"
+				id="nextPage">
+				<f:param name="firstResult" value="#{moduloList.nextFirstResult}" />
+			</s:link>
+
+			<s:link view="/ModuloList.xhtml" rendered="#{moduloList.nextExists}"
+				value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+				id="lastPage">
+				<f:param name="firstResult" value="#{moduloList.lastFirstResult}" />
+			</s:link>
+
+		</div>
+
+
+
+	</ui:define>
+
+</ui:composition>

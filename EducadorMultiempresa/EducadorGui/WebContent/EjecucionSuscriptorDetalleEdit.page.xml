@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd"
+      no-conversation-view-id="/EjecucionSuscriptorDetalleList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{ejecucionSuscriptorDetalleHome.wire}"/>
+
+   <param name="ejecucionSuscriptorDetalleFrom"/>
+   <param name="ejecucionSuscriptorDetalleIdEjecucionDetalle" value="#{ejecucionSuscriptorDetalleHome.ejecucionSuscriptorDetalleIdEjecucionDetalle}"/>
+   <param name="evaluacionFrom"/>
+   <param name="evaluacionIdEvaluacion" value="#{evaluacionHome.evaluacionIdEvaluacion}"/>
+   <param name="moduloFrom"/>
+   <param name="moduloIdModulo" value="#{moduloHome.moduloIdModulo}"/>
+   <param name="proyectoFrom"/>
+   <param name="proyectoIdProyecto" value="#{proyectoHome.proyectoIdProyecto}"/>
+
+
+
+   <param name="tipFrom"/>
+   <param name="tipIdTip" value="#{tipHome.tipIdTip}"/>
+
+   <param name="ejecucionSuscriptorFrom"/>
+   <param name="ejecucionSuscriptorIdEjecucionSuscriptor" value="#{ejecucionSuscriptorHome.ejecucionSuscriptorIdEjecucionSuscriptor}"/>
+   <param name="suscriptorFrom"/>
+   <param name="suscriptorIdSuscriptor" value="#{suscriptorHome.suscriptorIdSuscriptor}"/>
+
+
+
+
+   <navigation from-action="#{ejecucionSuscriptorDetalleHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/EjecucionSuscriptorDetalle.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{ejecucionSuscriptorDetalleHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/EjecucionSuscriptorDetalle.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{ejecucionSuscriptorDetalleHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/EjecucionSuscriptorDetalleList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

@@ -1,0 +1,202 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="respuesta" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{respuestaHome.managed ? 'Edit' : 'Add'} Respuesta</f:facet>
+
+
+            <s:decorate id="idRespuestaField" template="layout/edit.xhtml">
+                <ui:define name="label">Id respuesta</ui:define>
+                <h:inputText id="idRespuesta"
+                       required="true"
+                          value="#{respuestaHome.instance.idRespuesta}"
+                           size="29">
+                    <a:ajax event="blur" render="idRespuestaField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="contenidoRespuestaField" template="layout/edit.xhtml">
+                <ui:define name="label">Contenido respuesta</ui:define>
+                <h:inputTextarea id="contenidoRespuesta"
+                               cols="80"
+                               rows="2"
+                              value="#{respuestaHome.instance.contenidoRespuesta}"/>
+            </s:decorate>
+
+
+            <s:decorate id="ordenRespuestaField" template="layout/edit.xhtml">
+                <ui:define name="label">Orden respuesta</ui:define>
+                <h:inputText id="ordenRespuesta"
+                           size="30"
+                      maxlength="30"
+                          value="#{respuestaHome.instance.ordenRespuesta}">
+                    <a:ajax event="blur" render="ordenRespuestaField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="esRespuestaCorrectaField" template="layout/edit.xhtml">
+                <ui:define name="label">Es respuesta correcta</ui:define>
+                <h:selectBooleanCheckbox id="esRespuestaCorrecta"
+                                      value="#{respuestaHome.instance.esRespuestaCorrecta}"/>
+            </s:decorate>
+
+
+            <s:decorate id="estadoRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Estado registro</ui:define>
+                <h:inputText id="estadoRegistro"
+                           size="30"
+                      maxlength="30"
+                          value="#{respuestaHome.instance.estadoRegistro}">
+                    <a:ajax event="blur" render="estadoRegistroField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="valorEsperadoField" template="layout/edit.xhtml">
+                <ui:define name="label">Valor esperado</ui:define>
+                <h:inputText id="valorEsperado"
+                           size="100"
+                      maxlength="160"
+                          value="#{respuestaHome.instance.valorEsperado}">
+                    <a:ajax event="blur" render="valorEsperadoField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{respuestaHome.persist}"
+                       disabled="#{!respuestaHome.wired}"
+                       rendered="#{!respuestaHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{respuestaHome.update}"
+                       rendered="#{respuestaHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{respuestaHome.remove}"
+                      immediate="true"
+                       rendered="#{respuestaHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Respuesta.xhtml"
+                rendered="#{respuestaHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty respuestaFrom ? 'RespuestaList' : respuestaFrom}.xhtml"
+                rendered="#{!respuestaHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="client">
+
+    <rich:tab header="Pregunta">
+    <div class="association" id="preguntaParent">
+
+        <h:outputText value="There is no pregunta associated with this respuesta."
+                   rendered="#{respuestaHome.instance.pregunta == null}"/>
+
+        <rich:dataTable var="_pregunta"
+                   value="#{respuestaHome.instance.pregunta}"
+                rendered="#{respuestaHome.instance.pregunta != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="preguntaTable">
+            <h:column>
+                <f:facet name="header">Id pregunta</f:facet>
+                <h:outputText value="#{_pregunta.idPregunta}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Evaluacion id evaluacion</f:facet>
+                <h:outputText value="#{_pregunta.evaluacion.idEvaluacion}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido pregunta</f:facet>
+                <h:outputText value="#{_pregunta.contenidoPregunta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Orden pregunta</f:facet>
+                <h:outputText value="#{_pregunta.ordenPregunta}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_pregunta.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_pregunta.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_pregunta.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_pregunta.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_pregunta.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Pregunta final</f:facet>
+                <h:outputText value="#{_pregunta.preguntaFinal}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{respuestaHome.instance.pregunta != null ? 'changeParent' : 'selectParent'}" value="#{respuestaHome.instance.pregunta != null ? 'Change' : 'Select'} pregunta"
+                       view="/PreguntaList.xhtml">
+                <f:param name="from" value="RespuestaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

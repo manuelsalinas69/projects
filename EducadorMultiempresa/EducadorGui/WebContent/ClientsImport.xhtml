@@ -1,0 +1,59 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+				Operaci&oacute;n sobre suscriptores
+			</ui:define>
+		</s:decorate>
+
+		<h:form>
+			<rich:panel id="pnlMain" style="border:0px;">
+				<h:panelGrid>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">
+							Proyecto
+						</ui:define>
+						<h:selectOneMenu value="#{subscriberImporterManager.idProyecto}">
+							<f:selectItems value="#{proyectoSelectItems}" />
+							<a:ajax event="change" execute="@this" />
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">
+							Operaci&oacute;n
+						</ui:define>
+						<h:selectOneMenu value="#{subscriberImporterManager.operacion}">
+							<f:selectItems value="#{enumAppHelper.enumsValueItems('TipoOperacionSuscripcion','name',true)}" />
+							<a:ajax event="change" execute="@this" />
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<rich:fileUpload fileUploadListener="#{subscriberImporterManager.fileUploadListener}" acceptedTypes="xls, xlsx"
+						listHeight="50" maxFilesQuantity="1" uploadLabel="Subir Archivo" addLabel="Agregar archivo" clearAllLabel="Borrar todo" clearLabel="Borrar"
+						ontyperejected="alert('Solamente se aceptan archivos de Excel (.xls, .xlsx)');" >
+              					 
+					</rich:fileUpload>
+					
+					<a:outputPanel ajaxRendered="true">
+						<a:commandButton value="Procesar archivo subido" action="#{subscriberImporterManager.processFile()}"
+							rendered="#{subscriberImporterManager.fileDefined}"
+						/>
+					
+					</a:outputPanel>
+
+				</h:panelGrid>
+			</rich:panel>
+		</h:form>
+	</ui:define>
+
+</ui:composition>

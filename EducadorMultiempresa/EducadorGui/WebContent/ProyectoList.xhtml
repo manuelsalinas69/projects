@@ -1,0 +1,165 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			#{messages.Proyecto_header}
+		</ui:define>
+		</s:decorate>
+
+
+		<h:form id="proyectoSearch" styleClass="edit">
+
+			<rich:collapsiblePanel header="#{messages.msg_list_search_filter}"
+				switchType="client">
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Nombre</ui:define>
+						<h:inputText id="nombre" value="#{proyectoList.proyecto.nombre}" />
+					</s:decorate>
+
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">N&uacute;mero corto</ui:define>
+						<h:inputText id="numeroCorto"
+							value="#{proyectoList.proyecto.numeroCorto}" />
+					</s:decorate>
+				</h:panelGrid>
+			</rich:collapsiblePanel>
+
+			<div class="actionButtons">
+				<h:commandButton id="search"
+					value="#{messages.msg_list_search_button}"
+					action="/ProyectoList.xhtml" />
+				<s:button id="reset"
+					value="#{messages.msg_list_search_reset_button}"
+					includePageParams="false" />
+			</div>
+
+		</h:form>
+
+		<rich:panel>
+			<f:facet name="header">#{messages.msg_list_search_results} (#{empty proyectoList.resultList ? 0 : (proyectoList.paginated ? proyectoList.resultCount : proyectoList.resultList.size)})</f:facet>
+			<s:div styleClass="actionButtons" rendered="#{empty from}">
+				<s:button view="/ProyectoEdit.xhtml" id="create" propagation="none"
+					value="#{messages.msg_add_male}">
+					<f:param name="proyectoIdProyecto" />
+				</s:button>
+			</s:div>
+
+			<div class="results" id="proyectoList">
+
+				<h:outputText value="#{messages.msg_list_search_no_results}"
+					rendered="#{empty proyectoList.resultList}" />
+
+				<rich:dataTable id="proyectoList" var="_proyecto"
+					value="#{proyectoList.resultList}"
+					rendered="#{not empty proyectoList.resultList}">
+					<rich:column styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{proyectoList}" />
+								<ui:param name="propertyLabel" value="Nombre" />
+								<ui:param name="propertyPath" value="proyecto.nombre" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_proyecto.nombre}" />
+					</rich:column>
+
+
+					<rich:column styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{proyectoList}" />
+								<ui:param name="propertyLabel" value="Descripci&oacute;n" />
+								<ui:param name="propertyPath" value="proyecto.fechaInicio" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_proyecto.descripcion}" />
+
+					</rich:column>
+
+
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{proyectoList}" />
+								<ui:param name="propertyLabel"
+									value="#{messages.GENERICO_ESTADO}" />
+								<ui:param name="propertyPath" value="proyecto.estadoProyecto" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_proyecto.estadoProyecto}" />
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{proyectoList}" />
+								<ui:param name="propertyLabel" value="N&uacute;mero corto" />
+								<ui:param name="propertyPath" value="proyecto.numeroCorto" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_proyecto.numeroCorto}" />
+					</rich:column>
+
+					<rich:column styleClass="action">
+						<f:facet name="header">Acci&oacute;n</f:facet>
+
+						<s:link view="/ProyectoEdit.xhtml" value="#{messages.msg_edit}"
+							propagation="none" id="proyectoEdit" rendered="#{empty from}">
+							<f:param name="proyectoIdProyecto"
+								value="#{_proyecto.idProyecto}" />
+						</s:link>
+					</rich:column>
+
+				</rich:dataTable>
+
+			</div>
+		</rich:panel>
+
+		<div class="tableControl">
+
+			<s:link view="/ProyectoList.xhtml"
+				rendered="#{proyectoList.previousExists}"
+				value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+				id="firstPage">
+				<f:param name="firstResult" value="0" />
+			</s:link>
+
+			<s:link view="/ProyectoList.xhtml"
+				rendered="#{proyectoList.previousExists}"
+				value="#{messages.left} #{messages.msg_list_previous_page}"
+				id="previousPage">
+				<f:param name="firstResult"
+					value="#{proyectoList.previousFirstResult}" />
+			</s:link>
+
+			<s:link view="/ProyectoList.xhtml"
+				rendered="#{proyectoList.nextExists}"
+				value="#{messages.msg_list_next_page} #{messages.right}"
+				id="nextPage">
+				<f:param name="firstResult" value="#{proyectoList.nextFirstResult}" />
+			</s:link>
+
+			<s:link view="/ProyectoList.xhtml"
+				rendered="#{proyectoList.nextExists}"
+				value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+				id="lastPage">
+				<f:param name="firstResult" value="#{proyectoList.lastFirstResult}" />
+			</s:link>
+
+		</div>
+
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,143 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			#{usuarioHome.managed ? 'Editar' : 'Agregar'}  - Usuario
+		</ui:define>
+		</s:decorate>
+		<h:form id="usuarioForm" styleClass="edit">
+
+
+
+
+			<rich:tabPanel switchType="client">
+				<rich:tab header="Datos del usuario">
+					<h:panelGrid>
+						<s:decorate id="usuarioField" template="layout/edit2.xhtml">
+							<ui:define name="label">Usuario</ui:define>
+							<h:inputText id="usuario" disabled="#{usuarioHome.managed}"
+								required="true" size="30" maxlength="30"
+								value="#{usuarioHome.instance.usuario}">
+								<a:ajax event="blur" render="usuarioField" bypassUpdates="true" />
+							</h:inputText>
+						</s:decorate>
+
+						<s:decorate id="nombreField" template="layout/edit2.xhtml">
+							<ui:define name="label">Nombre y apellido</ui:define>
+							<h:inputText id="nombre" required="true" size="50"
+								value="#{usuarioHome.instance.nombre}" />
+						</s:decorate>
+
+
+
+
+
+
+
+						<s:decorate id="estadoField" template="layout/edit2.xhtml">
+							<ui:define name="label">Estado</ui:define>
+							<h:selectOneMenu id="estado" required="true"
+								value="#{usuarioHome.instance.estado}">
+								<f:selectItems
+									value="#{selectItemsHelper.estadosRegistroSelectItems()}" />
+								<a:ajax event="blur" render="estadoField" bypassUpdates="true" />
+							</h:selectOneMenu>
+						</s:decorate>
+
+
+
+					</h:panelGrid>
+				</rich:tab>
+
+				<rich:tab header="Roles del usuario">
+					<h:panelGrid>
+
+						<h:panelGrid>
+							<s:decorate id="rolAdminSistemaField"
+								template="layout/edit2.xhtml">
+								<ui:define name="label">Administraci&oacute;n de sistema</ui:define>
+								<h:selectBooleanCheckbox id="rolAdminSistema"
+									value="#{usuarioHome.instance.rolAdminSistema}" />
+							</s:decorate>
+
+							<s:decorate id="rolAdminProyectosField"
+								template="layout/edit2.xhtml">
+								<ui:define name="label">Administraci&oacute;n de proyectos</ui:define>
+								<h:selectBooleanCheckbox id="rolAdminProyectos"
+									value="#{usuarioHome.instance.rolAdminProyectos}" />
+							</s:decorate>
+
+							<s:decorate id="rolConsultasField" template="layout/edit2.xhtml">
+								<ui:define name="label">Consultas</ui:define>
+								<h:selectBooleanCheckbox id="rolConsultas"
+									value="#{usuarioHome.instance.rolConsultas}" />
+							</s:decorate>
+						</h:panelGrid>
+					</h:panelGrid>
+				</rich:tab>
+			</rich:tabPanel>
+
+
+
+
+
+
+
+
+
+			<div style="clear: both; margin-top: 10px; margin-bottom: 10px;">
+				<span class="required">*</span> #{messages.msg_required_fields}
+			</div>
+
+
+
+			<div class="actionButtons">
+
+				<h:commandButton id="save" value="#{messages.msg_save}"
+					onclick="return confirm('#{messages.MSG_CONFIRM_SAVE}');"
+					action="#{usuarioHome.persist}" disabled="#{!usuarioHome.wired}"
+					rendered="#{!usuarioHome.managed}">
+					<s:conversationId />
+				</h:commandButton>
+
+				<h:commandButton id="update" value="#{messages.msg_update}"
+					onclick="return confirm('#{messages.MSG_CONFIRM_UPDATE}');"
+					action="#{usuarioHome.update}" rendered="#{usuarioHome.managed}">
+					<s:conversationId />
+				</h:commandButton>
+
+				<h:commandButton id="delete" value="#{messages.msg_delete}"
+					action="#{usuarioHome.remove}" immediate="true"
+					onclick="return confirm('#{messages.MSG_CONFIRM_DELETE}');"
+					rendered="#{usuarioHome.managed}" />
+
+				<h:commandButton id="reset" value="Resetear contrase&ntilde;a"
+					action="#{usuarioHome.resetPass()}" immediate="true"
+					onclick="return confirm('#{messages.MSG_RESET_PASS}');"
+					rendered="#{usuarioHome.managed}" />
+
+				<s:button id="cancelEdit" value="#{messages.msg_cancel}"
+					propagation="end" view="/UsuarioList.xhtml"
+					rendered="#{usuarioHome.managed}" />
+
+				<s:button id="cancelAdd" value="#{messages.msg_cancel}"
+					propagation="end"
+					view="/#{empty usuarioFrom ? 'UsuarioList' : usuarioFrom}.xhtml"
+					rendered="#{!usuarioHome.managed}" />
+
+			</div>
+
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>

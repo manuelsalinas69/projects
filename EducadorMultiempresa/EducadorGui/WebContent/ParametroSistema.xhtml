@@ -1,0 +1,55 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Parametro sistema Details</f:facet>
+
+        <s:decorate id="parametro" template="layout/display.xhtml">
+            <ui:define name="label">Parametro</ui:define>
+            <h:outputText value="#{parametroSistemaHome.instance.id.parametro}"/>
+        </s:decorate>
+        <s:decorate id="valor" template="layout/display.xhtml">
+            <ui:define name="label">Valor</ui:define>
+            <h:outputText value="#{parametroSistemaHome.instance.id.valor}"/>
+        </s:decorate>
+        <s:decorate id="descripcion" template="layout/display.xhtml">
+            <ui:define name="label">Descripcion</ui:define>
+            <h:outputText value="#{parametroSistemaHome.instance.id.descripcion}"/>
+        </s:decorate>
+        <s:decorate id="editable" template="layout/display.xhtml">
+            <ui:define name="label">Editable</ui:define>
+            <h:outputText value="#{parametroSistemaHome.instance.id.editable}"/>
+        </s:decorate>
+        <s:decorate id="visible" template="layout/display.xhtml">
+            <ui:define name="label">Visible</ui:define>
+            <h:outputText value="#{parametroSistemaHome.instance.id.visible}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ParametroSistemaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty parametroSistemaFrom ? 'ParametroSistemaList' : parametroSistemaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+</ui:define>
+
+</ui:composition>

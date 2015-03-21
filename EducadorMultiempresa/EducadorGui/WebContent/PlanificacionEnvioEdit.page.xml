@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd"
+      no-conversation-view-id="/PlanificacionEnvioList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{planificacionEnvioHome.wire}"/>
+
+   <param name="planificacionEnvioFrom"/>
+   <param name="planificacionEnvioIdPlanificacionEnvio" value="#{planificacionEnvioHome.planificacionEnvioIdPlanificacionEnvio}"/>
+   <param name="evaluacionFrom"/>
+   <param name="evaluacionIdEvaluacion" value="#{evaluacionHome.evaluacionIdEvaluacion}"/>
+   <param name="moduloFrom"/>
+   <param name="moduloIdModulo" value="#{moduloHome.moduloIdModulo}"/>
+   <param name="proyectoFrom"/>
+   <param name="proyectoIdProyecto" value="#{proyectoHome.proyectoIdProyecto}"/>
+
+
+
+   <param name="tipFrom"/>
+   <param name="tipIdTip" value="#{tipHome.tipIdTip}"/>
+
+
+
+   <navigation from-action="#{planificacionEnvioHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/PlanificacionEnvio.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{planificacionEnvioHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/PlanificacionEnvio.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{planificacionEnvioHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/PlanificacionEnvioList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

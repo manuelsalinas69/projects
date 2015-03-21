@@ -1,0 +1,68 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Log sms in Details</f:facet>
+
+        <s:decorate id="idLogSmsIn" template="layout/display.xhtml">
+            <ui:define name="label">Id log sms in</ui:define>
+            <h:outputText value="#{logSmsInHome.instance.idLogSmsIn}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="numeroDestino" template="layout/display.xhtml">
+            <ui:define name="label">Numero destino</ui:define>
+            <h:outputText value="#{logSmsInHome.instance.numeroDestino}"/>
+        </s:decorate>
+
+        <s:decorate id="numeroOrigen" template="layout/display.xhtml">
+            <ui:define name="label">Numero origen</ui:define>
+            <h:outputText value="#{logSmsInHome.instance.numeroOrigen}"/>
+        </s:decorate>
+
+        <s:decorate id="mensaje" template="layout/display.xhtml">
+            <ui:define name="label">Mensaje</ui:define>
+            <h:outputText value="#{logSmsInHome.instance.mensaje}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaRecepcion" template="layout/display.xhtml">
+            <ui:define name="label">Fecha recepcion</ui:define>
+            <h:outputText value="#{logSmsInHome.instance.fechaRecepcion}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="jmsMessageId" template="layout/display.xhtml">
+            <ui:define name="label">Jms message id</ui:define>
+            <h:outputText value="#{logSmsInHome.instance.jmsMessageId}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/LogSmsInEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty logSmsInFrom ? 'LogSmsInList' : logSmsInFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+</ui:define>
+
+</ui:composition>

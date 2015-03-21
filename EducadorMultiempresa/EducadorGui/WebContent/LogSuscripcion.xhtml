@@ -1,0 +1,85 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Log suscripcion Details</f:facet>
+
+        <s:decorate id="idLogSuscripcion" template="layout/display.xhtml">
+            <ui:define name="label">Id log suscripcion</ui:define>
+            <h:outputText value="#{logSuscripcionHome.instance.idLogSuscripcion}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="mensaje" template="layout/display.xhtml">
+            <ui:define name="label">Mensaje</ui:define>
+            <h:outputText value="#{logSuscripcionHome.instance.mensaje}"/>
+        </s:decorate>
+
+        <s:decorate id="accion" template="layout/display.xhtml">
+            <ui:define name="label">Accion</ui:define>
+            <h:outputText value="#{logSuscripcionHome.instance.accion}"/>
+        </s:decorate>
+
+        <s:decorate id="resultado" template="layout/display.xhtml">
+            <ui:define name="label">Resultado</ui:define>
+            <h:outputText value="#{logSuscripcionHome.instance.resultado}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaRecepcion" template="layout/display.xhtml">
+            <ui:define name="label">Fecha recepcion</ui:define>
+            <h:outputText value="#{logSuscripcionHome.instance.fechaRecepcion}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="numero" template="layout/display.xhtml">
+            <ui:define name="label">Numero</ui:define>
+            <h:outputText value="#{logSuscripcionHome.instance.numero}"/>
+        </s:decorate>
+
+        <s:decorate id="proyecto" template="layout/display.xhtml">
+            <ui:define name="label">Proyecto</ui:define>
+            <h:outputText value="#{logSuscripcionHome.instance.proyecto}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaRespuesta" template="layout/display.xhtml">
+            <ui:define name="label">Fecha respuesta</ui:define>
+            <h:outputText value="#{logSuscripcionHome.instance.fechaRespuesta}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="tipoSuscripcion" template="layout/display.xhtml">
+            <ui:define name="label">Tipo suscripcion</ui:define>
+            <h:outputText value="#{logSuscripcionHome.instance.tipoSuscripcion}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/LogSuscripcionEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty logSuscripcionFrom ? 'LogSuscripcionList' : logSuscripcionFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+</ui:define>
+
+</ui:composition>

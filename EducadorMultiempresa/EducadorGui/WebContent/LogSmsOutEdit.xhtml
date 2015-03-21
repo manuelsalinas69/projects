@@ -1,0 +1,152 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="logSmsOut" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{logSmsOutHome.managed ? 'Edit' : 'Add'} Log sms out</f:facet>
+
+
+            <s:decorate id="idLogSmsOutField" template="layout/edit.xhtml">
+                <ui:define name="label">Id log sms out</ui:define>
+                <h:inputText id="idLogSmsOut"
+                       required="true"
+                          value="#{logSmsOutHome.instance.idLogSmsOut}"
+                           size="29">
+                    <a:ajax event="blur" render="idLogSmsOutField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="numeroDestinoField" template="layout/edit.xhtml">
+                <ui:define name="label">Numero destino</ui:define>
+                <h:inputText id="numeroDestino"
+                           size="30"
+                      maxlength="30"
+                          value="#{logSmsOutHome.instance.numeroDestino}">
+                    <a:ajax event="blur" render="numeroDestinoField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="numeroOrigenField" template="layout/edit.xhtml">
+                <ui:define name="label">Numero origen</ui:define>
+                <h:inputText id="numeroOrigen"
+                           size="30"
+                      maxlength="30"
+                          value="#{logSmsOutHome.instance.numeroOrigen}">
+                    <a:ajax event="blur" render="numeroOrigenField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="mensajeField" template="layout/edit.xhtml">
+                <ui:define name="label">Mensaje</ui:define>
+                <h:inputTextarea id="mensaje"
+                               cols="80"
+                               rows="2"
+                              value="#{logSmsOutHome.instance.mensaje}"/>
+            </s:decorate>
+
+
+            <s:decorate id="fechaPeticionEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha peticion envio</ui:define>
+                <rich:calendar id="fechaPeticionEnvio"
+                          value="#{logSmsOutHome.instance.fechaPeticionEnvio}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="estadoField" template="layout/edit.xhtml">
+                <ui:define name="label">Estado</ui:define>
+                <h:inputText id="estado"
+                           size="30"
+                      maxlength="30"
+                          value="#{logSmsOutHome.instance.estado}">
+                    <a:ajax event="blur" render="estadoField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="respuestaSmscField" template="layout/edit.xhtml">
+                <ui:define name="label">Respuesta smsc</ui:define>
+                <h:inputTextarea id="respuestaSmsc"
+                               cols="80"
+                               rows="6"
+                              value="#{logSmsOutHome.instance.respuestaSmsc}"/>
+            </s:decorate>
+
+
+            <s:decorate id="fechaEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha envio</ui:define>
+                <rich:calendar id="fechaEnvio"
+                          value="#{logSmsOutHome.instance.fechaEnvio}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="messageIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Message id</ui:define>
+                <h:inputText id="messageId"
+                          value="#{logSmsOutHome.instance.messageId}"
+                           size="29">
+                    <a:ajax event="blur" render="messageIdField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{logSmsOutHome.persist}"
+                       disabled="#{!logSmsOutHome.wired}"
+                       rendered="#{!logSmsOutHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{logSmsOutHome.update}"
+                       rendered="#{logSmsOutHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{logSmsOutHome.remove}"
+                      immediate="true"
+                       rendered="#{logSmsOutHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/LogSmsOut.xhtml"
+                rendered="#{logSmsOutHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty logSmsOutFrom ? 'LogSmsOutList' : logSmsOutFrom}.xhtml"
+                rendered="#{!logSmsOutHome.managed}"/>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

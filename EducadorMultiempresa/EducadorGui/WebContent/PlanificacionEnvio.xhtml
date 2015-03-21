@@ -1,0 +1,295 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Planificacion envio Details</f:facet>
+
+        <s:decorate id="idPlanificacionEnvio" template="layout/display.xhtml">
+            <ui:define name="label">Id planificacion envio</ui:define>
+            <h:outputText value="#{planificacionEnvioHome.instance.idPlanificacionEnvio}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="enviar" template="layout/display.xhtml">
+            <ui:define name="label">Enviar</ui:define>
+            <h:outputText value="#{planificacionEnvioHome.instance.enviar}"/>
+        </s:decorate>
+
+        <s:decorate id="orden" template="layout/display.xhtml">
+            <ui:define name="label">Orden</ui:define>
+            <h:outputText value="#{planificacionEnvioHome.instance.orden}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="envioFinal" template="layout/display.xhtml">
+            <ui:define name="label">Envio final</ui:define>
+            <h:outputText value="#{planificacionEnvioHome.instance.envioFinal}"/>
+        </s:decorate>
+
+        <s:decorate id="esperarHorasAnterior" template="layout/display.xhtml">
+            <ui:define name="label">Esperar horas anterior</ui:define>
+            <h:outputText value="#{planificacionEnvioHome.instance.esperarHorasAnterior}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/PlanificacionEnvioEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty planificacionEnvioFrom ? 'PlanificacionEnvioList' : planificacionEnvioFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Evaluacion</h:panelGroup>
+        </f:facet>
+    <div class="association" id="evaluacionParent">
+
+        <h:outputText value="There is no evaluacion associated with this planificacionEnvio."
+                   rendered="#{planificacionEnvioHome.instance.evaluacion == null}"/>
+
+        <rich:dataTable var="_evaluacion"
+                   value="#{planificacionEnvioHome.instance.evaluacion}"
+                rendered="#{planificacionEnvioHome.instance.evaluacion != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="evaluacionTable">
+            <h:column>
+                <f:facet name="header">Id evaluacion</f:facet>
+                <h:outputText value="#{_evaluacion.idEvaluacion}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Modulo id modulo</f:facet>
+                <h:outputText value="#{_evaluacion.modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_evaluacion.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_evaluacion.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_evaluacion.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_evaluacion.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_evaluacion.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_evaluacion.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion envio modulo</f:facet>
+                <h:outputText value="#{_evaluacion.configuracionEnvioModulo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_evaluacion.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado evaluacion</f:facet>
+                <h:outputText value="#{_evaluacion.estadoEvaluacion}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewevaluacion"
+                     value="View"
+                      view="/Evaluacion.xhtml">
+                    <f:param name="evaluacionIdEvaluacion"
+                           value="#{_evaluacion.idEvaluacion}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Tip</h:panelGroup>
+        </f:facet>
+    <div class="association" id="tipParent">
+
+        <h:outputText value="There is no tip associated with this planificacionEnvio."
+                   rendered="#{planificacionEnvioHome.instance.tip == null}"/>
+
+        <rich:dataTable var="_tip"
+                   value="#{planificacionEnvioHome.instance.tip}"
+                rendered="#{planificacionEnvioHome.instance.tip != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipTable">
+            <h:column>
+                <f:facet name="header">Id tip</f:facet>
+                <h:outputText value="#{_tip.idTip}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Modulo id modulo</f:facet>
+                <h:outputText value="#{_tip.modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido</f:facet>
+                <h:outputText value="#{_tip.contenido}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_tip.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_tip.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_tip.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_tip.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_tip.estadoRegistro}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewtip"
+                     value="View"
+                      view="/Tip.xhtml">
+                    <f:param name="tipIdTip"
+                           value="#{_tip.idTip}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Modulo</h:panelGroup>
+        </f:facet>
+    <div class="association" id="moduloParent">
+
+        <h:outputText value="There is no modulo associated with this planificacionEnvio."
+                   rendered="#{planificacionEnvioHome.instance.modulo == null}"/>
+
+        <rich:dataTable var="_modulo"
+                   value="#{planificacionEnvioHome.instance.modulo}"
+                rendered="#{planificacionEnvioHome.instance.modulo != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="moduloTable">
+            <h:column>
+                <f:facet name="header">Id modulo</f:facet>
+                <h:outputText value="#{_modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Proyecto id proyecto</f:facet>
+                <h:outputText value="#{_modulo.proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_modulo.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_modulo.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_modulo.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_modulo.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_modulo.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado modulo</f:facet>
+                <h:outputText value="#{_modulo.estadoModulo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_modulo.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion envio tip</f:facet>
+                <h:outputText value="#{_modulo.configuracionEnvioTip}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo modulo</f:facet>
+                <h:outputText value="#{_modulo.tipoModulo}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewmodulo"
+                     value="View"
+                      view="/Modulo.xhtml">
+                    <f:param name="moduloIdModulo"
+                           value="#{_modulo.idModulo}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

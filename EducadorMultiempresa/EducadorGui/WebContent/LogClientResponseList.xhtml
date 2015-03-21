@@ -1,0 +1,196 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="logClientResponseSearch" styleClass="edit">
+
+        <rich:collapsiblePanel header="LogClientResponse Search Filter" switchType="client">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Mensaje</ui:define>
+                <h:inputText id="mensaje" value="#{logClientResponseList.logClientResponse.mensaje}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Numero</ui:define>
+                <h:inputText id="numero" value="#{logClientResponseList.logClientResponse.numero}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Numero corto</ui:define>
+                <h:inputText id="numeroCorto" value="#{logClientResponseList.logClientResponse.numeroCorto}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{logClientResponseList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:collapsiblePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="#{messages.msg_list_search_button}" action="/LogClientResponseList.xhtml"/>
+            <s:button id="reset" value="#{messages.msg_list_search_reset_button}" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">LogClientResponse Search Results (#{empty logClientResponseList.resultList ? 0 : (logClientResponseList.paginated ? logClientResponseList.resultCount : logClientResponseList.resultList.size)})</f:facet>
+    <div class="results" id="logClientResponseList">
+
+    <h:outputText value="The logClientResponse search returned no results."
+               rendered="#{empty logClientResponseList.resultList}"/>
+
+    <rich:dataTable id="logClientResponseList"
+                var="_logClientResponse"
+              value="#{logClientResponseList.resultList}"
+           rendered="#{not empty logClientResponseList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logClientResponseList}"/>
+                    <ui:param name="propertyLabel" value="Id log client response"/>
+                    <ui:param name="propertyPath" value="logClientResponse.idLogClientResponse"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logClientResponse.idLogClientResponse}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logClientResponseList}"/>
+                    <ui:param name="propertyLabel" value="Suscriptor id suscriptor"/>
+                    <ui:param name="propertyPath" value="logClientResponse.suscriptor.idSuscriptor"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logClientResponse.suscriptor.idSuscriptor}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logClientResponseList}"/>
+                    <ui:param name="propertyLabel" value="Mensaje"/>
+                    <ui:param name="propertyPath" value="logClientResponse.mensaje"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logClientResponse.mensaje}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logClientResponseList}"/>
+                    <ui:param name="propertyLabel" value="Fecha recepcion"/>
+                    <ui:param name="propertyPath" value="logClientResponse.fechaRecepcion"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logClientResponse.fechaRecepcion}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logClientResponseList}"/>
+                    <ui:param name="propertyLabel" value="Numero"/>
+                    <ui:param name="propertyPath" value="logClientResponse.numero"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logClientResponse.numero}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{logClientResponseList}"/>
+                    <ui:param name="propertyLabel" value="Numero corto"/>
+                    <ui:param name="propertyPath" value="logClientResponse.numeroCorto"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_logClientResponse.numeroCorto}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'LogClientResponse' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="logClientResponseViewId">
+                <f:param name="logClientResponseIdLogClientResponse"
+                        value="#{_logClientResponse.idLogClientResponse}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/LogClientResponseEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="logClientResponseEdit"
+                rendered="#{empty from}">
+                <f:param name="logClientResponseIdLogClientResponse"
+                        value="#{_logClientResponse.idLogClientResponse}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/LogClientResponseList.xhtml"
+            rendered="#{logClientResponseList.previousExists}"
+               value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/LogClientResponseList.xhtml"
+            rendered="#{logClientResponseList.previousExists}"
+               value="#{messages.left} #{messages.msg_list_previous_page}"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{logClientResponseList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/LogClientResponseList.xhtml"
+            rendered="#{logClientResponseList.nextExists}"
+               value="#{messages.msg_list_next_page} #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{logClientResponseList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/LogClientResponseList.xhtml"
+            rendered="#{logClientResponseList.nextExists}"
+               value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{logClientResponseList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/LogClientResponseEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create logClientResponse">
+            <f:param name="logClientResponseIdLogClientResponse"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

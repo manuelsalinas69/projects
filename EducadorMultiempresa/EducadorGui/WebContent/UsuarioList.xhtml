@@ -1,0 +1,154 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<s:decorate template="/layout/title.xhtml">
+			<ui:define name="label">
+			#{messages.Usuarios_menu}
+		</ui:define>
+		</s:decorate>
+
+		<h:form id="usuarioSearch" styleClass="edit">
+
+			<rich:collapsiblePanel header="#{messages.msg_list_search_filter}"
+				switchType="client">
+				<h:panelGrid columns="2">
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Usuario</ui:define>
+						<h:inputText id="usuarioId" value="#{usuarioList.usuario.usuario}" />
+					</s:decorate>
+
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Nombre</ui:define>
+						<h:inputText id="nombre" value="#{usuarioList.usuario.nombre}" />
+					</s:decorate>
+
+				</h:panelGrid>
+			</rich:collapsiblePanel>
+
+			<div class="actionButtons">
+				<h:commandButton id="search"
+					value="#{messages.msg_list_search_button}"
+					action="/UsuarioList.xhtml" />
+				<s:button id="reset"
+					value="#{messages.msg_list_search_reset_button}"
+					includePageParams="false" />
+			</div>
+
+		</h:form>
+
+		<rich:panel>
+			<f:facet name="header">#{messages.msg_list_search_results} (#{empty usuarioList.resultList ? 0 : (usuarioList.paginated ? usuarioList.resultCount : usuarioList.resultList.size)})</f:facet>
+
+
+			<h:panelGrid columns="2">
+				<s:div styleClass="actionButtons" rendered="#{empty from}">
+					<s:button view="/UsuarioEdit.xhtml" id="create" propagation="none"
+						value="#{messages.msg_add_male}">
+						<f:param name="usuarioUsuario" />
+					</s:button>
+				</s:div>
+				<h:form>
+								<h:commandButton id="export" propagation="none"
+									action="#{dynamicEntityReportHelper.excelReport('usuario',usuarioList)}"
+									value="#{messages.DynamicEntityReport_excel}" />
+							</h:form>
+			</h:panelGrid>
+			
+			<div class="results" id="usuarioList">
+
+				<h:outputText value="#{messages.msg_list_search_no_results}"
+					rendered="#{empty usuarioList.resultList}" />
+
+				<rich:dataTable id="usuarioList" var="_usuario"
+					value="#{usuarioList.resultList}"
+					rendered="#{not empty usuarioList.resultList}">
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{usuarioList}" />
+								<ui:param name="propertyLabel" value="Usuario" />
+								<ui:param name="propertyPath" value="usuario.usuario" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_usuario.usuario}" />
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{usuarioList}" />
+								<ui:param name="propertyLabel" value="Nombre" />
+								<ui:param name="propertyPath" value="usuario.nombre" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_usuario.nombre}" />
+					</rich:column>
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{usuarioList}" />
+								<ui:param name="propertyLabel" value="Estado" />
+								<ui:param name="propertyPath" value="usuario.estado" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_usuario.estado}" />
+					</rich:column>
+					<rich:column styleClass="action">
+						<f:facet name="header">#{messages.GENERICO_ACTION}</f:facet>
+
+						<s:link view="/UsuarioEdit.xhtml" value="#{messages.msg_edit}"
+							propagation="none" id="usuarioEdit" rendered="#{empty from}">
+							<f:param name="usuarioUsuario" value="#{_usuario.usuario}" />
+						</s:link>
+					</rich:column>
+				</rich:dataTable>
+
+			</div>
+		</rich:panel>
+
+		<div class="tableControl">
+
+			<s:link view="/UsuarioList.xhtml"
+				rendered="#{usuarioList.previousExists}"
+				value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+				id="firstPage">
+				<f:param name="firstResult" value="0" />
+			</s:link>
+
+			<s:link view="/UsuarioList.xhtml"
+				rendered="#{usuarioList.previousExists}"
+				value="#{messages.left} #{messages.msg_list_previous_page}"
+				id="previousPage">
+				<f:param name="firstResult"
+					value="#{usuarioList.previousFirstResult}" />
+			</s:link>
+
+			<s:link view="/UsuarioList.xhtml"
+				rendered="#{usuarioList.nextExists}"
+				value="#{messages.msg_list_next_page} #{messages.right}"
+				id="nextPage">
+				<f:param name="firstResult" value="#{usuarioList.nextFirstResult}" />
+			</s:link>
+
+			<s:link view="/UsuarioList.xhtml"
+				rendered="#{usuarioList.nextExists}"
+				value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+				id="lastPage">
+				<f:param name="firstResult" value="#{usuarioList.lastFirstResult}" />
+			</s:link>
+
+		</div>
+
+
+
+	</ui:define>
+
+</ui:composition>

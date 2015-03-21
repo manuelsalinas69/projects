@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd">
+
+   <param name="firstResult" value="#{logClientResponseList.firstResult}"/>
+   <param name="sort" value="#{logClientResponseList.orderColumn}"/>
+   <param name="dir" value="#{logClientResponseList.orderDirection}"/>
+   <param name="logic" value="#{logClientResponseList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="mensaje" value="#{logClientResponseList.logClientResponse.mensaje}"/>
+   <param name="numero" value="#{logClientResponseList.logClientResponse.numero}"/>
+   <param name="numeroCorto" value="#{logClientResponseList.logClientResponse.numeroCorto}"/>
+
+</page>

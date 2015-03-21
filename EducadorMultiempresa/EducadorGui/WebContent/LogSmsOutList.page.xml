@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd" login-required="true">
+      
+      <restrict>#{usuario.rolAdminProyectos or usuario.rolConsultas}</restrict>  
+
+   <param name="firstResult" value="#{logSmsOutList.firstResult}"/>
+   <param name="sort" value="#{logSmsOutList.orderColumn}"/>
+   <param name="dir" value="#{logSmsOutList.orderDirection}"/>
+   <param name="logic" value="#{logSmsOutList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="numeroDestino" value="#{logSmsOutList.logSmsOut.numeroDestino}"/>
+   <param name="numeroOrigen" value="#{logSmsOutList.logSmsOut.numeroOrigen}"/>
+   <param name="mensaje" value="#{logSmsOutList.logSmsOut.mensaje}"/>
+   <param name="estado" value="#{logSmsOutList.logSmsOut.estado}"/>
+   <param name="respuestaSmsc" value="#{logSmsOutList.logSmsOut.respuestaSmsc}"/>
+   <param name="fechaPeticionEnvioDesde" value="#{logSmsOutList.fechaPeticionEnvioDesde}"/>
+   <param name="fechaPeticionEnvioHasta" value="#{logSmsOutList.fechaPeticionEnvioHasta}"/>
+   <param name="fechaEnvioDesde" value="#{logSmsOutList.fechaEnvioDesde}"/>
+   <param name="fechaEnvioHasta" value="#{logSmsOutList.fechaEnvioHasta}"/>
+
+</page>

@@ -1,0 +1,209 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="respuestaSearch" styleClass="edit">
+
+        <rich:collapsiblePanel header="Respuesta Search Filter" switchType="client">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Contenido respuesta</ui:define>
+                <h:inputText id="contenidoRespuesta" value="#{respuestaList.respuesta.contenidoRespuesta}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Orden respuesta</ui:define>
+                <h:inputText id="ordenRespuesta" value="#{respuestaList.respuesta.ordenRespuesta}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Estado registro</ui:define>
+                <h:inputText id="estadoRegistro" value="#{respuestaList.respuesta.estadoRegistro}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Valor esperado</ui:define>
+                <h:inputText id="valorEsperado" value="#{respuestaList.respuesta.valorEsperado}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{respuestaList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:collapsiblePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="#{messages.msg_list_search_button}" action="/RespuestaList.xhtml"/>
+            <s:button id="reset" value="#{messages.msg_list_search_reset_button}" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">Respuesta Search Results (#{empty respuestaList.resultList ? 0 : (respuestaList.paginated ? respuestaList.resultCount : respuestaList.resultList.size)})</f:facet>
+    <div class="results" id="respuestaList">
+
+    <h:outputText value="The respuesta search returned no results."
+               rendered="#{empty respuestaList.resultList}"/>
+
+    <rich:dataTable id="respuestaList"
+                var="_respuesta"
+              value="#{respuestaList.resultList}"
+           rendered="#{not empty respuestaList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{respuestaList}"/>
+                    <ui:param name="propertyLabel" value="Id respuesta"/>
+                    <ui:param name="propertyPath" value="respuesta.idRespuesta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_respuesta.idRespuesta}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{respuestaList}"/>
+                    <ui:param name="propertyLabel" value="Pregunta id pregunta"/>
+                    <ui:param name="propertyPath" value="respuesta.pregunta.idPregunta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_respuesta.pregunta.idPregunta}">
+                <f:convertNumber/>
+            </h:outputText>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{respuestaList}"/>
+                    <ui:param name="propertyLabel" value="Contenido respuesta"/>
+                    <ui:param name="propertyPath" value="respuesta.contenidoRespuesta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_respuesta.contenidoRespuesta}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{respuestaList}"/>
+                    <ui:param name="propertyLabel" value="Orden respuesta"/>
+                    <ui:param name="propertyPath" value="respuesta.ordenRespuesta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_respuesta.ordenRespuesta}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{respuestaList}"/>
+                    <ui:param name="propertyLabel" value="Es respuesta correcta"/>
+                    <ui:param name="propertyPath" value="respuesta.esRespuestaCorrecta"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_respuesta.esRespuestaCorrecta}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{respuestaList}"/>
+                    <ui:param name="propertyLabel" value="Estado registro"/>
+                    <ui:param name="propertyPath" value="respuesta.estadoRegistro"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_respuesta.estadoRegistro}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{respuestaList}"/>
+                    <ui:param name="propertyLabel" value="Valor esperado"/>
+                    <ui:param name="propertyPath" value="respuesta.valorEsperado"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_respuesta.valorEsperado}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'Respuesta' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="respuestaViewId">
+                <f:param name="respuestaIdRespuesta"
+                        value="#{_respuesta.idRespuesta}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/RespuestaEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="respuestaEdit"
+                rendered="#{empty from}">
+                <f:param name="respuestaIdRespuesta"
+                        value="#{_respuesta.idRespuesta}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/RespuestaList.xhtml"
+            rendered="#{respuestaList.previousExists}"
+               value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/RespuestaList.xhtml"
+            rendered="#{respuestaList.previousExists}"
+               value="#{messages.left} #{messages.msg_list_previous_page}"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{respuestaList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/RespuestaList.xhtml"
+            rendered="#{respuestaList.nextExists}"
+               value="#{messages.msg_list_next_page} #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{respuestaList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/RespuestaList.xhtml"
+            rendered="#{respuestaList.nextExists}"
+               value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{respuestaList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/RespuestaEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create respuesta">
+            <f:param name="respuestaIdRespuesta"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

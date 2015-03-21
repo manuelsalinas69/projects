@@ -1,0 +1,2 @@
+eclipse.preferences.version=1
+org.jboss.ide.eclipse.as.core.singledeployable.deployableList=resources/ConciliatorBB-tigo-ds.xml\nresources/SAPA-locahost-ds.xml\nresources/5dias-ds.xml\nresources/MAPPING-SAPA-ds.xml\nresources/sapaNotificationQueue-service.xml\nresources/SAPA-ds.xml\nresources/conciliacionQueue-service.xml\nresources/5dias_localhost-ds.xml\nresources/SAPA-tigo-ds.xml\n

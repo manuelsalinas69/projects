@@ -1,0 +1,87 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Log sms out Details</f:facet>
+
+        <s:decorate id="idLogSmsOut" template="layout/display.xhtml">
+            <ui:define name="label">Id log sms out</ui:define>
+            <h:outputText value="#{logSmsOutHome.instance.idLogSmsOut}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="numeroDestino" template="layout/display.xhtml">
+            <ui:define name="label">Numero destino</ui:define>
+            <h:outputText value="#{logSmsOutHome.instance.numeroDestino}"/>
+        </s:decorate>
+
+        <s:decorate id="numeroOrigen" template="layout/display.xhtml">
+            <ui:define name="label">Numero origen</ui:define>
+            <h:outputText value="#{logSmsOutHome.instance.numeroOrigen}"/>
+        </s:decorate>
+
+        <s:decorate id="mensaje" template="layout/display.xhtml">
+            <ui:define name="label">Mensaje</ui:define>
+            <h:outputText value="#{logSmsOutHome.instance.mensaje}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaPeticionEnvio" template="layout/display.xhtml">
+            <ui:define name="label">Fecha peticion envio</ui:define>
+            <h:outputText value="#{logSmsOutHome.instance.fechaPeticionEnvio}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="estado" template="layout/display.xhtml">
+            <ui:define name="label">Estado</ui:define>
+            <h:outputText value="#{logSmsOutHome.instance.estado}"/>
+        </s:decorate>
+
+        <s:decorate id="respuestaSmsc" template="layout/display.xhtml">
+            <ui:define name="label">Respuesta smsc</ui:define>
+            <h:outputText value="#{logSmsOutHome.instance.respuestaSmsc}"/>
+        </s:decorate>
+
+        <s:decorate id="fechaEnvio" template="layout/display.xhtml">
+            <ui:define name="label">Fecha envio</ui:define>
+            <h:outputText value="#{logSmsOutHome.instance.fechaEnvio}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="messageId" template="layout/display.xhtml">
+            <ui:define name="label">Message id</ui:define>
+            <h:outputText value="#{logSmsOutHome.instance.messageId}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/LogSmsOutEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty logSmsOutFrom ? 'LogSmsOutList' : logSmsOutFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+</ui:define>
+
+</ui:composition>

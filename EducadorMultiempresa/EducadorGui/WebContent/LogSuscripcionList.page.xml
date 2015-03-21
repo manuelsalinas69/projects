@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd" login-required="true">
+
+       <restrict>#{usuario.rolAdminProyectos or usuario.rolConsultas}</restrict> 
+
+   <param name="firstResult" value="#{logSuscripcionList.firstResult}"/>
+   <param name="sort" value="#{logSuscripcionList.orderColumn}"/>
+   <param name="dir" value="#{logSuscripcionList.orderDirection}"/>
+   <param name="logic" value="#{logSuscripcionList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="mensaje" value="#{logSuscripcionList.logSuscripcion.mensaje}"/>
+   <param name="accion" value="#{logSuscripcionList.logSuscripcion.accion}"/>
+   <param name="resultado" value="#{logSuscripcionList.logSuscripcion.resultado}"/>
+   <param name="numero" value="#{logSuscripcionList.logSuscripcion.numero}"/>
+   <param name="proyecto" value="#{logSuscripcionList.logSuscripcion.proyecto}"/>
+   <param name="tipoSuscripcion" value="#{logSuscripcionList.logSuscripcion.tipoSuscripcion}"/>
+   <param name="fechaRecepcionDesde" value="#{logSuscripcionList.fechaRecepcionDesde}"/>
+   <param name="fechaRecepcionHasta" value="#{logSuscripcionList.fechaRecepcionHasta}"/>
+
+</page>

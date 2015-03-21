@@ -1,0 +1,429 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+	<ui:define name="body">
+
+		<rich:popupPanel id="mdlPreguntasAdder" autosized="true" modal="true"
+			onmaskclick="#{rich:component('mdlPreguntasAdder')}.hide()">
+			<f:facet name="header">
+				<h:outputText value="Agregar una nueva pregunta" />
+			</f:facet>
+			<f:facet name="controls">
+				<h:graphicImage value="/styles/css-global/images/close.png" 
+				style="cursor:pointer"
+				onclick="#{rich:component('mdlPreguntasAdder')}.hide(); return false;" title="Cierra la ventana"/>
+				
+			</f:facet>
+			<s:decorate template="/PreguntaAdder.xhtml">
+				<ui:define name="actions">
+					<a:commandButton id="btnAddPregunta"
+						value="Agregar pregunta a la lista del modulo" type="button"
+						execute="@region" action="#{moduleController.addNewPregunta()}"
+						render="btnAddPregunta,pnlPreguntas,pnlPlanificacionEnvio" 
+						oncomplete="if(#{preguntaAdder.hideModal}){#{rich:component('mdlPreguntasAdder')}.hide(); return false;}"/>
+
+
+				</ui:define>
+			</s:decorate>
+		</rich:popupPanel>
+		
+		<rich:popupPanel id="mdlPreguntasEditor" autosized="true" modal="true"
+			onmaskclick="#{rich:component('mdlPreguntasEditor')}.hide()">
+			<f:facet name="header">
+				<h:outputText value="Edici&oacute;n de Preguntas" />
+			</f:facet>
+			<f:facet name="controls">
+				<h:graphicImage value="/styles/css-global/images/close.png" 
+				style="cursor:pointer"
+				onclick="#{rich:component('mdlPreguntasEditor')}.hide(); return false;" title="Cierra la ventana"/>
+				
+			
+			</f:facet>
+			<s:decorate template="/PreguntaEditor.xhtml">
+				<ui:define name="actions">
+					<a:commandButton id="btnEditPregunta"
+						value="Actualizar Pregunta" type="button"
+						execute="@region" action="#{moduleController.updateEditPregunta()}"
+						render="btnEditPregunta,pnlPreguntas,pnlPlanificacionEnvio" 
+						oncomplete="if(#{preguntaEditor.hideModal}){#{rich:component('mdlPreguntasEditor')}.hide(); return false;}"/>
+
+
+				</ui:define>
+			</s:decorate>
+		</rich:popupPanel>
+
+		<h:form id="modulo" styleClass="edit">
+
+
+			<s:decorate template="/layout/title.xhtml">
+				<ui:define name="label">
+				M&oacute;dulo
+			</ui:define>
+			</s:decorate>
+
+
+			<rich:tabPanel switchType="client">
+				<rich:tab header="Datos del m&oacute;dulo">
+					<rich:panel styleClass="tabContent" style="border:0px;">
+					<h:panelGrid >
+					
+							
+								<s:decorate template="/layout/edit.xhtml">
+									<ui:define name="label">
+										Proyecto
+									</ui:define>
+									<h:selectOneMenu value="#{moduleController.idProyecto}" required="true" disabled="#{!moduleController.canEdit()}">
+										<f:selectItems value="#{proyectoSelectItems}"/>
+									</h:selectOneMenu>
+								</s:decorate>
+								<s:decorate id="nombreField" template="layout/edit.xhtml">
+									<ui:define name="label">Nombre</ui:define>
+									<h:inputText id="nombre" size="100" maxlength="100" disabled="#{!moduleController.canEdit()}"
+										value="#{moduleController.instance.nombre}" required="true">
+										<a:ajax event="blur" render="nombreField" bypassUpdates="true" />
+									</h:inputText>
+								</s:decorate>
+
+
+								<s:decorate id="descripcionField" template="layout/edit.xhtml">
+									<ui:define name="label">Descripci&oacute;n</ui:define>
+									<h:inputTextarea id="descripcion" cols="80" rows="2" 
+									
+									disabled="#{!moduleController.canEdit()}"
+										value="#{moduleController.instance.descripcion}" />
+								</s:decorate>
+
+
+								<s:decorate id="objetivosField" template="layout/edit.xhtml">
+									<ui:define name="label">Objetivos</ui:define>
+									<h:inputTextarea id="objetivos" cols="80" rows="6" disabled="#{!moduleController.canEdit()}"
+										value="#{moduleController.instance.objetivos}" />
+								</s:decorate>
+
+
+								<h:panelGrid columns="2">
+									<s:decorate id="fechaInicioField" template="layout/edit.xhtml">
+										<ui:define name="label">Fecha de inicio</ui:define>
+										<rich:calendar id="fechaInicio" rendered="true" disabled="#{!moduleController.canEdit()}"
+											value="#{moduleController.instance.fechaInicio}"
+											datePattern="dd/MM/yyyy HH:mm">
+											<s:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+										</rich:calendar>
+									</s:decorate>
+
+
+									<s:decorate id="fechaFinField" template="layout/edit.xhtml">
+										<ui:define name="label">Fecha de fin</ui:define>
+										<rich:calendar id="fechaFin" required="true"
+											value="#{moduleController.instance.fechaFin}" disabled="#{!moduleController.canEdit()}"
+											datePattern="dd/MM/yyyy HH:mm">
+											<s:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+										</rich:calendar>
+									</s:decorate>
+								</h:panelGrid>
+
+								<h:panelGrid columns="2">
+									<s:decorate id="filtro" template="layout/edit.xhtml"  >
+										<ui:define name="label">Filtro de suscriptores</ui:define>
+										<h:selectOneMenu value="#{moduleController.instance.filtroSuscriptor}" required="true" disabled="#{!moduleController.canEdit()}">
+											<f:selectItems value="#{enumAppHelper.enumsValueItems('FiltroSuscriptor','getCodigo0',true)}"/>
+										</h:selectOneMenu>
+									</s:decorate>
+									<s:decorate id="estadoModuloField" template="layout/edit.xhtml" rendered="#{moduleController.managed}">
+										<ui:define name="label">Estado del m&oacute;dulo</ui:define>
+										<h:inputText id="estadoModulo" disabled="true" size="30"
+											maxlength="30"
+											value="#{moduleController.instance.estadoModulo}">
+											<a:ajax event="blur" render="estadoModuloField"
+												bypassUpdates="true" />
+										</h:inputText>
+									</s:decorate>
+								</h:panelGrid>
+
+
+
+							
+
+
+
+
+					</h:panelGrid>
+
+					</rich:panel>
+				</rich:tab>
+				<rich:tab header="Tips">
+					<rich:panel id="pnlTips" styleClass="tabContent" style="border:0px;">
+					<h:panelGrid >
+					
+							<s:div >
+								<h:panelGrid columns="3">
+									
+									<s:decorate template="/layout/edit.xhtml">
+										<ui:define name="label">
+											<h:outputText value="Contenido" />
+										</ui:define>
+											<h:inputText value="#{moduleController.contenidoTip}" size="60" maxlength="160" disabled="#{!moduleController.canEdit()}">
+												<a:ajax event="blur" execute="@this" />
+											</h:inputText>
+									</s:decorate>
+									<a:commandButton value="#{messages.GENERICO_ADD}" disabled="#{!moduleController.canEdit()}"
+										action="#{moduleController.addTip()}" execute="@this"
+										render="pnlTips,pnlPlanificacionEnvio" />
+								</h:panelGrid>
+
+
+								<rich:dataTable value="#{moduleController.tips}" var="_det"
+									rowKeyVar="_index">
+									<rich:column>
+										<f:facet name="header">
+										Contenido
+									</f:facet>
+										<s:div styleClass="broadText">
+											<h:inputText value="#{_det.contenido}" size="50" rendered="#{moduleController.canEdit()}">
+												<a:ajax event="blur" render="pnlPlanificacionEnvio" execute="@this"/>
+											</h:inputText>
+											<h:outputText value="#{_det.contenido}" rendered="#{!moduleController.canEdit()}" />
+
+										</s:div>
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">
+										#{messages.msg_list_action_column}
+									</f:facet>
+										
+										<a:commandLink value="#{messages.msg_delete}" action="#{moduleController.removeTip(_index)}" disabled="#{!moduleController.canEdit()}"
+											execute="@this" render="pnlTips,pnlPlanificacionEnvio"
+										/>
+									</rich:column>
+
+								</rich:dataTable>
+							</s:div>
+					</h:panelGrid>
+					</rich:panel>
+
+
+				</rich:tab>
+				<rich:tab header="Evaluaciones">
+					<rich:panel id="pnlPreguntas" styleClass="tabContent" style="border:0px;">
+						<s:div>
+							<a:commandButton value="Agregar Evaluacion" disabled="#{!moduleController.canEdit()}"
+								action="#{moduleController.initPreguntaAdder()}"
+								oncomplete="#{rich:component('mdlPreguntasAdder')}.show();"
+								render="mdlPreguntasAdder" execute="@this" />
+
+							<rich:dataTable value="#{moduleController.evaluaciones}"
+								var="_det" rowKeyVar="_index">
+								<rich:column>
+									<f:facet name="header">
+										Pregunta
+									</f:facet>
+									<s:div styleClass="largeText">
+										<h:inputText rendered="#{moduleController.canEdit()}"
+											value="#{_det.preguntaPrincipal.contenidoPregunta}" size="50" >
+											<a:ajax event="blur" render="pnlPlanificacionEnvio" execute="@this" />	
+										</h:inputText>
+										<h:outputText disabled="#{!moduleController.canEdit()}"
+											value="#{_det.preguntaPrincipal.contenidoPregunta}" size="50" rendered="#{!moduleController.canEdit()}" >
+											
+										</h:outputText>
+									</s:div>
+
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+										#{messages.msg_list_action_column}
+									</f:facet>
+									<h:panelGrid columns="3">
+										<a:commandLink value="#{messages.msg_edit}" action="#{moduleController.initPreguntaEditor(_index)}" disabled="#{!moduleController.canEdit()}"
+											execute="@this" render="mdlPreguntasEditor" oncomplete="#{rich:component('mdlPreguntasEditor')}.show();return false;" type="button"
+										/>
+										|
+										<a:commandLink value="#{messages.msg_delete}" action="#{moduleController.removeEvaluacion(_index)}"
+											execute="@this"  type="button" render="pnlPreguntas,pnlPlanificacionEnvio" disabled="#{!moduleController.canEdit()}"
+										/>
+									</h:panelGrid>
+									
+
+								</rich:column>
+							</rich:dataTable>
+						</s:div>
+					</rich:panel>
+				</rich:tab>
+				<rich:tab header="Planificaci&oacute;n de Env&iacute;o">
+
+					<rich:panel id="pnlPlanificacionEnvio" styleClass="tabContent" style="border:0px;">
+						<s:div >
+
+							<rich:dataTable id="planificacionDt"
+								value="#{moduleController.planificacionEnvio}" var="_det"
+								rowKeyVar="_index" styleClass="draggable-dt">
+								<rich:column>
+									<f:facet name="header">
+								Orden
+							</f:facet>
+									<h:outputText value="#{_det.orden}" />
+
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+								Enviar
+							</f:facet>
+									<h:outputText value="#{_det.enviar}" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+								Contenido
+							</f:facet>
+									<h:outputText value="#{_det.tip.contenido}"
+										rendered="#{_det.tip!=null}" />
+									<h:outputText
+										value="#{_det.evaluacion.preguntaPrincipal.contenidoPregunta}"
+										rendered="#{_det.evaluacion!=null}" />
+								</rich:column>
+								<rich:column>
+									<f:facet name="header">
+								Esperar 
+							</f:facet>
+									
+									<h:panelGrid columns="2">
+										<h:outputText value="Horas" /><h:inputText id="inputHoras" value="#{_det.esperarHorasAnterior}" size="2" disabled="#{!moduleController.canEdit()}">
+											
+											<a:ajax event="blur" execute="@this" />
+											
+										</h:inputText>
+										<h:outputText value="Minutos" /><h:inputText value="#{_det.esperarMinutosAnterior}" size="2" disabled="#{!moduleController.canEdit()}">
+											
+											<a:ajax event="blur" execute="@this" />
+										</h:inputText>
+									</h:panelGrid>
+								</rich:column>
+								
+								<rich:column>
+									<f:facet name="header">
+								Acci&oacute;n
+							</f:facet>
+									<h:panelGrid columns="5" cellspacing="5">
+										<a:commandLink disabled="#{!moduleController.canEdit()}"
+											action="#{moduleController.upPlanificacionEnvio(_index)}"
+											execute="@this" render="pnlPlanificacionEnvio">
+											<h:graphicImage value="/img/up.png" height="20" />
+										</a:commandLink>
+									|
+									<a:commandLink disabled="#{!moduleController.canEdit()}"
+											action="#{moduleController.downPlanificacionEnvio(_index)}"
+											execute="@this" render="pnlPlanificacionEnvio">
+											<h:graphicImage value="/img/down.png" height="20" />
+										</a:commandLink>
+									<a:commandLink value="#{messages.msg_delete}" disabled="#{!moduleController.canEdit()}"
+											action="#{moduleController.removePlanificacionEnvio(_index)}"
+											execute="@this" render="pnlPlanificacionEnvio">
+											
+										</a:commandLink>
+									</h:panelGrid>
+								</rich:column>
+							</rich:dataTable>
+						
+						</s:div>
+					</rich:panel>
+
+
+
+				</rich:tab>
+				<rich:tab header="Configuraci&oacute;n de Env&iacute;o">
+					<rich:panel styleClass="tabContent" style="border:0px;">
+						<h:panelGrid >
+							<s:div >
+
+								<s:decorate id="configuracionEnvioTipField"
+									template="layout/edit.xhtml">
+									<ui:define name="label">D&iacute;as de la semana</ui:define>
+									<h:selectManyCheckbox value="#{moduleController.daysOfWeek}" styleClass="defaultText" disabled="#{!moduleController.canEdit()}">
+										<f:selectItems value="#{enumAppHelper.enumsValueItems('ScheduleDaysOfWeek','getCodigo0',false)}"/>
+									</h:selectManyCheckbox>
+								</s:decorate>
+								<s:decorate 
+									template="layout/edit.xhtml">
+									<ui:define name="label">Hora</ui:define>
+									<h:inputText value="#{moduleController.hour}" size="10" disabled="#{!moduleController.canEdit()}"/>
+								</s:decorate>
+							
+							
+								<s:decorate 
+									template="layout/edit.xhtml">
+									<ui:define name="label">Minuto</ui:define>
+									<h:inputText value="#{moduleController.minute}" size="10" disabled="#{!moduleController.canEdit()}"/>
+								</s:decorate>
+								
+								
+							</s:div>
+							<s:div styleClass="infoClass defaultText ">
+									
+										<h:outputText value="Valores disponibiles para los campos hora y minuto (sin las comillas simples)" />
+										<ui>
+											<li><h:outputText value="'*' - Cada hora o minuto" /></li>
+											<li><h:outputText value="'X' - En hora o minuto X" /></li>
+											<li><h:outputText value="'*/X' - Cada X hora o minuto" /></li>
+											<li><h:outputText value="'X-Y' - Desde hora o minuto X hasta hora o minuto Y" /></li>
+											<li><h:outputText value="'X,Y,Z' - Hora o minuto X, hora o minuto Y hora o minuto Z" /></li>
+										</ui>
+									
+								</s:div>
+							
+						</h:panelGrid>
+
+					</rich:panel>
+				</rich:tab>
+
+			</rich:tabPanel>
+
+
+
+
+
+
+
+			<div style="clear: both">
+				<span class="required">*</span> Campos requeridos
+			</div>
+
+
+
+			<div class="actionButtons">
+
+				<h:commandButton id="save" value="#{messages.msg_save}"
+					action="#{moduleController.persist}"
+					rendered="#{!moduleController.managed}"
+					onclick="return confirm('#{messages.MSG_CONFIRM_SAVE}');">
+					<s:conversationId />
+				</h:commandButton>
+
+				<h:commandButton id="update" value="#{messages.msg_update}"
+					onclick="return confirm('#{messages.MSG_CONFIRM_UPDATE}');"
+					action="#{moduleController.update}"
+					rendered="#{moduleController.managed}">
+					<s:conversationId />
+				</h:commandButton>
+
+
+
+
+
+				<s:button id="cancelAdd" value="#{messages.msg_cancel}"
+					propagation="none"
+					view="/#{empty moduloFrom ? 'ModuloList' : moduloFrom}.xhtml" />
+
+			</div>
+		</h:form>
+
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,530 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="evaluacion" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{evaluacionHome.managed ? 'Edit' : 'Add'} Evaluacion</f:facet>
+
+
+            <s:decorate id="idEvaluacionField" template="layout/edit.xhtml">
+                <ui:define name="label">Id evaluacion</ui:define>
+                <h:inputText id="idEvaluacion"
+                       required="true"
+                          value="#{evaluacionHome.instance.idEvaluacion}"
+                           size="29">
+                    <a:ajax event="blur" render="idEvaluacionField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="nombreField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre</ui:define>
+                <h:inputText id="nombre"
+                           size="100"
+                      maxlength="100"
+                          value="#{evaluacionHome.instance.nombre}">
+                    <a:ajax event="blur" render="nombreField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="descripcionField" template="layout/edit.xhtml">
+                <ui:define name="label">Descripcion</ui:define>
+                <h:inputTextarea id="descripcion"
+                               cols="80"
+                               rows="2"
+                              value="#{evaluacionHome.instance.descripcion}"/>
+            </s:decorate>
+
+
+            <s:decorate id="fechaAltaField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha alta</ui:define>
+                <rich:calendar id="fechaAlta"
+                          value="#{evaluacionHome.instance.fechaAlta}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="usuarioAltaField" template="layout/edit.xhtml">
+                <ui:define name="label">Usuario alta</ui:define>
+                <h:inputText id="usuarioAlta"
+                           size="30"
+                      maxlength="30"
+                          value="#{evaluacionHome.instance.usuarioAlta}">
+                    <a:ajax event="blur" render="usuarioAltaField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="fechaModificacionField" template="layout/edit.xhtml">
+                <ui:define name="label">Fecha modificacion</ui:define>
+                <rich:calendar id="fechaModificacion"
+                          value="#{evaluacionHome.instance.fechaModificacion}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="usuarioModificacionField" template="layout/edit.xhtml">
+                <ui:define name="label">Usuario modificacion</ui:define>
+                <h:inputText id="usuarioModificacion"
+                           size="30"
+                      maxlength="30"
+                          value="#{evaluacionHome.instance.usuarioModificacion}">
+                    <a:ajax event="blur" render="usuarioModificacionField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="configuracionEnvioModuloField" template="layout/edit.xhtml">
+                <ui:define name="label">Configuracion envio modulo</ui:define>
+                <h:inputTextarea id="configuracionEnvioModulo"
+                               cols="80"
+                               rows="6"
+                              value="#{evaluacionHome.instance.configuracionEnvioModulo}"/>
+            </s:decorate>
+
+
+            <s:decorate id="estadoRegistroField" template="layout/edit.xhtml">
+                <ui:define name="label">Estado registro</ui:define>
+                <h:inputText id="estadoRegistro"
+                           size="30"
+                      maxlength="30"
+                          value="#{evaluacionHome.instance.estadoRegistro}">
+                    <a:ajax event="blur" render="estadoRegistroField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="estadoEvaluacionField" template="layout/edit.xhtml">
+                <ui:define name="label">Estado evaluacion</ui:define>
+                <h:inputText id="estadoEvaluacion"
+                           size="30"
+                      maxlength="30"
+                          value="#{evaluacionHome.instance.estadoEvaluacion}">
+                    <a:ajax event="blur" render="estadoEvaluacionField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{evaluacionHome.persist}"
+                       disabled="#{!evaluacionHome.wired}"
+                       rendered="#{!evaluacionHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{evaluacionHome.update}"
+                       rendered="#{evaluacionHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{evaluacionHome.remove}"
+                      immediate="true"
+                       rendered="#{evaluacionHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Evaluacion.xhtml"
+                rendered="#{evaluacionHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty evaluacionFrom ? 'EvaluacionList' : evaluacionFrom}.xhtml"
+                rendered="#{!evaluacionHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="client">
+
+    <rich:tab header="Modulo">
+    <div class="association" id="moduloParent">
+
+        <h:outputText value="There is no modulo associated with this evaluacion."
+                   rendered="#{evaluacionHome.instance.modulo == null}"/>
+
+        <rich:dataTable var="_modulo"
+                   value="#{evaluacionHome.instance.modulo}"
+                rendered="#{evaluacionHome.instance.modulo != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="moduloTable">
+            <h:column>
+                <f:facet name="header">Id modulo</f:facet>
+                <h:outputText value="#{_modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Proyecto id proyecto</f:facet>
+                <h:outputText value="#{_modulo.proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_modulo.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_modulo.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_modulo.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_modulo.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_modulo.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado modulo</f:facet>
+                <h:outputText value="#{_modulo.estadoModulo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_modulo.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion envio tip</f:facet>
+                <h:outputText value="#{_modulo.configuracionEnvioTip}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo modulo</f:facet>
+                <h:outputText value="#{_modulo.tipoModulo}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{evaluacionHome.instance.modulo != null ? 'changeParent' : 'selectParent'}" value="#{evaluacionHome.instance.modulo != null ? 'Change' : 'Select'} modulo"
+                       view="/ModuloList.xhtml">
+                <f:param name="from" value="EvaluacionEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab header="Planificacion envios">
+        <h:form styleClass="association" id="planificacionEnviosChildren">
+
+            <h:outputText value="There are no planificacionEnvios associated with this evaluacion."
+                       rendered="#{empty evaluacionHome.planificacionEnvios}"/>
+
+            <rich:dataTable value="#{evaluacionHome.planificacionEnvios}"
+                           var="_planificacionEnvio"
+                      rendered="#{not empty evaluacionHome.planificacionEnvios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="planificacionEnviosTable">
+                <rich:column sortBy="#{_planificacionEnvio.idPlanificacionEnvio}">
+                    <f:facet name="header">Id planificacion envio</f:facet>
+                    <h:outputText value="#{_planificacionEnvio.idPlanificacionEnvio}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_planificacionEnvio.enviar}">
+                    <f:facet name="header">Enviar</f:facet>
+                    <h:outputText value="#{_planificacionEnvio.enviar}"/>
+                </rich:column>
+                <rich:column sortBy="#{_planificacionEnvio.orden}">
+                    <f:facet name="header">Orden</f:facet>
+                    <h:outputText value="#{_planificacionEnvio.orden}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_planificacionEnvio.envioFinal}">
+                    <f:facet name="header">Envio final</f:facet>
+                    <h:outputText value="#{_planificacionEnvio.envioFinal}"/>
+                </rich:column>
+                <rich:column sortBy="#{_planificacionEnvio.esperarHorasAnterior}">
+                    <f:facet name="header">Esperar horas anterior</f:facet>
+                    <h:outputText value="#{_planificacionEnvio.esperarHorasAnterior}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{evaluacionHome.managed}" id="planificacionEnvios">
+        <div class="actionButtons">
+            <s:button id="addplanificacionEnvio"
+                   value="Add planificacionEnvio"
+                    view="/PlanificacionEnvioEdit.xhtml"
+             propagation="none">
+                 <f:param name="evaluacionIdEvaluacion"
+                         value="#{evaluacionHome.instance.idEvaluacion}"/>
+                 <f:param name="planificacionEnvioFrom" value="Evaluacion"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab header="Preguntas">
+        <h:form styleClass="association" id="preguntasChildren">
+
+            <h:outputText value="There are no preguntas associated with this evaluacion."
+                       rendered="#{empty evaluacionHome.preguntas}"/>
+
+            <rich:dataTable value="#{evaluacionHome.preguntas}"
+                           var="_pregunta"
+                      rendered="#{not empty evaluacionHome.preguntas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="preguntasTable">
+                <rich:column sortBy="#{_pregunta.idPregunta}">
+                    <f:facet name="header">Id pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.idPregunta}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.contenidoPregunta}">
+                    <f:facet name="header">Contenido pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.contenidoPregunta}"/>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.ordenPregunta}">
+                    <f:facet name="header">Orden pregunta</f:facet>
+                    <h:outputText value="#{_pregunta.ordenPregunta}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.fechaAlta}">
+                    <f:facet name="header">Fecha alta</f:facet>
+                    <h:outputText value="#{_pregunta.fechaAlta}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.usuarioAlta}">
+                    <f:facet name="header">Usuario alta</f:facet>
+                    <h:outputText value="#{_pregunta.usuarioAlta}"/>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.fechaModificacion}">
+                    <f:facet name="header">Fecha modificacion</f:facet>
+                    <h:outputText value="#{_pregunta.fechaModificacion}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.usuarioModificacion}">
+                    <f:facet name="header">Usuario modificacion</f:facet>
+                    <h:outputText value="#{_pregunta.usuarioModificacion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.estadoRegistro}">
+                    <f:facet name="header">Estado registro</f:facet>
+                    <h:outputText value="#{_pregunta.estadoRegistro}"/>
+                </rich:column>
+                <rich:column sortBy="#{_pregunta.preguntaFinal}">
+                    <f:facet name="header">Pregunta final</f:facet>
+                    <h:outputText value="#{_pregunta.preguntaFinal}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{evaluacionHome.managed}" id="preguntas">
+        <div class="actionButtons">
+            <s:button id="addpregunta"
+                   value="Add pregunta"
+                    view="/PreguntaEdit.xhtml"
+             propagation="none">
+                 <f:param name="evaluacionIdEvaluacion"
+                         value="#{evaluacionHome.instance.idEvaluacion}"/>
+                 <f:param name="preguntaFrom" value="Evaluacion"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab header="Ejecucion suscriptor detalles">
+        <h:form styleClass="association" id="ejecucionSuscriptorDetallesChildren">
+
+            <h:outputText value="There are no ejecucionSuscriptorDetalles associated with this evaluacion."
+                       rendered="#{empty evaluacionHome.ejecucionSuscriptorDetalles}"/>
+
+            <rich:dataTable value="#{evaluacionHome.ejecucionSuscriptorDetalles}"
+                           var="_ejecucionSuscriptorDetalle"
+                      rendered="#{not empty evaluacionHome.ejecucionSuscriptorDetalles}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="ejecucionSuscriptorDetallesTable">
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}">
+                    <f:facet name="header">Id ejecucion detalle</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.idEjecucionDetalle}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.estadoEjecucion}">
+                    <f:facet name="header">Estado ejecucion</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.estadoEjecucion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.orden}">
+                    <f:facet name="header">Orden</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.orden}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.envioFinal}">
+                    <f:facet name="header">Envio final</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.envioFinal}"/>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.enviar}">
+                    <f:facet name="header">Enviar</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.enviar}"/>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.esperarHorasAnterior}">
+                    <f:facet name="header">Esperar horas anterior</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.esperarHorasAnterior}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.fechaEjecucion}">
+                    <f:facet name="header">Fecha ejecucion</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEjecucion}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.fechaEnvio}">
+                    <f:facet name="header">Fecha envio</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.fechaEnvio}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_ejecucionSuscriptorDetalle.respuestaSmsc}">
+                    <f:facet name="header">Respuesta smsc</f:facet>
+                    <h:outputText value="#{_ejecucionSuscriptorDetalle.respuestaSmsc}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{evaluacionHome.managed}" id="ejecucionSuscriptorDetalles">
+        <div class="actionButtons">
+            <s:button id="addejecucionSuscriptorDetalle"
+                   value="Add ejecucionSuscriptorDetalle"
+                    view="/EjecucionSuscriptorDetalleEdit.xhtml"
+             propagation="none">
+                 <f:param name="evaluacionIdEvaluacion"
+                         value="#{evaluacionHome.instance.idEvaluacion}"/>
+                 <f:param name="ejecucionSuscriptorDetalleFrom" value="Evaluacion"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab header="Evaluacion suscriptors">
+        <h:form styleClass="association" id="evaluacionSuscriptorsChildren">
+
+            <h:outputText value="There are no evaluacionSuscriptors associated with this evaluacion."
+                       rendered="#{empty evaluacionHome.evaluacionSuscriptors}"/>
+
+            <rich:dataTable value="#{evaluacionHome.evaluacionSuscriptors}"
+                           var="_evaluacionSuscriptor"
+                      rendered="#{not empty evaluacionHome.evaluacionSuscriptors}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="evaluacionSuscriptorsTable">
+                <rich:column sortBy="#{_evaluacionSuscriptor.idEvaluacionSuscriptor}">
+                    <f:facet name="header">Id evaluacion suscriptor</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.idEvaluacionSuscriptor}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_evaluacionSuscriptor.idRespuesta}">
+                    <f:facet name="header">Id respuesta</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.idRespuesta}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_evaluacionSuscriptor.respuestaCorrecta}">
+                    <f:facet name="header">Respuesta correcta</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.respuestaCorrecta}"/>
+                </rich:column>
+                <rich:column sortBy="#{_evaluacionSuscriptor.estadoEvaluacion}">
+                    <f:facet name="header">Estado evaluacion</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.estadoEvaluacion}"/>
+                </rich:column>
+                <rich:column sortBy="#{_evaluacionSuscriptor.fechaAlta}">
+                    <f:facet name="header">Fecha alta</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.fechaAlta}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_evaluacionSuscriptor.fechaRespuesta}">
+                    <f:facet name="header">Fecha respuesta</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.fechaRespuesta}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_evaluacionSuscriptor.fechaEnvioPregunta}">
+                    <f:facet name="header">Fecha envio pregunta</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.fechaEnvioPregunta}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_evaluacionSuscriptor.intento}">
+                    <f:facet name="header">Intento</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.intento}">
+                        <f:convertNumber/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_evaluacionSuscriptor.respuestaSenderSmsc}">
+                    <f:facet name="header">Respuesta sender smsc</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.respuestaSenderSmsc}"/>
+                </rich:column>
+                <rich:column sortBy="#{_evaluacionSuscriptor.estadoEnvio}">
+                    <f:facet name="header">Estado envio</f:facet>
+                    <h:outputText value="#{_evaluacionSuscriptor.estadoEnvio}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{evaluacionHome.managed}" id="evaluacionSuscriptors">
+        <div class="actionButtons">
+            <s:button id="addevaluacionSuscriptor"
+                   value="Add evaluacionSuscriptor"
+                    view="/EvaluacionSuscriptorEdit.xhtml"
+             propagation="none">
+                 <f:param name="evaluacionIdEvaluacion"
+                         value="#{evaluacionHome.instance.idEvaluacion}"/>
+                 <f:param name="evaluacionSuscriptorFrom" value="Evaluacion"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

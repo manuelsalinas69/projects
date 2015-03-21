@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.org/schema/seam/taglib" 
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+   contentType="text/html">
+
+	<h:html>
+	
+	   <h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>#{messages.APP_NAME}</title>
+		<link rel="shortcut icon" href="#{facesContext.externalContext.requestContextPath}/styles/css-tigo/favicon.ico" />
+	
+		<h:outputStylesheet library="css" name="style.css"/>
+		<h:outputStylesheet library="css" name="style_global_educador.css"/>
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/javascript/utils/Utils.js"></script>
+		
+<!-- 		<h:outputStylesheet library="css" name="theme.css"/> -->
+<!-- 		<h:outputStylesheet library="css" name="smoothDivScroll.css"/> -->
+		
+		
+		<ui:insert name="head"/>
+		
+	
+
+	</h:head>
+	<h:body>
+		<rich:notifyMessage nonblocking="true" stayTime="#{generalHelper.tiempoMen()}"/>
+		<div id="main">
+			<div id="menuBar" class="header">
+				<div class="header_resize">
+					<div class="logo">
+						<h:graphicImage value="/styles/css-global/images/tigo_login.jpg"
+							alt="Tigo" style="max-height: 62px;max-width: 87px;" />
+					</div>
+					<span class="header_app_name">#{messages.header_app_name}</span>
+					<ui:insert name="mainMenu">
+
+						<a:outputPanel rendered="#{identity.loggedIn}">
+							<ui:include src="menu.xhtml" />
+						</a:outputPanel>
+					</ui:insert>
+					<div class="clr" />
+				</div>
+			</div>
+
+
+
+
+			<div class="content">
+				<a:queue ignoreDupResponses="true" />
+				
+				<ui:insert name="content">
+					<div class="content_resize">
+
+						<ui:insert name="body" />
+					</div>
+				</ui:insert>
+				<ui:insert name="content-login" />
+			</div>
+
+			<div id="footer">
+				<p>
+					&copy; Copyright <a href="http://www.tigo.com.py/"><h:outputText
+							value="Tigo" /></a> | Desarrollado por <a
+						href="http://www.globalsi.com.py/"><h:outputFormat
+							value="Global" /></a>
+				</p>
+			</div>
+		</div>
+	</h:body>
+	</h:html>
+</f:view>

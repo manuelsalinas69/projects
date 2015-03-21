@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.org/schema/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.org/schema/seam/pages http://jboss.org/schema/seam/pages-2.3.xsd">
+
+   <param name="firstResult" value="#{evaluacionSuscriptorList.firstResult}"/>
+   <param name="sort" value="#{evaluacionSuscriptorList.orderColumn}"/>
+   <param name="dir" value="#{evaluacionSuscriptorList.orderDirection}"/>
+   <param name="logic" value="#{evaluacionSuscriptorList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="estadoEvaluacion" value="#{evaluacionSuscriptorList.evaluacionSuscriptor.estadoEvaluacion}"/>
+   <param name="respuestaSenderSmsc" value="#{evaluacionSuscriptorList.evaluacionSuscriptor.respuestaSenderSmsc}"/>
+   <param name="estadoEnvio" value="#{evaluacionSuscriptorList.evaluacionSuscriptor.estadoEnvio}"/>
+
+</page>

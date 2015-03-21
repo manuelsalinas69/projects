@@ -1,0 +1,333 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="planificacionEnvio" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{planificacionEnvioHome.managed ? 'Edit' : 'Add'} Planificacion envio</f:facet>
+
+
+            <s:decorate id="idPlanificacionEnvioField" template="layout/edit.xhtml">
+                <ui:define name="label">Id planificacion envio</ui:define>
+                <h:inputText id="idPlanificacionEnvio"
+                       required="true"
+                          value="#{planificacionEnvioHome.instance.idPlanificacionEnvio}"
+                           size="29">
+                    <a:ajax event="blur" render="idPlanificacionEnvioField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+
+            <s:decorate id="enviarField" template="layout/edit.xhtml">
+                <ui:define name="label">Enviar</ui:define>
+                <h:inputText id="enviar"
+                           size="100"
+                      maxlength="100"
+                          value="#{planificacionEnvioHome.instance.enviar}">
+                    <a:ajax event="blur" render="enviarField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="ordenField" template="layout/edit.xhtml">
+                <ui:define name="label">Orden</ui:define>
+                <h:inputText id="orden"
+                          value="#{planificacionEnvioHome.instance.orden}"
+                           size="29">
+                    <a:ajax event="blur" render="ordenField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="envioFinalField" template="layout/edit.xhtml">
+                <ui:define name="label">Envio final</ui:define>
+                <h:selectBooleanCheckbox id="envioFinal"
+                                      value="#{planificacionEnvioHome.instance.envioFinal}"/>
+            </s:decorate>
+
+
+            <s:decorate id="esperarHorasAnteriorField" template="layout/edit.xhtml">
+                <ui:define name="label">Esperar horas anterior</ui:define>
+                <h:inputText id="esperarHorasAnterior"
+                          value="#{planificacionEnvioHome.instance.esperarHorasAnterior}"
+                           size="29">
+                    <a:ajax event="blur" render="esperarHorasAnteriorField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{planificacionEnvioHome.persist}"
+                       disabled="#{!planificacionEnvioHome.wired}"
+                       rendered="#{!planificacionEnvioHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{planificacionEnvioHome.update}"
+                       rendered="#{planificacionEnvioHome.managed}">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{planificacionEnvioHome.remove}"
+                      immediate="true"
+                       rendered="#{planificacionEnvioHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/PlanificacionEnvio.xhtml"
+                rendered="#{planificacionEnvioHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty planificacionEnvioFrom ? 'PlanificacionEnvioList' : planificacionEnvioFrom}.xhtml"
+                rendered="#{!planificacionEnvioHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="client">
+
+    <rich:tab header="Evaluacion">
+    <div class="association" id="evaluacionParent">
+
+        <h:outputText value="There is no evaluacion associated with this planificacionEnvio."
+                   rendered="#{planificacionEnvioHome.instance.evaluacion == null}"/>
+
+        <rich:dataTable var="_evaluacion"
+                   value="#{planificacionEnvioHome.instance.evaluacion}"
+                rendered="#{planificacionEnvioHome.instance.evaluacion != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="evaluacionTable">
+            <h:column>
+                <f:facet name="header">Id evaluacion</f:facet>
+                <h:outputText value="#{_evaluacion.idEvaluacion}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Modulo id modulo</f:facet>
+                <h:outputText value="#{_evaluacion.modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_evaluacion.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_evaluacion.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_evaluacion.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_evaluacion.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_evaluacion.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_evaluacion.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion envio modulo</f:facet>
+                <h:outputText value="#{_evaluacion.configuracionEnvioModulo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_evaluacion.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado evaluacion</f:facet>
+                <h:outputText value="#{_evaluacion.estadoEvaluacion}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{planificacionEnvioHome.instance.evaluacion != null ? 'changeParent' : 'selectParent'}" value="#{planificacionEnvioHome.instance.evaluacion != null ? 'Change' : 'Select'} evaluacion"
+                       view="/EvaluacionList.xhtml">
+                <f:param name="from" value="PlanificacionEnvioEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab header="Tip">
+    <div class="association" id="tipParent">
+
+        <h:outputText value="There is no tip associated with this planificacionEnvio."
+                   rendered="#{planificacionEnvioHome.instance.tip == null}"/>
+
+        <rich:dataTable var="_tip"
+                   value="#{planificacionEnvioHome.instance.tip}"
+                rendered="#{planificacionEnvioHome.instance.tip != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="tipTable">
+            <h:column>
+                <f:facet name="header">Id tip</f:facet>
+                <h:outputText value="#{_tip.idTip}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Modulo id modulo</f:facet>
+                <h:outputText value="#{_tip.modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Contenido</f:facet>
+                <h:outputText value="#{_tip.contenido}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_tip.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario alta</f:facet>
+                <h:outputText value="#{_tip.usuarioAlta}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_tip.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Usuario modificacion</f:facet>
+                <h:outputText value="#{_tip.usuarioModificacion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_tip.estadoRegistro}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{planificacionEnvioHome.instance.tip != null ? 'changeParent' : 'selectParent'}" value="#{planificacionEnvioHome.instance.tip != null ? 'Change' : 'Select'} tip"
+                       view="/TipList.xhtml">
+                <f:param name="from" value="PlanificacionEnvioEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab header="Modulo">
+    <div class="association" id="moduloParent">
+
+        <h:outputText value="There is no modulo associated with this planificacionEnvio."
+                   rendered="#{planificacionEnvioHome.instance.modulo == null}"/>
+
+        <rich:dataTable var="_modulo"
+                   value="#{planificacionEnvioHome.instance.modulo}"
+                rendered="#{planificacionEnvioHome.instance.modulo != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="moduloTable">
+            <h:column>
+                <f:facet name="header">Id modulo</f:facet>
+                <h:outputText value="#{_modulo.idModulo}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Proyecto id proyecto</f:facet>
+                <h:outputText value="#{_modulo.proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_modulo.nombre}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_modulo.descripcion}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_modulo.objetivos}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_modulo.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_modulo.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado modulo</f:facet>
+                <h:outputText value="#{_modulo.estadoModulo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_modulo.estadoRegistro}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Configuracion envio tip</f:facet>
+                <h:outputText value="#{_modulo.configuracionEnvioTip}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo modulo</f:facet>
+                <h:outputText value="#{_modulo.tipoModulo}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{planificacionEnvioHome.instance.modulo != null ? 'changeParent' : 'selectParent'}" value="#{planificacionEnvioHome.instance.modulo != null ? 'Change' : 'Select'} modulo"
+                       view="/ModuloList.xhtml">
+                <f:param name="from" value="PlanificacionEnvioEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>
