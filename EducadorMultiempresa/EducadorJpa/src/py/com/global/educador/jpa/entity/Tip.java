@@ -1,0 +1,167 @@
+package py.com.global.educador.jpa.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
+
+
+/**
+ * The persistent class for the TIP database table.
+ * 
+ */
+@Entity
+public class Tip implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long idTip;
+	private String contenido;
+	private String estadoRegistro;
+	private Date fechaAlta;
+	private Date fechaModificacion;
+	private String usuarioAlta;
+	private String usuarioModificacion;
+	private Set<EjecucionSuscriptorDetalle> ejecucionSuscriptorDetalles;
+	private Set<PlanificacionEnvio> planificacionEnvios;
+	private Modulo modulo;
+
+	public Tip() {
+	}
+
+
+	@Id
+	@SequenceGenerator(name="TIP_IDTIP_GENERATOR", sequenceName="TIP_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="TIP_IDTIP_GENERATOR")
+	@Column(name="ID_TIP")
+	public long getIdTip() {
+		return this.idTip;
+	}
+
+	public void setIdTip(long idTip) {
+		this.idTip = idTip;
+	}
+
+
+	public String getContenido() {
+		return this.contenido;
+	}
+
+	public void setContenido(String contenido) {
+		this.contenido = contenido;
+	}
+
+
+	@Column(name="ESTADO_REGISTRO")
+	public String getEstadoRegistro() {
+		return this.estadoRegistro;
+	}
+
+	public void setEstadoRegistro(String estadoRegistro) {
+		this.estadoRegistro = estadoRegistro;
+	}
+
+
+	 
+	@Column(name="FECHA_ALTA")
+	public Date getFechaAlta() {
+		return this.fechaAlta;
+	}
+
+	public void setFechaAlta(Date fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+
+
+	 
+	@Column(name="FECHA_MODIFICACION")
+	public Date getFechaModificacion() {
+		return this.fechaModificacion;
+	}
+
+	public void setFechaModificacion(Date fechaModificacion) {
+		this.fechaModificacion = fechaModificacion;
+	}
+
+
+	@Column(name="USUARIO_ALTA")
+	public String getUsuarioAlta() {
+		return this.usuarioAlta;
+	}
+
+	public void setUsuarioAlta(String usuarioAlta) {
+		this.usuarioAlta = usuarioAlta;
+	}
+
+
+	@Column(name="USUARIO_MODIFICACION")
+	public String getUsuarioModificacion() {
+		return this.usuarioModificacion;
+	}
+
+	public void setUsuarioModificacion(String usuarioModificacion) {
+		this.usuarioModificacion = usuarioModificacion;
+	}
+
+
+	//bi-directional many-to-one association to EjecucionSuscriptorDetalle
+	@OneToMany(mappedBy="tip")
+	public Set<EjecucionSuscriptorDetalle> getEjecucionSuscriptorDetalles() {
+		return this.ejecucionSuscriptorDetalles;
+	}
+
+	public void setEjecucionSuscriptorDetalles(Set<EjecucionSuscriptorDetalle> ejecucionSuscriptorDetalles) {
+		this.ejecucionSuscriptorDetalles = ejecucionSuscriptorDetalles;
+	}
+
+	
+	public EjecucionSuscriptorDetalle addEjecucionSuscriptorDetalles(EjecucionSuscriptorDetalle ejecucionSuscriptorDetalles) {
+		getEjecucionSuscriptorDetalles().add(ejecucionSuscriptorDetalles);
+		ejecucionSuscriptorDetalles.setTip(this);
+
+		return ejecucionSuscriptorDetalles;
+	}
+
+	public EjecucionSuscriptorDetalle removeEjecucionSuscriptorDetalles(EjecucionSuscriptorDetalle ejecucionSuscriptorDetalles) {
+		getEjecucionSuscriptorDetalles().remove(ejecucionSuscriptorDetalles);
+		ejecucionSuscriptorDetalles.setTip(null);
+
+		return ejecucionSuscriptorDetalles;
+	}
+
+	//bi-directional many-to-one association to PlanificacionEnvio
+	@OneToMany(mappedBy="tip")
+	public Set<PlanificacionEnvio> getPlanificacionEnvios() {
+		return this.planificacionEnvios;
+	}
+
+	public void setPlanificacionEnvios(Set<PlanificacionEnvio> planificacionEnvios) {
+		this.planificacionEnvios = planificacionEnvios;
+	}
+
+	
+	public PlanificacionEnvio addPlanificacionEnvios(PlanificacionEnvio planificacionEnvios) {
+		getPlanificacionEnvios().add(planificacionEnvios);
+		planificacionEnvios.setTip(this);
+
+		return planificacionEnvios;
+	}
+
+	public PlanificacionEnvio removePlanificacionEnvios(PlanificacionEnvio planificacionEnvios) {
+		getPlanificacionEnvios().remove(planificacionEnvios);
+		planificacionEnvios.setTip(null);
+
+		return planificacionEnvios;
+	}
+
+	//bi-directional many-to-one association to Modulo
+	@ManyToOne
+	@JoinColumn(name="ID_MODULO")
+	public Modulo getModulo() {
+		return this.modulo;
+	}
+
+	public void setModulo(Modulo modulo) {
+		this.modulo = modulo;
+	}
+
+	
+}

@@ -1,0 +1,177 @@
+package py.com.global.educador.jpa.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
+
+
+/**
+ * The persistent class for the PREGUNTA database table.
+ * 
+ */
+@Entity
+public class Pregunta implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long idPregunta;
+	private String contenidoPregunta;
+	private String estadoRegistro;
+	private Date fechaAlta;
+	private Date fechaModificacion;
+	private Long ordenPregunta;
+	private String usuarioAlta;
+	private String usuarioModificacion;
+	private Evaluacion evaluacion;
+	private Boolean preguntaFinal;
+	private Promo promo;
+	private Set<Respuesta> respuestas;
+
+	public Pregunta() {
+	}
+
+
+	@Id
+	@SequenceGenerator(name="PREGUNTA_IDPREGUNTA_GENERATOR", sequenceName="PREGUNTA_ID_SEQ",allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PREGUNTA_IDPREGUNTA_GENERATOR")
+	@Column(name="ID_PREGUNTA")
+	public long getIdPregunta() {
+		return this.idPregunta;
+	}
+
+	public void setIdPregunta(long idPregunta) {
+		this.idPregunta = idPregunta;
+	}
+
+
+	@Column(name="CONTENIDO_PREGUNTA")
+	public String getContenidoPregunta() {
+		return this.contenidoPregunta;
+	}
+
+	public void setContenidoPregunta(String contenidoPregunta) {
+		this.contenidoPregunta = contenidoPregunta;
+	}
+
+
+	@Column(name="ESTADO_REGISTRO")
+	public String getEstadoRegistro() {
+		return this.estadoRegistro;
+	}
+
+	public void setEstadoRegistro(String estadoRegistro) {
+		this.estadoRegistro = estadoRegistro;
+	}
+
+
+	 
+	@Column(name="FECHA_ALTA")
+	public Date getFechaAlta() {
+		return this.fechaAlta;
+	}
+
+	public void setFechaAlta(Date fechaAlta) {
+		this.fechaAlta = fechaAlta;
+	}
+
+
+	 
+	@Column(name="FECHA_MODIFICACION")
+	public Date getFechaModificacion() {
+		return this.fechaModificacion;
+	}
+
+	public void setFechaModificacion(Date fechaModificacion) {
+		this.fechaModificacion = fechaModificacion;
+	}
+
+
+	@Column(name="ORDEN_PREGUNTA")
+	public Long getOrdenPregunta() {
+		return this.ordenPregunta;
+	}
+
+	public void setOrdenPregunta(Long ordenPregunta) {
+		this.ordenPregunta = ordenPregunta;
+	}
+
+
+	@Column(name="USUARIO_ALTA")
+	public String getUsuarioAlta() {
+		return this.usuarioAlta;
+	}
+
+	public void setUsuarioAlta(String usuarioAlta) {
+		this.usuarioAlta = usuarioAlta;
+	}
+
+
+	@Column(name="USUARIO_MODIFICACION")
+	public String getUsuarioModificacion() {
+		return this.usuarioModificacion;
+	}
+
+	public void setUsuarioModificacion(String usuarioModificacion) {
+		this.usuarioModificacion = usuarioModificacion;
+	}
+
+	
+	@Column(name="PREGUNTA_FINAL")
+	public Boolean getPreguntaFinal() {
+		return preguntaFinal;
+	}
+
+
+	public void setPreguntaFinal(Boolean preguntaFinal) {
+		this.preguntaFinal = preguntaFinal;
+	}
+
+
+	//bi-directional many-to-one association to Evaluacion
+	@ManyToOne
+	@JoinColumn(name="ID_EVALUACION")
+	public Evaluacion getEvaluacion() {
+		return this.evaluacion;
+	}
+
+	public void setEvaluacion(Evaluacion evaluacion) {
+		this.evaluacion = evaluacion;
+	}
+
+	
+	@ManyToOne
+	@JoinColumn(name="ID_PROMO")
+	public Promo getPromo() {
+		return promo;
+	}
+
+
+	public void setPromo(Promo promo) {
+		this.promo = promo;
+	}
+
+
+	//bi-directional many-to-one association to Respuesta
+	@OneToMany(mappedBy="pregunta")
+	public Set<Respuesta> getRespuestas() {
+		return this.respuestas;
+	}
+
+	public void setRespuestas(Set<Respuesta> respuestas) {
+		this.respuestas = respuestas;
+	}
+
+	
+	public Respuesta addRespuestas(Respuesta respuestas) {
+		getRespuestas().add(respuestas);
+		respuestas.setPregunta(this);
+
+		return respuestas;
+	}
+
+	public Respuesta removeRespuestas(Respuesta respuestas) {
+		getRespuestas().remove(respuestas);
+		respuestas.setPregunta(null);
+
+		return respuestas;
+	}
+}

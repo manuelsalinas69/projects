@@ -1,0 +1,121 @@
+package py.com.global.educador.jpa.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the PLANIFICACION_ENVIO database table.
+ * 
+ */
+@Entity
+@Table(name="PLANIFICACION_ENVIO")
+public class PlanificacionEnvio implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long idPlanificacionEnvio;
+	private String enviar;
+	private Long orden;
+	private Evaluacion evaluacion;
+	private Modulo modulo;
+	private Tip tip;
+	private Boolean envioFinal;
+	private Long esperarHorasAnterior;
+
+	public PlanificacionEnvio() {
+	}
+
+
+	@Id
+	@SequenceGenerator(name="PLANIFICACION_ENVIO_IDPLANIFICACIONENVIO_GENERATOR", sequenceName="PLANIFICACION_ENVIO_ID_SEQ",allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="PLANIFICACION_ENVIO_IDPLANIFICACIONENVIO_GENERATOR")
+	@Column(name="ID_PLANIFICACION_ENVIO")
+	public long getIdPlanificacionEnvio() {
+		return this.idPlanificacionEnvio;
+	}
+
+	public void setIdPlanificacionEnvio(long idPlanificacionEnvio) {
+		this.idPlanificacionEnvio = idPlanificacionEnvio;
+	}
+
+
+	public String getEnviar() {
+		return this.enviar;
+	}
+
+	public void setEnviar(String enviar) {
+		this.enviar = enviar;
+	}
+
+
+	public Long getOrden() {
+		return this.orden;
+	}
+
+	public void setOrden(Long orden) {
+		this.orden = orden;
+	}
+
+	
+	
+	@Column(name="ENVIO_FINAL")
+	public Boolean getEnvioFinal() {
+		return envioFinal;
+	}
+
+
+	public void setEnvioFinal(Boolean envioFinal) {
+		this.envioFinal = envioFinal;
+	}
+	
+	
+
+	@Column(name="ESPERAR_HORAS_ANTERIOR")
+	public Long getEsperarHorasAnterior() {
+		return esperarHorasAnterior;
+	}
+
+
+	public void setEsperarHorasAnterior(Long esperarHorasAnterior) {
+		this.esperarHorasAnterior = esperarHorasAnterior;
+	}
+
+
+	//bi-directional many-to-one association to Evaluacion
+	@ManyToOne
+	@JoinColumn(name="ID_EVALUACION")
+	public Evaluacion getEvaluacion() {
+		return this.evaluacion;
+	}
+
+	public void setEvaluacion(Evaluacion evaluacion) {
+		this.evaluacion = evaluacion;
+	}
+
+	
+
+	//bi-directional many-to-one association to Modulo
+	@ManyToOne
+	@JoinColumn(name="ID_MODULO")
+	public Modulo getModulo() {
+		return this.modulo;
+	}
+
+	public void setModulo(Modulo modulo) {
+		this.modulo = modulo;
+	}
+
+	
+
+	//bi-directional many-to-one association to Tip
+	@ManyToOne
+	@JoinColumn(name="ID_TIP")
+	public Tip getTip() {
+		return this.tip;
+	}
+
+	public void setTip(Tip tip) {
+		this.tip = tip;
+	}
+
+	
+}

@@ -1,0 +1,114 @@
+package py.com.global.educador.jpa.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the EJECUCION_SUSCRIPTOR_DETALLE database table.
+ * 
+ */
+@Entity
+@Table(name="EJECUCION_SUSCRIPTOR_DETALLE")
+public class EjecucionSuscriptorDetalle implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long idEjecucionDetalle;
+	private String estadoEjecucion;
+	private EjecucionSuscriptor ejecucionSuscriptor;
+	private Evaluacion evaluacion;
+	private Pregunta pregunta;
+	private Respuesta respuesta;
+	private Tip tip;
+
+	public EjecucionSuscriptorDetalle() {
+	}
+
+
+	@Id
+	@SequenceGenerator(name="EJECUCION_SUSCRIPTOR_DETALLE_IDEJECUCIONDETALLE_GENERATOR", sequenceName="EJECUCION_SUSCRIPTOR_DETALLE_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EJECUCION_SUSCRIPTOR_DETALLE_IDEJECUCIONDETALLE_GENERATOR")
+	@Column(name="ID_EJECUCION_DETALLE")
+	public long getIdEjecucionDetalle() {
+		return this.idEjecucionDetalle;
+	}
+
+	public void setIdEjecucionDetalle(long idEjecucionDetalle) {
+		this.idEjecucionDetalle = idEjecucionDetalle;
+	}
+
+
+	@Column(name="ESTADO_EJECUCION")
+	public String getEstadoEjecucion() {
+		return this.estadoEjecucion;
+	}
+
+	public void setEstadoEjecucion(String estadoEjecucion) {
+		this.estadoEjecucion = estadoEjecucion;
+	}
+
+
+	//bi-directional many-to-one association to EjecucionSuscriptor
+	@ManyToOne
+	@JoinColumn(name="ID_EJECUCION_SUSCRIPTOR")
+	public EjecucionSuscriptor getEjecucionSuscriptor() {
+		return this.ejecucionSuscriptor;
+	}
+
+	public void setEjecucionSuscriptor(EjecucionSuscriptor ejecucionSuscriptor) {
+		this.ejecucionSuscriptor = ejecucionSuscriptor;
+	}
+
+	
+
+	//bi-directional many-to-one association to Evaluacion
+	@ManyToOne
+	@JoinColumn(name="ID_EVALUACION")
+	public Evaluacion getEvaluacion() {
+		return this.evaluacion;
+	}
+
+	public void setEvaluacion(Evaluacion evaluacion) {
+		this.evaluacion = evaluacion;
+	}
+
+	
+
+	//bi-directional many-to-one association to Pregunta
+	@ManyToOne
+	@JoinColumn(name="ID_PREGUNTA")
+	public Pregunta getPregunta() {
+		return this.pregunta;
+	}
+
+	public void setPregunta(Pregunta pregunta) {
+		this.pregunta = pregunta;
+	}
+
+	
+
+	//bi-directional many-to-one association to Respuesta
+	@ManyToOne
+	@JoinColumn(name="ID_RESPUESTA")
+	public Respuesta getRespuesta() {
+		return this.respuesta;
+	}
+
+	public void setRespuesta(Respuesta respuesta) {
+		this.respuesta = respuesta;
+	}
+
+	
+
+	//bi-directional many-to-one association to Tip
+	@ManyToOne
+	@JoinColumn(name="ID_TIP")
+	public Tip getTip() {
+		return this.tip;
+	}
+
+	public void setTip(Tip tip) {
+		this.tip = tip;
+	}
+
+	
+}

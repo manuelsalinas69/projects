@@ -1,0 +1,250 @@
+package py.com.global.educador.jpa.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Set;
+
+
+/**
+ * The persistent class for the MODULO database table.
+ * 
+ */
+@Entity
+public class Modulo implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long idModulo;
+	private String configuracionEnvioTip;
+	private String descripcion;
+	private String estadoModulo;
+	private String estadoRegistro;
+	private Date fechaFin;
+	private Date fechaInicio;
+	private String nombre;
+	private String objetivos;
+	private String tipoModulo;
+	private Set<EjecucionSuscriptor> ejecucionSuscriptors;
+	private Set<Evaluacion> evaluacions;
+	private Proyecto proyecto;
+	private Set<PlanificacionEnvio> planificacionEnvios;
+	private Set<Tip> tips;
+
+	public Modulo() {
+	}
+
+
+	@Id
+	@SequenceGenerator(name="MODULO_IDMODULO_GENERATOR", sequenceName="MODULO_ID_SEQ",allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="MODULO_IDMODULO_GENERATOR")
+	@Column(name="ID_MODULO")
+	public long getIdModulo() {
+		return this.idModulo;
+	}
+
+	public void setIdModulo(long idModulo) {
+		this.idModulo = idModulo;
+	}
+
+
+	@Column(name="CONFIGURACION_ENVIO_TIP")
+	public String getConfiguracionEnvioTip() {
+		return this.configuracionEnvioTip;
+	}
+
+	public void setConfiguracionEnvioTip(String configuracionEnvioTip) {
+		this.configuracionEnvioTip = configuracionEnvioTip;
+	}
+
+
+	public String getDescripcion() {
+		return this.descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+
+	@Column(name="ESTADO_MODULO")
+	public String getEstadoModulo() {
+		return this.estadoModulo;
+	}
+
+	public void setEstadoModulo(String estadoModulo) {
+		this.estadoModulo = estadoModulo;
+	}
+
+
+	@Column(name="ESTADO_REGISTRO")
+	public String getEstadoRegistro() {
+		return this.estadoRegistro;
+	}
+
+	public void setEstadoRegistro(String estadoRegistro) {
+		this.estadoRegistro = estadoRegistro;
+	}
+
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="FECHA_FIN")
+	public Date getFechaFin() {
+		return this.fechaFin;
+	}
+
+	public void setFechaFin(Date fechaFin) {
+		this.fechaFin = fechaFin;
+	}
+
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="FECHA_INICIO")
+	public Date getFechaInicio() {
+		return this.fechaInicio;
+	}
+
+	public void setFechaInicio(Date fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+
+
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+
+	public String getObjetivos() {
+		return this.objetivos;
+	}
+
+	public void setObjetivos(String objetivos) {
+		this.objetivos = objetivos;
+	}
+
+
+	@Column(name="TIPO_MODULO")
+	public String getTipoModulo() {
+		return this.tipoModulo;
+	}
+
+	public void setTipoModulo(String tipoModulo) {
+		this.tipoModulo = tipoModulo;
+	}
+
+
+	//bi-directional many-to-one association to EjecucionSuscriptor
+	@OneToMany(mappedBy="modulo")
+	public Set<EjecucionSuscriptor> getEjecucionSuscriptors() {
+		return this.ejecucionSuscriptors;
+	}
+
+	public void setEjecucionSuscriptors(Set<EjecucionSuscriptor> ejecucionSuscriptors) {
+		this.ejecucionSuscriptors = ejecucionSuscriptors;
+	}
+
+	
+	public EjecucionSuscriptor addEjecucionSuscriptors(EjecucionSuscriptor ejecucionSuscriptors) {
+		getEjecucionSuscriptors().add(ejecucionSuscriptors);
+		ejecucionSuscriptors.setModulo(this);
+
+		return ejecucionSuscriptors;
+	}
+
+	public EjecucionSuscriptor removeEjecucionSuscriptors(EjecucionSuscriptor ejecucionSuscriptors) {
+		getEjecucionSuscriptors().remove(ejecucionSuscriptors);
+		ejecucionSuscriptors.setModulo(null);
+
+		return ejecucionSuscriptors;
+	}
+
+	//bi-directional many-to-one association to Evaluacion
+	@OneToMany(mappedBy="modulo")
+	public Set<Evaluacion> getEvaluacions() {
+		return this.evaluacions;
+	}
+
+	public void setEvaluacions(Set<Evaluacion> evaluacions) {
+		this.evaluacions = evaluacions;
+	}
+
+	
+	public Evaluacion addEvaluacions(Evaluacion evaluacions) {
+		getEvaluacions().add(evaluacions);
+		evaluacions.setModulo(this);
+
+		return evaluacions;
+	}
+
+	public Evaluacion removeEvaluacions(Evaluacion evaluacions) {
+		getEvaluacions().remove(evaluacions);
+		evaluacions.setModulo(null);
+
+		return evaluacions;
+	}
+
+	//bi-directional many-to-one association to Proyecto
+	@ManyToOne
+	@JoinColumn(name="ID_PROYECTO")
+	public Proyecto getProyecto() {
+		return this.proyecto;
+	}
+
+	public void setProyecto(Proyecto proyecto) {
+		this.proyecto = proyecto;
+	}
+
+	
+
+	//bi-directional many-to-one association to PlanificacionEnvio
+	@OneToMany(mappedBy="modulo")
+	public Set<PlanificacionEnvio> getPlanificacionEnvios() {
+		return this.planificacionEnvios;
+	}
+
+	public void setPlanificacionEnvios(Set<PlanificacionEnvio> planificacionEnvios) {
+		this.planificacionEnvios = planificacionEnvios;
+	}
+
+	
+	public PlanificacionEnvio addPlanificacionEnvios(PlanificacionEnvio planificacionEnvios) {
+		getPlanificacionEnvios().add(planificacionEnvios);
+		planificacionEnvios.setModulo(this);
+
+		return planificacionEnvios;
+	}
+
+	public PlanificacionEnvio removePlanificacionEnvios(PlanificacionEnvio planificacionEnvios) {
+		getPlanificacionEnvios().remove(planificacionEnvios);
+		planificacionEnvios.setModulo(null);
+
+		return planificacionEnvios;
+	}
+
+	//bi-directional many-to-one association to Tip
+	@OneToMany(mappedBy="modulo")
+	public Set<Tip> getTips() {
+		return this.tips;
+	}
+
+	public void setTips(Set<Tip> tips) {
+		this.tips = tips;
+	}
+
+	
+	public Tip addTips(Tip tips) {
+		getTips().add(tips);
+		tips.setModulo(this);
+
+		return tips;
+	}
+
+	public Tip removeTips(Tip tips) {
+		getTips().remove(tips);
+		tips.setModulo(null);
+
+		return tips;
+	}
+}

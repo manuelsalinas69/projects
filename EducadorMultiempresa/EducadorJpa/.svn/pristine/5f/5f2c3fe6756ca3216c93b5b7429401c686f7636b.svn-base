@@ -1,0 +1,207 @@
+package py.com.global.educador.jpa.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+
+
+/**
+ * The persistent class for the EJECUCION_SUSCRIPTOR_DETALLE database table.
+ * 
+ */
+@Entity
+@Table(name="EJECUCION_SUSCRIPTOR_DETALLE")
+public class EjecucionSuscriptorDetalle implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long idEjecucionDetalle;
+	private String estadoEjecucion;
+	private Long orden;
+	private EjecucionSuscriptor ejecucionSuscriptor;
+	private Evaluacion evaluacion;
+	private Tip tip;
+	private Boolean envioFinal;
+	private String enviar;
+	private Long esperarHorasAnterior;
+	private Date fechaEjecucion;
+	private Date fechaEnvio;
+	private String respuestaSmsc; 
+	private Set<EvaluacionSuscriptor> evaluacionSuscriptors;
+
+	public EjecucionSuscriptorDetalle() {
+	}
+
+
+	@Id
+	@SequenceGenerator(name="EJECUCION_SUSCRIPTOR_DETALLE_IDEJECUCIONDETALLE_GENERATOR", sequenceName="EJEC_SUSCR_DET_ID_SEQ",allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="EJECUCION_SUSCRIPTOR_DETALLE_IDEJECUCIONDETALLE_GENERATOR")
+	@Column(name="ID_EJECUCION_DETALLE")
+	public long getIdEjecucionDetalle() {
+		return this.idEjecucionDetalle;
+	}
+
+	public void setIdEjecucionDetalle(long idEjecucionDetalle) {
+		this.idEjecucionDetalle = idEjecucionDetalle;
+	}
+
+
+	@Column(name="ESTADO_EJECUCION")
+	public String getEstadoEjecucion() {
+		return this.estadoEjecucion;
+	}
+
+	public void setEstadoEjecucion(String estadoEjecucion) {
+		this.estadoEjecucion = estadoEjecucion;
+	}
+
+
+	public Long getOrden() {
+		return this.orden;
+	}
+
+	public void setOrden(Long orden) {
+		this.orden = orden;
+	}
+
+
+	@Column(name="ENVIAR")
+	public String getEnviar() {
+		return enviar;
+	}
+
+
+	public void setEnviar(String enviar) {
+		this.enviar = enviar;
+	}
+
+
+	@Column(name="ENVIO_FINAL")
+	public Boolean getEnvioFinal() {
+		return envioFinal;
+	}
+
+
+	public void setEnvioFinal(Boolean envioFinal) {
+		this.envioFinal = envioFinal;
+	}
+
+
+
+	@Column(name="ESPERAR_HORAS_ANTERIOR")
+	public Long getEsperarHorasAnterior() {
+		return esperarHorasAnterior;
+	}
+
+
+	public void setEsperarHorasAnterior(Long esperarHorasAnterior) {
+		this.esperarHorasAnterior = esperarHorasAnterior;
+	}
+	
+	
+
+	@Column(name="FECHA_EJECUCION")
+	public Date getFechaEjecucion() {
+		return fechaEjecucion;
+	}
+
+	
+	public void setFechaEjecucion(Date fechaEjecucion) {
+		this.fechaEjecucion = fechaEjecucion;
+	}
+
+	 
+	@Column(name="FECHA_ENVIO")
+	public Date getFechaEnvio() {
+		return fechaEnvio;
+	}
+
+
+	public void setFechaEnvio(Date fechaEnvio) {
+		this.fechaEnvio = fechaEnvio;
+	}
+
+	@Column(name="RESPUESTA_SMSC")
+	public String getRespuestaSmsc() {
+		return respuestaSmsc;
+	}
+
+
+	public void setRespuestaSmsc(String respuestaSmsc) {
+		this.respuestaSmsc = respuestaSmsc;
+	}
+
+
+	//bi-directional many-to-one association to EjecucionSuscriptor
+	@ManyToOne
+	@JoinColumn(name="ID_EJECUCION_SUSCRIPTOR")
+	public EjecucionSuscriptor getEjecucionSuscriptor() {
+		return this.ejecucionSuscriptor;
+	}
+
+	public void setEjecucionSuscriptor(EjecucionSuscriptor ejecucionSuscriptor) {
+		this.ejecucionSuscriptor = ejecucionSuscriptor;
+	}
+
+
+
+	//bi-directional many-to-one association to Evaluacion
+	@ManyToOne
+	@JoinColumn(name="ID_EVALUACION")
+	public Evaluacion getEvaluacion() {
+		return this.evaluacion;
+	}
+
+	public void setEvaluacion(Evaluacion evaluacion) {
+		this.evaluacion = evaluacion;
+	}
+
+
+
+	//bi-directional many-to-one association to Tip
+	@ManyToOne
+	@JoinColumn(name="ID_TIP")
+	public Tip getTip() {
+		return this.tip;
+	}
+
+	public void setTip(Tip tip) {
+		this.tip = tip;
+	}
+
+
+
+	//bi-directional many-to-one association to EvaluacionSuscriptor
+	@OneToMany(mappedBy="ejecucionSuscriptorDetalle")
+	public Set<EvaluacionSuscriptor> getEvaluacionSuscriptors() {
+		return this.evaluacionSuscriptors;
+	}
+
+	public void setEvaluacionSuscriptors(Set<EvaluacionSuscriptor> evaluacionSuscriptors) {
+		this.evaluacionSuscriptors = evaluacionSuscriptors;
+	}
+
+
+	public EvaluacionSuscriptor addEvaluacionSuscriptors(EvaluacionSuscriptor evaluacionSuscriptors) {
+		getEvaluacionSuscriptors().add(evaluacionSuscriptors);
+		evaluacionSuscriptors.setEjecucionSuscriptorDetalle(this);
+
+		return evaluacionSuscriptors;
+	}
+
+	public EvaluacionSuscriptor removeEvaluacionSuscriptors(EvaluacionSuscriptor evaluacionSuscriptors) {
+		getEvaluacionSuscriptors().remove(evaluacionSuscriptors);
+		evaluacionSuscriptors.setEjecucionSuscriptorDetalle(null);
+
+		return evaluacionSuscriptors;
+	}
+}

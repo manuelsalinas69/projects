@@ -1,0 +1,72 @@
+package py.com.global.educador.jpa.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+
+
+/**
+ * The persistent class for the SUSCRIPTOR_MODULO database table.
+ * 
+ */
+@Entity
+@Table(name="SUSCRIPTOR_MODULO")
+public class SuscriptorModulo implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long idSuscriptorModulo;
+	private String estadoSuscriptorModulo;
+	private Modulo modulo;
+	private Suscriptor suscriptor;
+
+	public SuscriptorModulo() {
+	}
+
+
+	@Id
+	@SequenceGenerator(name="SUSCRIPTOR_MODULO_IDSUSCRIPTORMODULO_GENERATOR", sequenceName="SUSCRIPTOR_MODULO_ID_SEQ",allocationSize=1)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SUSCRIPTOR_MODULO_IDSUSCRIPTORMODULO_GENERATOR")
+	@Column(name="ID_SUSCRIPTOR_MODULO")
+	public long getIdSuscriptorModulo() {
+		return this.idSuscriptorModulo;
+	}
+
+	public void setIdSuscriptorModulo(long idSuscriptorModulo) {
+		this.idSuscriptorModulo = idSuscriptorModulo;
+	}
+
+
+	@Column(name="ESTADO_SUSCRIPTOR_MODULO")
+	public String getEstadoSuscriptorModulo() {
+		return this.estadoSuscriptorModulo;
+	}
+
+	public void setEstadoSuscriptorModulo(String estadoSuscriptorModulo) {
+		this.estadoSuscriptorModulo = estadoSuscriptorModulo;
+	}
+
+
+	//bi-directional many-to-one association to Modulo
+	@ManyToOne
+	@JoinColumn(name="ID_MODULO")
+	public Modulo getModulo() {
+		return this.modulo;
+	}
+
+	public void setModulo(Modulo modulo) {
+		this.modulo = modulo;
+	}
+
+	
+
+	//bi-directional many-to-one association to Suscriptor
+	@ManyToOne
+	@JoinColumn(name="ID_SUSCRIPTOR")
+	public Suscriptor getSuscriptor() {
+		return this.suscriptor;
+	}
+
+	public void setSuscriptor(Suscriptor suscriptor) {
+		this.suscriptor = suscriptor;
+	}
+
+	
+}

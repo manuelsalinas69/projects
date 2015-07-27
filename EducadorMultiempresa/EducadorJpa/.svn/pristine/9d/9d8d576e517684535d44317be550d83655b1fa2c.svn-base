@@ -1,0 +1,70 @@
+package py.com.global.educador.jpa.entity;
+
+import java.io.Serializable;
+import javax.persistence.*;
+import java.util.Date;
+
+
+/**
+ * The persistent class for the LOG_CLIENT_RESPONSE database table.
+ * 
+ */
+@Entity
+@Table(name="LOG_CLIENT_RESPONSE")
+public class LogClientResponse implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long idLogClientResponse;
+	private Date fechaRecepcion;
+	private String mensaje;
+	private Suscriptor suscriptor;
+
+	public LogClientResponse() {
+	}
+
+
+	@Id
+	@SequenceGenerator(name="LOG_CLIENT_RESPONSE_IDLOGCLIENTRESPONSE_GENERATOR", sequenceName="LOG_CLIENT_RESPONSE_ID_SEQ")
+	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="LOG_CLIENT_RESPONSE_IDLOGCLIENTRESPONSE_GENERATOR")
+	@Column(name="ID_LOG_CLIENT_RESPONSE")
+	public long getIdLogClientResponse() {
+		return this.idLogClientResponse;
+	}
+
+	public void setIdLogClientResponse(long idLogClientResponse) {
+		this.idLogClientResponse = idLogClientResponse;
+	}
+
+
+	@Temporal(TemporalType.DATE)
+	@Column(name="FECHA_RECEPCION")
+	public Date getFechaRecepcion() {
+		return this.fechaRecepcion;
+	}
+
+	public void setFechaRecepcion(Date fechaRecepcion) {
+		this.fechaRecepcion = fechaRecepcion;
+	}
+
+
+	public String getMensaje() {
+		return this.mensaje;
+	}
+
+	public void setMensaje(String mensaje) {
+		this.mensaje = mensaje;
+	}
+
+
+	//bi-directional many-to-one association to Suscriptor
+	@ManyToOne
+	@JoinColumn(name="ID_SUSCRIPTOR")
+	public Suscriptor getSuscriptor() {
+		return this.suscriptor;
+	}
+
+	public void setSuscriptor(Suscriptor suscriptor) {
+		this.suscriptor = suscriptor;
+	}
+
+	
+}
