@@ -1,0 +1,160 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+<s:decorate template="layout/title.xhtml">
+		<ui:define name="label">
+			#{messages.Empresa_menu}
+		</ui:define>
+	</s:decorate>
+
+    <h:form id="empresa" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{empresaHome.managed ? messages.msg_edit : messages.GENERICO_ADD} #{messages.Empresa_single}</f:facet>
+
+
+          
+
+            <s:decorate id="nombreField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre</ui:define>
+                <h:inputText id="nombre"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{empresaFormController.instance.nombre}">
+                    <a:ajax event="blur" render="nombreField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="direccionField" template="layout/edit.xhtml">
+                <ui:define name="label">Direccion</ui:define>
+                <h:inputTextarea id="direccion"
+                               cols="80"
+                               rows="2"
+                               required="true"
+                              value="#{empresaFormController.instance.direccion}"/>
+            </s:decorate>
+
+
+            <s:decorate id="telefonoPrincipalField" template="layout/edit.xhtml">
+                <ui:define name="label">Telefono principal</ui:define>
+                <h:inputText id="telefonoPrincipal"
+                           size="50"
+                      maxlength="50"
+                      required="true"
+                          value="#{empresaFormController.instance.telefonoPrincipal}">
+                    <a:ajax event="blur" render="telefonoPrincipalField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="telefonoSecundarioField" template="layout/edit.xhtml">
+                <ui:define name="label">Telefono secundario</ui:define>
+                <h:inputText id="telefonoSecundario"
+                           size="50"
+                      maxlength="50"
+                          value="#{empresaFormController.instance.telefonoSecundario}">
+                    <a:ajax event="blur" render="telefonoSecundarioField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="emailField" template="layout/edit.xhtml">
+                <ui:define name="label">Email</ui:define>
+                <h:inputTextarea id="email"
+                               cols="80"
+                               rows="2"
+                              value="#{empresaFormController.instance.email}"/>
+            </s:decorate>
+
+
+            <s:decorate id="nombreContactoField" template="layout/edit.xhtml">
+                <ui:define name="label">Nombre contacto</ui:define>
+                <h:inputTextarea id="nombreContacto"
+                               cols="80"
+                               rows="2"
+                               required="true"
+                              value="#{empresaFormController.instance.nombreContacto}"/>
+            </s:decorate>
+
+
+            <s:decorate id="telefonoContacttoField" template="layout/edit.xhtml">
+                <ui:define name="label">Telefono contacto</ui:define>
+                <h:inputText id="telefonoContactto"
+                           size="50"
+                      maxlength="50"
+                      required="true"
+                          value="#{empresaFormController.instance.telefonoContacto}">
+                    <a:ajax event="blur" render="telefonoContacttoField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="gmapsUbicacionField" template="layout/edit.xhtml">
+                <ui:define name="label">Gmaps ubicacion</ui:define>
+                <h:inputText id="gmapsUbicacion"
+                           size="100"
+                      maxlength="100"
+                          value="#{empresaFormController.instance.gmapsUbicacion}">
+                    <a:ajax event="blur" render="gmapsUbicacionField" bypassUpdates="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                #{messages.msg_required_fields}
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="#{messages.msg_save}"
+                         action="#{empresaFormController.persist}"
+                       rendered="#{!empresaHome.managed}"
+                       onclick="return confirm('#{messages.MSG_CONFIRM_SAVE}');">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="update"
+                          value="#{messages.msg_update}"
+                         action="#{empresaFormController.update}"
+                       rendered="#{empresaHome.managed}"
+                       onclick="return confirm('#{messages.MSG_CONFIRM_UPDATE}');">
+                <s:conversationId/>
+            </h:commandButton>
+
+            <h:commandButton id="delete"
+                          value="#{messages.msg_delete}"
+                         action="#{empresaFormController.remove}"
+                      immediate="true"
+                       rendered="#{empresaHome.managed}"
+                        onclick="return confirm('#{messages.MSG_CONFIRM_DELETE}');"/>
+
+          
+
+            <s:button id="cancelAdd"
+                   value="#{messages.msg_cancel}" includePageParams="false"
+             propagation="none"
+                    view="/#{empty empresaFrom ? 'EmpresaList' : empresaFrom}.xhtml"
+               />
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

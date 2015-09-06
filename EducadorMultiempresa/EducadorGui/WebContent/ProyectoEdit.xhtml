@@ -17,8 +17,8 @@
 		</s:decorate>
 
 		<h:form id="proyecto" styleClass="edit">
-
-			<rich:panel style="border:0px;">
+		<rich:tabPanel switchType="client">
+			<rich:tab header="Datos">
 				<h:panelGrid>
 
 					<h:panelGrid columns="2">
@@ -51,9 +51,21 @@
 							value="#{proyectoHome.instance.objetivos}" />
 					</s:decorate>
 
-				</h:panelGrid>
+						<s:decorate id="empresaField" template="layout/edit.xhtml">
+						<ui:define name="label">Empresa</ui:define>
+						<h:selectOneMenu id="empresa" required="true"
+							value="#{proyectoHome.idEmpresa}" >
+							<f:selectItems value="#{empresaSelectItems}"/>
+						</h:selectOneMenu>
+					</s:decorate>
 
-				<fieldset>
+				</h:panelGrid>
+			</rich:tab>
+			<rich:tab header="Configuracion">
+				<rich:panel style="border:0px;">
+				
+
+				<fieldset style="max-height: 250px;overflow: scroll;">
 					<legend>Par&aacute;metros del proyecto</legend>
 					<h:outputText value="El proyecto no cuenta con parametros"
 						rendered="#{empty proyectoHome.parametros}" />
@@ -77,6 +89,10 @@
 					</rich:dataTable>
 				</fieldset>
 			</rich:panel>
+			</rich:tab>
+		</rich:tabPanel>
+
+			
 
 			<div style="clear: both; margin-top: 10px; margin-bottom: 10px;">
 				<span class="required">*</span> #{messages.msg_required_fields}

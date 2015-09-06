@@ -1,0 +1,222 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+	<s:decorate template="layout/title.xhtml">
+		<ui:define name="label">
+			#{messages.Empresa_menu}
+		</ui:define>
+	</s:decorate>
+
+    <h:form id="empresaSearch" styleClass="edit">
+
+        <rich:collapsiblePanel header="#{messages.msg_list_search_filter}" switchType="client">
+
+            <h:panelGrid columns="2">
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Nombre</ui:define>
+					<h:inputText id="nombre" value="#{empresaList.empresa.nombre}"/>
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Direccion</ui:define>
+					<h:inputText id="direccion" value="#{empresaList.empresa.direccion}"/>
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Telefono principal</ui:define>
+					<h:inputText id="telefonoPrincipal" value="#{empresaList.empresa.telefonoPrincipal}"/>
+				</s:decorate>
+
+           
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Email</ui:define>
+					<h:inputText id="email" value="#{empresaList.empresa.email}"/>
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Nombre contacto</ui:define>
+					<h:inputText id="nombreContacto" value="#{empresaList.empresa.nombreContacto}"/>
+				</s:decorate>
+
+				<s:decorate template="layout/display.xhtml">
+					<ui:define name="label">Telefono contacto</ui:define>
+					<h:inputText id="telefonoContacto" value="#{empresaList.empresa.telefonoContacto}"/>
+				</s:decorate>
+            </h:panelGrid>
+
+         </rich:collapsiblePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="#{messages.msg_list_search_button}" action="/EmpresaList.xhtml"/>
+            <s:button id="reset" value="#{messages.msg_list_search_reset_button}" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">#{messages.msg_list_search_results} (#{empty empresaList.resultList ? 0 : (empresaList.paginated ? empresaList.resultCount : empresaList.resultList.size)})</f:facet>
+     <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/EmpresaEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="#{messages.msg_add_female}">
+            <f:param name="empresaIdEmpresa"/>
+        </s:button>
+    </s:div>
+    
+    <div class="results" id="empresaList">
+
+    <h:outputText value="#{messages.msg_list_search_no_results}"
+               rendered="#{empty empresaList.resultList}"/>
+
+    <rich:dataTable id="empresaList"
+                var="_empresa"
+              value="#{empresaList.resultList}"
+           rendered="#{not empty empresaList.resultList}">
+        
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{empresaList}"/>
+                    <ui:param name="propertyLabel" value="Nombre"/>
+                    <ui:param name="propertyPath" value="empresa.nombre"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_empresa.nombre}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{empresaList}"/>
+                    <ui:param name="propertyLabel" value="Direccion"/>
+                    <ui:param name="propertyPath" value="empresa.direccion"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_empresa.direccion}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{empresaList}"/>
+                    <ui:param name="propertyLabel" value="Telefono principal"/>
+                    <ui:param name="propertyPath" value="empresa.telefonoPrincipal"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_empresa.telefonoPrincipal}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{empresaList}"/>
+                    <ui:param name="propertyLabel" value="Telefono secundario"/>
+                    <ui:param name="propertyPath" value="empresa.telefonoSecundario"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_empresa.telefonoSecundario}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{empresaList}"/>
+                    <ui:param name="propertyLabel" value="Email"/>
+                    <ui:param name="propertyPath" value="empresa.email"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_empresa.email}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{empresaList}"/>
+                    <ui:param name="propertyLabel" value="Nombre contacto"/>
+                    <ui:param name="propertyPath" value="empresa.nombreContacto"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_empresa.nombreContacto}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{empresaList}"/>
+                    <ui:param name="propertyLabel" value="Telefono contacto"/>
+                    <ui:param name="propertyPath" value="empresa.telefonoContacto"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_empresa.telefonoContacto}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{empresaList}"/>
+                    <ui:param name="propertyLabel" value="Gmaps ubicacion"/>
+                    <ui:param name="propertyPath" value="empresa.gmapsUbicacion"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_empresa.gmapsUbicacion}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">#{messages.msg_list_action_column}</f:facet>
+           
+            <s:link view="/EmpresaEdit.xhtml"
+                   value="#{messages.msg_edit}"
+             propagation="none"
+                      id="empresaEdit"
+                rendered="#{empty from}">
+                <f:param name="empresaIdEmpresa"
+                        value="#{_empresa.idEmpresa}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/EmpresaList.xhtml"
+            rendered="#{empresaList.previousExists}"
+               value="#{messages.left}#{messages.left} #{messages.msg_list_first_page}"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/EmpresaList.xhtml"
+            rendered="#{empresaList.previousExists}"
+               value="#{messages.left} #{messages.msg_list_previous_page}"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{empresaList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/EmpresaList.xhtml"
+            rendered="#{empresaList.nextExists}"
+               value="#{messages.msg_list_next_page} #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{empresaList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/EmpresaList.xhtml"
+            rendered="#{empresaList.nextExists}"
+               value="#{messages.msg_list_last_page} #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{empresaList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+   
+
+</ui:define>
+
+</ui:composition>

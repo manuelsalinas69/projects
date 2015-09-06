@@ -10,6 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -32,9 +34,11 @@ public class Usuario extends EntityInterface  {
 	private String nombre;
 	private String estado;
 	private Date fechaRegistro;
+	private Empresa empresa;
 	private Boolean rolAdminSistema;
 	private Boolean rolAdminProyectos;
 	private Boolean rolConsultas;
+	
 
 	
 	private Set<Pregunta> preguntasForUsuarioModificacion = new HashSet<Pregunta>(
@@ -168,6 +172,17 @@ public class Usuario extends EntityInterface  {
 
 	public void setRolConsultas(Boolean rolConsultas) {
 		this.rolConsultas = rolConsultas;
+	}
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="ID_EMPRESA")
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuarioModificacion")

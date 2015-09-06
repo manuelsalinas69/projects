@@ -12,7 +12,15 @@
     <ui:define name="body">
        <div align="center" style="min-height:400px;">
         <ul class="shortcuts" >
-
+					<s:span title="Vea la lista de suscriptores a la plataforma"
+						rendered="#{usuario.rolAdminSistema}">
+						<li><s:link view="/EmpresaList.xhtml" propagation="none">
+								<span class="shortcuts-icon iconsi-event">
+									<p style="font-size: 25px">E</p>
+								</span>
+								<span class="shortcuts-label">Empresas</span>
+							</s:link></li>
+					</s:span>
 					<s:span title="Acceda al listado de m&oacute;dulos del sistema"
 					rendered="#{usuario.rolAdminProyectos}"
 						>

@@ -22,6 +22,17 @@
 			<rich:tabPanel switchType="client">
 				<rich:tab header="Datos del usuario">
 					<h:panelGrid>
+						<s:decorate id="empresaField" template="layout/edit2.xhtml">
+							<ui:define name="label">Empresa</ui:define>
+							<h:selectOneMenu id="empresa"
+								required="true" 
+								value="#{usuarioHome.idEmpresa}">
+								<f:selectItems value="#{empresaSelectItems}"/>
+								<a:ajax event="blur" render="empresaField" bypassUpdates="true" />
+							</h:selectOneMenu>
+						</s:decorate>
+						
+						
 						<s:decorate id="usuarioField" template="layout/edit2.xhtml">
 							<ui:define name="label">Usuario</ui:define>
 							<h:inputText id="usuario" disabled="#{usuarioHome.managed}"

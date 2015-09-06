@@ -49,18 +49,21 @@
     <servlet-name>Seam Resource Servlet</servlet-name>
     <url-pattern>/seam/resource/*</url-pattern>
   </servlet-mapping>
+  
   <context-param>
     <param-name>facelets.DEVELOPMENT</param-name>
     <param-value>false</param-value>
   </context-param>
+ 
    <context-param>
     <param-name>org.jboss.seam.core.init.debug</param-name>
-    <param-value>false</param-value>
+    <param-value>true</param-value>
   </context-param>
   <context-param>
     <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
     <param-value>.xhtml</param-value>
   </context-param>
+
   <security-constraint>
     <display-name>Restrict raw XHTML Documents</display-name>
     <web-resource-collection>
@@ -69,5 +72,6 @@
     </web-resource-collection>
     <auth-constraint/>
   </security-constraint>
+  
   
 </web-app>

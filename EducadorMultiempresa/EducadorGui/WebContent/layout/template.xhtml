@@ -17,20 +17,12 @@
 		<title>#{messages.APP_NAME}</title>
 		<link rel="shortcut icon" href="#{facesContext.externalContext.requestContextPath}/styles/css-tigo/favicon.ico" />
 	
-		<h:outputStylesheet library="css" name="style.css"/>
-		<h:outputStylesheet library="css" name="style_global_educador.css"/>
+		
 		<script type="text/javascript"
 			src="#{facesContext.externalContext.requestContextPath}/javascript/utils/Utils.js"></script>
-		
-<!-- 		<h:outputStylesheet library="css" name="theme.css"/> -->
-<!-- 		<h:outputStylesheet library="css" name="smoothDivScroll.css"/> -->
-		
-		
-		<ui:insert name="head"/>
-		
-	
 
 	</h:head>
+	
 	<h:body>
 		<rich:notifyMessage nonblocking="true" stayTime="#{generalHelper.tiempoMen()}"/>
 		<div id="main">
@@ -69,12 +61,21 @@
 			<div id="footer">
 				<p>
 					&copy; Copyright <a href="http://www.tigo.com.py/"><h:outputText
-							value="Tigo" /></a> | Desarrollado por <a
+							value="Tigo" /></a> | Desarrollado por ---- <a
 						href="http://www.globalsi.com.py/"><h:outputFormat
 							value="Global" /></a>
 				</p>
 			</div>
 		</div>
+		<!-- 
+		<h:outputStylesheet library="css" name="style.css"/>
+		<h:outputStylesheet library="css" name="style_global_educador.css"/>
+		-->
+		<h:outputStylesheet library="css" name="global_body.css"/>
+		<h:outputStylesheet library="css" name="global_educador_body.css"/>
+		<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css"/>
+		<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/style_global_educador.css"/>
+		
 	</h:body>
 	</h:html>
 </f:view>

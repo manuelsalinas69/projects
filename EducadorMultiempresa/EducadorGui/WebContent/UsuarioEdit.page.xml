@@ -12,7 +12,7 @@
 	<param name="usuarioFrom" />
 	<param name="usuarioUsuario" value="#{usuarioHome.usuarioUsuario}" />
 
-
+	<action execute="#{usuarioHome.init()}" on-postback="false"/>
 	<navigation from-action="#{usuarioHome.persist}">
 		<rule if-outcome="persisted">
 			<end-conversation />

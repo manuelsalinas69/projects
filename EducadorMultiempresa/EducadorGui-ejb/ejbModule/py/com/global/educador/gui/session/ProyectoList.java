@@ -8,6 +8,12 @@ import java.util.Arrays;
 @Name("proyectoList")
 public class ProyectoList extends EntityQuery<Proyecto> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	private static final String EJBQL = "select proyecto from Proyecto proyecto WHERE proyecto.estadoRegistro!='ELIMINADO'";
 	
 
@@ -19,9 +25,11 @@ public class ProyectoList extends EntityQuery<Proyecto> {
 			"lower(proyecto.usuarioModificacion) like lower(concat(#{proyectoList.proyecto.usuarioModificacion},'%'))",
 			"lower(proyecto.estadoProyecto) like lower(concat(#{proyectoList.proyecto.estadoProyecto},'%'))",
 			"lower(proyecto.estadoRegistro) like lower(concat(#{proyectoList.proyecto.estadoRegistro},'%'))",
-			"lower(proyecto.numeroCorto) like lower(concat(#{proyectoList.proyecto.numeroCorto},'%'))", };
+			"lower(proyecto.numeroCorto) like lower(concat(#{proyectoList.proyecto.numeroCorto},'%'))",
+			"proyecto.empresa.idEmpresa=#{proyectoList.idEmpresa}",};
 
 	private Proyecto proyecto = new Proyecto();
+	private Long idEmpresa;
 
 	public ProyectoList() {
 		setEjbql(EJBQL);
@@ -32,4 +40,14 @@ public class ProyectoList extends EntityQuery<Proyecto> {
 	public Proyecto getProyecto() {
 		return proyecto;
 	}
+
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
+	
+	
 }

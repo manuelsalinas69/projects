@@ -16,5 +16,6 @@
    <param name="contrasena" value="#{usuarioList.usuario.contrasena}"/>
    <param name="nombre" value="#{usuarioList.usuario.nombre}"/>
    <param name="estado" value="#{usuarioList.usuario.estado}"/>
+   <param name="idEmpresa" value="#{usuarioList.idEmpresa}"/>
 
 </page>

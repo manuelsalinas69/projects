@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema">
-	<datasource jndi-name="java:jboss/datasources/educador-oracle" enabled="true" 
+	<datasource jndi-name="java:jboss/datasources/educador-engine-oracle" enabled="true" 
 	     use-java-context="true" pool-name="educador-oracle-tigo">
 		<connection-url>jdbc:oracle:thin:@10.255.8.14:1521:mts4m</connection-url>
 		<driver-class>oracle.jdbc.OracleDriver</driver-class>  

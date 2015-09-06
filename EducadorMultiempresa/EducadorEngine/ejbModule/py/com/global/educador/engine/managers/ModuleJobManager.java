@@ -157,6 +157,9 @@ public class ModuleJobManager {
 	@Timeout
 	@TransactionTimeout(value=60,unit=TimeUnit.MINUTES)
 	@AccessTimeout(value = 20, unit = TimeUnit.MINUTES)
+	/*
+	 * Ejecuta la tarea del modulo para el canal de sms
+	 * */
 	public void runJob(Timer timer){
 		Map<String, Object> params=(Map<String, Object>) timer.getInfo();
 		loadAndSendModuleSubscribersTaskRequest(params, timer);

@@ -19,6 +19,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
 import py.com.global.educador.gui.enums.EstadoRegistro;
+import py.com.global.educador.gui.session.EmpresaList;
 import py.com.global.educador.gui.session.ModuloList;
 import py.com.global.educador.gui.session.ProyectoList;
 
@@ -115,6 +116,13 @@ public class SelectItemsHelper implements Serializable {
 		return buildSelectItemListManyFieldsLabel(list.getResultList(), "<nombre>", true, false);
 	}
 	
+	@Factory(value="empresaSelectItems",scope=ScopeType.PAGE)
+	public List<SelectItem> empresaSelectItems(){
+		EmpresaList list= (EmpresaList) Component.getInstance(EmpresaList.class);
+		list.setMaxResults(null);
+		list.setOrderColumn("nombre");
+		return buildSelectItemListManyFieldsLabel(list.getResultList(), "<nombre>", true, false);
+	}
 	
 	
 	@Factory(value="estadosRegistroSelectItems",scope=ScopeType.APPLICATION)
@@ -125,6 +133,8 @@ public class SelectItemsHelper implements Serializable {
 		l.add(new SelectItem(EstadoRegistro.INACTIVO.name(), EstadoRegistro.INACTIVO.toString()));
 		return l;
 	}
+	
+	
 	
 
 	/**

@@ -1,11 +1,7 @@
 package py.com.global.educador.gui.managers;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -15,11 +11,10 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.international.StatusMessages;
 import org.jboss.seam.international.StatusMessage.Severity;
+import org.jboss.seam.international.StatusMessages;
 
 import py.com.global.educador.gui.dto.ValidationResult;
-import py.com.global.educador.gui.entity.Proyecto;
 import py.com.global.educador.gui.entity.Usuario;
 import py.com.global.educador.gui.enums.ABMActions;
 import py.com.global.educador.gui.enums.EstadoRegistro;
@@ -36,6 +31,8 @@ public class UsuarioController extends EntityBaseController<Usuario> {
 	@In(create = true)
 	StatusMessages statusMessages;
 	
+	Long idEmpresa;
+	
 
 	public UsuarioController() {
 		super(Usuario.class);
@@ -44,7 +41,7 @@ public class UsuarioController extends EntityBaseController<Usuario> {
 	
 	@Create
 	public void init(){
-		System.out.println("Init usuarioController");
+		//System.out.println("Init usuarioController");
 	}
 	
 	
@@ -141,5 +138,17 @@ public class UsuarioController extends EntityBaseController<Usuario> {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
+	
+	
 
 }

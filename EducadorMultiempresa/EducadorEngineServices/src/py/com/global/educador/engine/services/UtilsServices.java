@@ -14,18 +14,24 @@ import py.com.global.educador.engine.dto.QueueMessage;
 import py.com.global.educador.engine.utils.QueueManager;
 
 
-@Path("/UtilsServices/{operacion}/{numeroCorto}/{numeroSuscriptor}/{messagesParam}")
+@Path("/Services")
 public class UtilsServices {
 QueueMessage message = new QueueMessage();
 	
 	Logger log = Logger.getLogger(UtilsServices.class);
+	@GET()
+	@Produces("text/plain")
+	public String homeMessages(){
+		return "Texto";
+	}
 	
 	@GET()
+	@Path("notification/{operacion}/{numeroCorto}/{numeroSuscriptor}/{messagesText}")
 	@Produces("text/plain")
 	public String process(@PathParam("operacion") String operacion,
 				@PathParam("numeroCorto")String numeroCorto, 
 				@PathParam("numeroSuscriptor") String numeroSuscriptor,
-				@PathParam("messagesParam") String messagesParam) {
+				@PathParam("messagesText") String messagesParam) {
 		
 		switch (operacion.toLowerCase()) {
 		case "sms":

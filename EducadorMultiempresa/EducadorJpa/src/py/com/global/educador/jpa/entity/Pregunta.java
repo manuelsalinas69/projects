@@ -24,6 +24,7 @@ public class Pregunta implements Serializable {
 	private Evaluacion evaluacion;
 	private Boolean preguntaFinal;
 	private Promo promo;
+	private Boolean preguntaAbierta;
 	private Set<Respuesta> respuestas;
 
 	public Pregunta() {
@@ -123,6 +124,17 @@ public class Pregunta implements Serializable {
 
 	public void setPreguntaFinal(Boolean preguntaFinal) {
 		this.preguntaFinal = preguntaFinal;
+	}
+
+	
+	@Column(name="PREGUNTA_ABIERTA")
+	public Boolean getPreguntaAbierta() {
+		return preguntaAbierta;
+	}
+
+
+	public void setPreguntaAbierta(Boolean preguntaAbierta) {
+		this.preguntaAbierta = preguntaAbierta;
 	}
 
 

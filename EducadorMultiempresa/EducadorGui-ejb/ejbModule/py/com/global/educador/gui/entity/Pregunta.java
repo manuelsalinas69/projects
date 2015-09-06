@@ -49,6 +49,7 @@ public class Pregunta extends EntityInterface {
 	private Usuario usuarioModificacion;
 	private String estadoRegistro;
 	private Boolean preguntaFinal;
+	private Boolean preguntaAbierta;
 	private Set<EvaluacionSuscriptor> evaluacionSuscriptors = new HashSet<EvaluacionSuscriptor>(
 			0);
 	private Set<Respuesta> respuestas = new HashSet<Respuesta>(0);
@@ -182,6 +183,16 @@ public class Pregunta extends EntityInterface {
 
 	public void setPreguntaFinal(Boolean preguntaFinal) {
 		this.preguntaFinal = preguntaFinal;
+	}
+	
+	
+	@Column(name="PREGUNTA_ABIERTA",precision=1,scale=0)
+	public Boolean getPreguntaAbierta() {
+		return preguntaAbierta;
+	}
+
+	public void setPreguntaAbierta(Boolean preguntaAbierta) {
+		this.preguntaAbierta = preguntaAbierta;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pregunta")

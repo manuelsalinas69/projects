@@ -48,7 +48,9 @@ public class Proyecto extends EntityInterface {
 	private String estadoProyecto;
 	private String estadoRegistro;
 	private String numeroCorto;
+	private Empresa empresa;
 	private Set<Modulo> modulos = new HashSet<Modulo>(0);
+	
 	private Set<SuscriptorProyecto> suscriptorProyectos = new HashSet<SuscriptorProyecto>(
 			0);
 	private Set<ParametroProyecto> parametroProyectos = new HashSet<ParametroProyecto>(
@@ -216,6 +218,17 @@ public class Proyecto extends EntityInterface {
 
 	public void setNumeroCorto(String numeroCorto) {
 		this.numeroCorto = numeroCorto;
+	}
+
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_EMPRESA")
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "proyecto")

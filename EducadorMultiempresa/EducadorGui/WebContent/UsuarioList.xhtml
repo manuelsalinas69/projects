@@ -20,7 +20,7 @@
 
 			<rich:collapsiblePanel header="#{messages.msg_list_search_filter}"
 				switchType="client">
-				<h:panelGrid columns="2">
+				<h:panelGrid columns="3">
 					<s:decorate template="layout/display.xhtml">
 						<ui:define name="label">Usuario</ui:define>
 						<h:inputText id="usuarioId" value="#{usuarioList.usuario.usuario}" />
@@ -29,6 +29,13 @@
 					<s:decorate template="layout/display.xhtml">
 						<ui:define name="label">Nombre</ui:define>
 						<h:inputText id="nombre" value="#{usuarioList.usuario.nombre}" />
+					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml">
+						<ui:define name="label">Empresa</ui:define>
+						<h:selectOneMenu id="idEmpresa" value="#{usuarioList.idEmpresa}" >
+							<f:selectItems value="#{empresaSelectItems}"/>
+						</h:selectOneMenu>
 					</s:decorate>
 
 				</h:panelGrid>
@@ -100,6 +107,16 @@
 							</ui:include>
 						</f:facet>
 						<h:outputText value="#{_usuario.estado}" />
+					</rich:column>
+					<rich:column styleClass="left">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{usuarioList}" />
+								<ui:param name="propertyLabel" value="Empresa" />
+								<ui:param name="propertyPath" value="usuario.empresa.nombre" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_usuario.empresa.nombre}" />
 					</rich:column>
 					<rich:column styleClass="action">
 						<f:facet name="header">#{messages.GENERICO_ACTION}</f:facet>

@@ -29,6 +29,7 @@ public class Proyecto implements Serializable {
 	private String usuarioModificacion;
 	private Set<Modulo> modulos;
 	private Promo promo;
+	private Empresa empresa;
 	private Set<SuscriptorProyecto> suscriptorProyectos;
 
 	public Proyecto() {
@@ -178,6 +179,18 @@ public class Proyecto implements Serializable {
 
 	public void setPromo(Promo promo) {
 		this.promo = promo;
+	}
+
+	
+	@ManyToOne
+	@JoinColumn(name="ID_EMPRESA")
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 

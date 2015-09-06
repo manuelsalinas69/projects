@@ -214,7 +214,7 @@
 				<rich:tab header="Evaluaciones">
 					<rich:panel id="pnlPreguntas" styleClass="tabContent" style="border:0px;">
 						<s:div>
-							<a:commandButton value="Agregar Evaluacion" disabled="#{!moduleController.canEdit()}"
+							<a:commandButton value="Agregar Pregunta" disabled="#{!moduleController.canEdit()}"
 								action="#{moduleController.initPreguntaAdder()}"
 								oncomplete="#{rich:component('mdlPreguntasAdder')}.show();"
 								render="mdlPreguntasAdder" execute="@this" />

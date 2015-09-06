@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,6 +37,7 @@ public class EvaluacionSuscriptor implements Serializable {
 	private Long intento;
 	private String respuestaSenderSmsc;
 	private String estadoEnvio;
+	private String respuestaAbierta;
 	
 
 	public EvaluacionSuscriptor() {
@@ -154,9 +156,20 @@ public class EvaluacionSuscriptor implements Serializable {
 		this.estadoEnvio = estadoEnvio;
 	}
 
+	
+	@Column(name="RESPUESTA_ABIERTA")
+	public String getRespuestaAbierta() {
+		return respuestaAbierta;
+	}
+
+
+	public void setRespuestaAbierta(String respuestaAbierta) {
+		this.respuestaAbierta = respuestaAbierta;
+	}
+
 
 	//bi-directional many-to-one association to EjecucionSuscriptorDetalle
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ID_EJECUCION_DETALLE")
 	public EjecucionSuscriptorDetalle getEjecucionSuscriptorDetalle() {
 		return this.ejecucionSuscriptorDetalle;

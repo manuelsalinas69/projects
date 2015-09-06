@@ -1,5 +1,6 @@
 package py.com.global.educador.engine.cache;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,4 +145,17 @@ public class SystemParameterCache {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<String> getActiveShortNumbers(){
+		List<String> l= new ArrayList<String>();
+		try {
+			String hql="SELECT p.numeroCorto FROM Proyecto p WHERE p.estadoRegistro= :estadoRegistro";
+			Query q= entityManager.createQuery(hql);
+			q.setParameter("estadoRegistro", EstadoRegistro.ACTIVO.name());
+			return q.getResultList();
+		} catch (Exception e) {
+			System.out.println("SystemParameterCache.getActiveShortNumbers(): "+e);
+		}
+		return l;
+	}
 }

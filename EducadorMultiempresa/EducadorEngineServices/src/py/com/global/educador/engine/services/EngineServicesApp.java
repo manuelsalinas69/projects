@@ -4,12 +4,13 @@ import java.util.Set;
 import java.util.HashSet;
 import javax.ws.rs.core.Application;
 
-public class SuscripcionApp extends Application {
+public class EngineServicesApp extends Application {
 
 	private Set<Object> singletons = new HashSet<Object>();
 	private Set<Class<?>> empty = new HashSet<Class<?>>();
-	public SuscripcionApp(){
+	public EngineServicesApp(){
 	     singletons.add(new Suscripcion());
+	     singletons.add(new UtilsServices());
 	}
 	@Override
 	public Set<Class<?>> getClasses() {

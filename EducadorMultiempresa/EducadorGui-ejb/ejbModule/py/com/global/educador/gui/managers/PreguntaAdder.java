@@ -37,6 +37,7 @@ public class PreguntaAdder extends ModalPattern implements Serializable{
 
 	String contenidoPregunta;
 	String contenidoRespuesta;
+	Boolean preguntaAbierta;
 	List<Respuesta> respuestas;
 
 	Logger log=Logger.getLogger(PreguntaAdder.class);
@@ -49,6 +50,7 @@ public class PreguntaAdder extends ModalPattern implements Serializable{
 	public void createNewPregunta(){
 		contenidoPregunta= null;
 		contenidoRespuesta=null;
+		preguntaAbierta=null;
 		respuestas= new ArrayList<Respuesta>();
 	}
 
@@ -82,16 +84,19 @@ public class PreguntaAdder extends ModalPattern implements Serializable{
 		p.setEstadoRegistro(EstadoRegistro.ACTIVO.name());
 		p.setOrdenPregunta(1L);
 		p.setPreguntaFinal(true);
+		p.setPreguntaAbierta(preguntaAbierta);
+
+		if (preguntaAbierta==null || !preguntaAbierta) {
+			for (int i = 0; i < respuestas.size(); i++) {
+				respuestas.get(i).setOrdenRespuesta((i+1)+"");
+				respuestas.get(i).setValorEsperado((i+1)+"");
 
 
-
-		for (int i = 0; i < respuestas.size(); i++) {
-			respuestas.get(i).setOrdenRespuesta((i+1)+"");
-			respuestas.get(i).setValorEsperado((i+1)+"");
-
-
+			}
+			p.getRespuestas().addAll(respuestas);
 		}
-		p.getRespuestas().addAll(respuestas);
+		
+		
 
 		setHideModal(true);
 		return p;
@@ -103,7 +108,7 @@ public class PreguntaAdder extends ModalPattern implements Serializable{
 			return new ValidationResult(false, "El contenido de la pregunta es nulo o vacio.");
 		}
 
-		if (respuestas==null || respuestas.isEmpty()) {
+		if ((preguntaAbierta==null || !preguntaAbierta) && (respuestas==null || respuestas.isEmpty())) {
 			return new ValidationResult(false, "La lista de respuesta");
 		}
 
@@ -187,6 +192,14 @@ public class PreguntaAdder extends ModalPattern implements Serializable{
 
 	public void setContenidoRespuesta(String contenidoRespuesta) {
 		this.contenidoRespuesta = contenidoRespuesta;
+	}
+
+	public Boolean getPreguntaAbierta() {
+		return preguntaAbierta;
+	}
+
+	public void setPreguntaAbierta(Boolean preguntaAbierta) {
+		this.preguntaAbierta = preguntaAbierta;
 	}
 
 

@@ -31,6 +31,7 @@ public class PreguntaEditor extends PreguntaAdder{
 		pregunta=p;
 		contenidoPregunta=pregunta.getContenidoPregunta();
 		respuestas=pregunta.getRespuestasList();
+		preguntaAbierta=pregunta.getPreguntaAbierta();
 	}
 	
 	public Pregunta getModifiedPregunta(){
@@ -45,6 +46,7 @@ public class PreguntaEditor extends PreguntaAdder{
 		}
 		pregunta.setContenidoPregunta(contenidoPregunta);
 		pregunta.setRespuestasList(respuestas);
+		pregunta.setPreguntaAbierta(preguntaAbierta);
 		setHideModal(true);
 		return pregunta;
 		

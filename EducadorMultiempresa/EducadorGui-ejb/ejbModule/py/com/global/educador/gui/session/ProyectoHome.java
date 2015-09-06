@@ -15,6 +15,7 @@ import org.jboss.seam.framework.EntityHome;
 import org.jboss.seam.international.StatusMessage.Severity;
 
 import py.com.global.educador.gui.dto.ValidationResult;
+import py.com.global.educador.gui.entity.Empresa;
 import py.com.global.educador.gui.entity.Modulo;
 import py.com.global.educador.gui.entity.ParametroProyecto;
 import py.com.global.educador.gui.entity.ParametroProyectoId;
@@ -33,9 +34,17 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	String[] params={"message.for.welcome_2","message.for.welcome_1","system.engine.process.response.errors.mismatch","system.engine.process.response.errors.empty",
+	String[] params={"system.smpp.system.type",
+			"system.smpp.system.id",
+			"system.smpp.service.type",
+			"system.smpp.server",
+			"system.smpp.receiver.check.inactivity",
+			"system.smpp.password",
+			"system.smpp.carrier",
+			"message.for.welcome_2","message.for.welcome_1","system.engine.process.response.errors.mismatch","system.engine.process.response.errors.empty",
 			"system.engine.process.response.errors.null","system.engine.process.flow.evaluation.messages.suffix","system.engine.process.response.success.final.message",
-			"message.for.success.unsubscription.manual","message.for.success.unsubscription.auto","message.for.success.subscription.manual","message.for.success.subscription.auto"};
+			"message.for.success.unsubscription.manual","message.for.success.unsubscription.auto","message.for.success.subscription.manual","message.for.success.subscription.auto",
+	};
 
 	public static final String	PARAM1_PARAMETRO="message.for.success.subscription.auto";
 	public static final String	PARAM1_DESCRIPCION="Mensaje de suscripcion automatica";
@@ -69,6 +78,8 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 
 	@In
 	EntityManager entityManager;
+	
+	Long idEmpresa;
 
 	private List<ParametroProyecto> parametros;
 
@@ -76,20 +87,23 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 	public void init(){
 		if (isIdDefined() || isManaged()) {
 			loadParametros();
+			if (getInstance().getEmpresa()!=null) {
+				idEmpresa=getInstance().getEmpresa().getIdEmpresa();
+			}
 		}
 		else{
 			parametros=new ArrayList<ParametroProyecto>(cargarParametrosProyecto());
 		}
-		
+
 	}
-	
+
 	private void loadParametros() {
 		//List<ParametroProyecto> pp= new ArrayList<ParametroProyecto>(getInstance().getParametroProyectos());
 		if (parametros==null) {
 			parametros= new ArrayList<ParametroProyecto>();
 		}
 		ParametroProyectoId id;
-		
+
 		for (String _param : params) {
 			id= new ParametroProyectoId(_param, getInstance().getIdProyecto());
 			ParametroProyecto pp= entityManager.find(ParametroProyecto.class, id);
@@ -98,8 +112,8 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 			}
 			parametros.add(pp);
 		}
-		
-		
+
+
 	}
 
 	private ParametroProyecto loadFromSystemParams(String _p) {
@@ -209,6 +223,10 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 			getStatusMessages().add(Severity.ERROR, "No se pudo validar los datos ingresados, por favor, verifique con su administrador o intentelo de nuevo");
 			return null;
 		}
+		if (idEmpresa!=null) {
+			getInstance().setEmpresa(entityManager.find(Empresa.class, idEmpresa));
+		}
+		
 		
 		getInstance().setUsuarioAlta(usuario);
 		getInstance().setEstadoRegistro(EstadoRegistro.ACTIVO.name());
@@ -237,20 +255,23 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 		switch (abmAction) {
 		case PERSIST:
 		case UPDATE:
+			if (idEmpresa==null) {
+				return new ValidationResult(false, "Debe seleccionar una empresa");
+			}
 			if (existShortNumber()) {
 				return new ValidationResult(false, "El numero corto ingresado ya se encuentra en uso por otro Proyecto Activo, por favor verifique");
 			}
 			if (!shortNumberIsParams()) {
 				return new ValidationResult(false, "El numero corto ingresado no se encuentra validado por el sistema; debe estar agregado a la lista de numeros cortos en el parametro de sistema. Por favor consulte con su administrador sobre este error, luego intentelo de nuevo.");
-				
+
 			}
+			
 			break;
 
 		default:
 			break;
 		}
 		return new ValidationResult(true, null);
-//		return null;
 	}
 
 	private boolean shortNumberIsParams() {
@@ -269,7 +290,7 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 		if (isManaged() || isIdDefined()) {
 			hql+=" AND _p != :instance";
 		}
-		
+
 		Query q= entityManager.createQuery(hql);
 		q.setParameter("numeroCorto", getInstance().getNumeroCorto());
 		q.setParameter("estadoRegistro", EstadoRegistro.ACTIVO.name());
@@ -294,7 +315,9 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 			getStatusMessages().add(Severity.ERROR, "No se pudo validar los datos ingresados, por favor, verifique con su administrador o intentelo de nuevo");
 			return null;
 		}
-		
+		if (idEmpresa!=null) {
+			getInstance().setEmpresa(entityManager.find(Empresa.class, idEmpresa));
+		}
 		getInstance().setUsuarioModificacion(usuario);
 		getInstance().setFechaModificacion(new Date());
 		getInstance().setParametroProyectos(new HashSet<>(parametros));
@@ -307,7 +330,7 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 					param.setId(paramId);
 					param.setProyecto(getInstance());
 					entityManager.persist(param);
-					
+
 				}
 				else{
 					entityManager.merge(param);
@@ -325,6 +348,14 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 		getInstance().setFechaModificacion(new Date());
 
 		return super.update();
+	}
+
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
 
 

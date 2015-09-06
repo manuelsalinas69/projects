@@ -151,23 +151,28 @@ public class ClientResponseManagerImpl implements ClientResponseManager{
 			return;
 			
 		}
-		
-		Respuesta respuesta= getRespuesta(evaluacionSuscriptor,msg);
-		if (respuesta==null) {
-			//sessionManager.updateSessionIniDate(susNro, shortNumber, new Date());
-			QueueMessage notificationMessage=new QueueMessage();
-			notificationMessage.addParam(EducadorConstants.QueueMessageParamKey.SHORT_NUMBER, shortNumber);
-			notificationMessage.addParam(EducadorConstants.QueueMessageParamKey.SUBSCRIBER_NUMBER, susNro);
-			notificationMessage.addParam(QueueMessageParamKey.SESSION_REQUIRED, false);
-			notificationMessage.addParam(QueueMessageParamKey.FORCE_SEND, true);
-			notificationMessage.addParam(QueueMessageParamKey.MESSAGE,systemParameterCache.getValue(SystemParameterKey.SYSTEM_ENGINE_PROCESS_RESPONSE_ERRORS_MISMATCH,shortNumber));
-			QueueManager.sendObject(notificationMessage, Educador_Constants.Queues.NOTIFICATION_REQUEST);
-			QueueManager.closeQueueConn(Educador_Constants.Queues.NOTIFICATION_REQUEST);
-			return;
+		if (evaluacionSuscriptor.getPregunta().getPreguntaAbierta()!=null && evaluacionSuscriptor.getPregunta().getPreguntaAbierta()) {
+			evaluacionSuscriptor.setRespuestaAbierta(msg);
+		}
+		else{
+			Respuesta respuesta= getRespuesta(evaluacionSuscriptor,msg);
+			if (respuesta==null) {
+				//sessionManager.updateSessionIniDate(susNro, shortNumber, new Date());
+				QueueMessage notificationMessage=new QueueMessage();
+				notificationMessage.addParam(EducadorConstants.QueueMessageParamKey.SHORT_NUMBER, shortNumber);
+				notificationMessage.addParam(EducadorConstants.QueueMessageParamKey.SUBSCRIBER_NUMBER, susNro);
+				notificationMessage.addParam(QueueMessageParamKey.SESSION_REQUIRED, false);
+				notificationMessage.addParam(QueueMessageParamKey.FORCE_SEND, true);
+				notificationMessage.addParam(QueueMessageParamKey.MESSAGE,systemParameterCache.getValue(SystemParameterKey.SYSTEM_ENGINE_PROCESS_RESPONSE_ERRORS_MISMATCH,shortNumber));
+				QueueManager.sendObject(notificationMessage, Educador_Constants.Queues.NOTIFICATION_REQUEST);
+				QueueManager.closeQueueConn(Educador_Constants.Queues.NOTIFICATION_REQUEST);
+				return;
+			}
+			
+			evaluacionSuscriptor.setRespuesta(respuesta);
+			evaluacionSuscriptor.setRespuestaCorrecta(respuesta.getEsRespuestaCorrecta());
 		}
 		
-		evaluacionSuscriptor.setRespuesta(respuesta);
-		evaluacionSuscriptor.setRespuestaCorrecta(respuesta.getEsRespuestaCorrecta());
 		evaluacionSuscriptor.setEstadoEvaluacion(EstadoEvaluacionSuscriptor.RESPONDIDO.name());
 		evaluacionSuscriptor.setFechaRespuesta(new Date());
 		entityManager.merge(evaluacionSuscriptor);

@@ -1,0 +1,249 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.org/schema/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Empresa Details</f:facet>
+
+        <s:decorate id="idEmpresa" template="layout/display.xhtml">
+            <ui:define name="label">Id empresa</ui:define>
+            <h:outputText value="#{empresaHome.instance.idEmpresa}">
+                <f:convertNumber/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="nombre" template="layout/display.xhtml">
+            <ui:define name="label">Nombre</ui:define>
+            <h:outputText value="#{empresaHome.instance.nombre}"/>
+        </s:decorate>
+
+        <s:decorate id="direccion" template="layout/display.xhtml">
+            <ui:define name="label">Direccion</ui:define>
+            <h:outputText value="#{empresaHome.instance.direccion}"/>
+        </s:decorate>
+
+        <s:decorate id="telefonoPrincipal" template="layout/display.xhtml">
+            <ui:define name="label">Telefono principal</ui:define>
+            <h:outputText value="#{empresaHome.instance.telefonoPrincipal}"/>
+        </s:decorate>
+
+        <s:decorate id="telefonoSecundario" template="layout/display.xhtml">
+            <ui:define name="label">Telefono secundario</ui:define>
+            <h:outputText value="#{empresaHome.instance.telefonoSecundario}"/>
+        </s:decorate>
+
+        <s:decorate id="email" template="layout/display.xhtml">
+            <ui:define name="label">Email</ui:define>
+            <h:outputText value="#{empresaHome.instance.email}"/>
+        </s:decorate>
+
+        <s:decorate id="nombreContacto" template="layout/display.xhtml">
+            <ui:define name="label">Nombre contacto</ui:define>
+            <h:outputText value="#{empresaHome.instance.nombreContacto}"/>
+        </s:decorate>
+
+        <s:decorate id="telefonoContactto" template="layout/display.xhtml">
+            <ui:define name="label">Telefono contactto</ui:define>
+            <h:outputText value="#{empresaHome.instance.telefonoContactto}"/>
+        </s:decorate>
+
+        <s:decorate id="gmapsUbicacion" template="layout/display.xhtml">
+            <ui:define name="label">Gmaps ubicacion</ui:define>
+            <h:outputText value="#{empresaHome.instance.gmapsUbicacion}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/EmpresaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty empresaFrom ? 'EmpresaList' : empresaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="client">
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuarios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="usuariosChildren">
+
+        <h:outputText value="There are no usuarios associated with this empresa."
+                   rendered="#{empty empresaHome.usuarios}"/>
+
+        <rich:dataTable value="#{empresaHome.usuarios}"
+                       var="_usuario"
+                  rendered="#{not empty empresaHome.usuarios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="usuariosTable">
+            <rich:column sortBy="#{_usuario.usuario}">
+                <f:facet name="header">Usuario</f:facet>
+                <h:outputText value="#{_usuario.usuario}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.contrasena}">
+                <f:facet name="header">Contrasena</f:facet>
+                <h:outputText value="#{_usuario.contrasena}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.nombre}">
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_usuario.nombre}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.estado}">
+                <f:facet name="header">Estado</f:facet>
+                <h:outputText value="#{_usuario.estado}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.fechaRegistro}">
+                <f:facet name="header">Fecha registro</f:facet>
+                <h:outputText value="#{_usuario.fechaRegistro}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.rolAdminSistema}">
+                <f:facet name="header">Rol admin sistema</f:facet>
+                <h:outputText value="#{_usuario.rolAdminSistema}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.rolAdminProyectos}">
+                <f:facet name="header">Rol admin proyectos</f:facet>
+                <h:outputText value="#{_usuario.rolAdminProyectos}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.rolConsultas}">
+                <f:facet name="header">Rol consultas</f:facet>
+                <h:outputText value="#{_usuario.rolConsultas}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectusuario"
+                     value="Select"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioUsuario"
+                            value="#{_usuario.usuario}"/>
+                    <f:param name="usuarioFrom" value="Empresa"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add usuario"
+                view="/UsuarioEdit.xhtml">
+            <f:param name="empresaIdEmpresa"
+                    value="#{empresaHome.instance.idEmpresa}"/>
+            <f:param name="usuarioFrom" value="Empresa"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="header">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Proyectos</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="proyectosChildren">
+
+        <h:outputText value="There are no proyectos associated with this empresa."
+                   rendered="#{empty empresaHome.proyectos}"/>
+
+        <rich:dataTable value="#{empresaHome.proyectos}"
+                       var="_proyecto"
+                  rendered="#{not empty empresaHome.proyectos}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="proyectosTable">
+            <rich:column sortBy="#{_proyecto.idProyecto}">
+                <f:facet name="header">Id proyecto</f:facet>
+                <h:outputText value="#{_proyecto.idProyecto}">
+                    <f:convertNumber/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.nombre}">
+                <f:facet name="header">Nombre</f:facet>
+                <h:outputText value="#{_proyecto.nombre}"/>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.descripcion}">
+                <f:facet name="header">Descripcion</f:facet>
+                <h:outputText value="#{_proyecto.descripcion}"/>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.objetivos}">
+                <f:facet name="header">Objetivos</f:facet>
+                <h:outputText value="#{_proyecto.objetivos}"/>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.fechaInicio}">
+                <f:facet name="header">Fecha inicio</f:facet>
+                <h:outputText value="#{_proyecto.fechaInicio}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.fechaFin}">
+                <f:facet name="header">Fecha fin</f:facet>
+                <h:outputText value="#{_proyecto.fechaFin}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.fechaAlta}">
+                <f:facet name="header">Fecha alta</f:facet>
+                <h:outputText value="#{_proyecto.fechaAlta}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.fechaModificacion}">
+                <f:facet name="header">Fecha modificacion</f:facet>
+                <h:outputText value="#{_proyecto.fechaModificacion}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.estadoProyecto}">
+                <f:facet name="header">Estado proyecto</f:facet>
+                <h:outputText value="#{_proyecto.estadoProyecto}"/>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.estadoRegistro}">
+                <f:facet name="header">Estado registro</f:facet>
+                <h:outputText value="#{_proyecto.estadoRegistro}"/>
+            </rich:column>
+            <rich:column sortBy="#{_proyecto.numeroCorto}">
+                <f:facet name="header">Numero corto</f:facet>
+                <h:outputText value="#{_proyecto.numeroCorto}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectproyecto"
+                     value="Select"
+                      view="/Proyecto.xhtml">
+                    <f:param name="proyectoIdProyecto"
+                            value="#{_proyecto.idProyecto}"/>
+                    <f:param name="proyectoFrom" value="Empresa"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add proyecto"
+                view="/ProyectoEdit.xhtml">
+            <f:param name="empresaIdEmpresa"
+                    value="#{empresaHome.instance.idEmpresa}"/>
+            <f:param name="proyectoFrom" value="Empresa"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

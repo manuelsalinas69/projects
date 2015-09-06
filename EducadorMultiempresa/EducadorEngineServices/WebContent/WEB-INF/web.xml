@@ -19,7 +19,7 @@
   </servlet-mapping>
   <context-param>
     <param-name>javax.ws.rs.Application</param-name>
-    <param-value>py.com.global.educador.engine.services.SuscripcionApp</param-value>
+    <param-value>py.com.global.educador.engine.services.EngineServicesApp</param-value>
   </context-param>
   <listener>
     <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>

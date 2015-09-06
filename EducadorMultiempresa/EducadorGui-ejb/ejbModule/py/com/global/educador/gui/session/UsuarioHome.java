@@ -1,12 +1,13 @@
 package py.com.global.educador.gui.session;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.framework.EntityHome;
 
+import py.com.global.educador.gui.entity.Empresa;
 import py.com.global.educador.gui.entity.Evaluacion;
 import py.com.global.educador.gui.entity.Modulo;
 import py.com.global.educador.gui.entity.Pregunta;
@@ -20,15 +21,33 @@ import py.com.global.educador.gui.utils.GeneralHelper;
 public class UsuarioHome extends EntityHome<Usuario> {
 
 	private String contrasenaConfirma;
+	private Long idEmpresa;
+	
+	public void init(){
+		if (isManaged() || isIdDefined()) {
+			setIdEmpresa(getInstance().getEmpresa()!=null?getInstance().getEmpresa().getIdEmpresa():null);
+		}
+		
+	}
 
 	@Override
 	public String persist() {
-
+		if (idEmpresa!=null) {
+			getInstance().setEmpresa(getEntityManager().find(Empresa.class, idEmpresa));
+		}
 		getInstance().setContrasena(
 				GeneralHelper.MD5(getInstance().getUsuario()));
 		return super.persist();
 	}
 	
+	@Override
+	@Transactional
+	public String update() {
+		if (idEmpresa!=null) {
+			getInstance().setEmpresa(getEntityManager().find(Empresa.class, idEmpresa));
+		}
+		return super.update();
+	}
 	@Override
 	public String remove() {
 		getInstance().setEstado(EstadoRegistro.ELIMINADO.name());
@@ -133,4 +152,13 @@ public class UsuarioHome extends EntityHome<Usuario> {
 		this.contrasenaConfirma = contrasenaConfirma;
 	}
 
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
+
+	
 }

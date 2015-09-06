@@ -11,95 +11,116 @@
 		<rich:panel>
 			<a:region>
 				<h:panelGrid>
-					<s:decorate template="/layout/edit.xhtml">
-						<ui:define name="label">
-						Pregunta
-					</ui:define>
-						<h:inputText value="#{preguntaAdder.contenidoPregunta}" size="50">
-							<a:ajax execute="@region" event="blur" bypassUpdates="true" />
-							<rich:placeholder value="Ingrese el contenido de la pregunta" />
-						</h:inputText>
-					</s:decorate>
-					<rich:panel header="Respuestas">
-						<h:panelGrid columns="2">
-							<s:decorate template="/layout/edit.xhtml">
-								<ui:define name="label">
+					<h:panelGrid columns="2">
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">
+							Pregunta
+						</ui:define>
+							<h:inputText value="#{preguntaAdder.contenidoPregunta}" size="50">
+								<a:ajax execute="@region" event="blur" bypassUpdates="true" />
+								<rich:placeholder value="Ingrese el contenido de la pregunta" />
+							</h:inputText>
+						</s:decorate>
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">
+								Respuesta Abierta
+						</ui:define>
+							<h:selectBooleanCheckbox 
+								value="#{preguntaAdder.preguntaAbierta}" onclick="toggle('divRespuestasMain');toggle('divInfo');">
+								<a:ajax event="blur" execute="@this"/>
+							</h:selectBooleanCheckbox>
+							
+							<ui:param name="statusId" value="check" />
+						</s:decorate>
+					</h:panelGrid>
+					<s:div id="divInfo" style="display: none;"  styleClass="infoClass defaultText ">
+						
+						<h:outputText
+										value="Cuando se marca la pregunta como abierta, la respuesta es el texto que se introduzca por parte del suscriptor." />
+					</s:div>
+					<s:div id="divRespuestasMain">
+						
+						<rich:panel header="Respuestas" >
+							<h:panelGrid columns="2">
+								<s:decorate template="/layout/edit.xhtml">
+									<ui:define name="label">
 								Nueva Respuesta 
 							</ui:define>
-								<h:inputText id="inputContenidoRespuesta" value="#{preguntaAdder.contenidoRespuesta}"
-									size="50">
-									<a:ajax execute="@region" event="blur" bypassUpdates="true" />
-									<rich:placeholder value="Ingrese el contenido de la respuesta" />
-								</h:inputText>
+									<h:inputText id="inputContenidoRespuesta"
+										value="#{preguntaAdder.contenidoRespuesta}" size="50">
+										<a:ajax execute="@region" event="blur" bypassUpdates="true" />
+										<rich:placeholder value="Ingrese el contenido de la respuesta" />
+									</h:inputText>
 
-							</s:decorate>
-							<a:commandButton
-								title="Agrega la respuesta a la lista de respuestas"
-								value="#{messages.GENERICO_ADD}" execute="@region"
-								action="#{preguntaAdder.addRespuesta()}" render="pnlRespuestas"
-								
-								 />
-						</h:panelGrid>
-						<a:outputPanel id="pnlRespuestas">
-							<rich:dataTable value="#{preguntaAdder.respuestas}" var="_det"
-								rowKeyVar="_index">
-								<rich:column>
-									<f:facet name="header">
-										<s:div styleClass="broadText">
+								</s:decorate>
+								<a:commandButton
+									title="Agrega la respuesta a la lista de respuestas"
+									value="#{messages.GENERICO_ADD}" execute="@region"
+									action="#{preguntaAdder.addRespuesta()}" render="pnlRespuestas" />
+							</h:panelGrid>
+							<a:outputPanel id="pnlRespuestas">
+								<rich:dataTable value="#{preguntaAdder.respuestas}" var="_det"
+									rowKeyVar="_index">
+									<rich:column>
+										<f:facet name="header">
+											<s:div styleClass="broadText">
 											Contenido
 										</s:div>
-									</f:facet>
-									<s:div styleClass="broadText">
-										<h:inputText  value="#{_det.contenidoRespuesta}" size="50">
-											<a:ajax event="blur" execute="@this" />
-										</h:inputText>
+										</f:facet>
+										<s:div styleClass="broadText">
+											<h:inputText value="#{_det.contenidoRespuesta}" size="50">
+												<a:ajax event="blur" execute="@this" />
+											</h:inputText>
 
-									</s:div>
-								</rich:column>
-								<rich:column>
-									<f:facet name="header">
+										</s:div>
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">
 								Opcion
 							</f:facet>
-									<h:outputText value="#{_index+1}" />
-								</rich:column>
-								<rich:column>
-									<f:facet name="header">
+										<h:outputText value="#{_index+1}" />
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">
 								Correcta
 							</f:facet>
-									<h:selectBooleanCheckbox value="#{_det.esRespuestaCorrecta}">
-										<a:ajax event="click" execute="@this" render="pnlRespuestas"
-											listener="#{preguntaAdder.esRespuestaChanged}" />
-										 <f:attribute name="index" value="#{_index}" /> 
-									</h:selectBooleanCheckbox>
-								</rich:column>
-								<rich:column>
-									<f:facet name="header">
+										<h:selectBooleanCheckbox value="#{_det.esRespuestaCorrecta}">
+											<a:ajax event="click" execute="@this" render="pnlRespuestas"
+												listener="#{preguntaAdder.esRespuestaChanged}" />
+											<f:attribute name="index" value="#{_index}" />
+										</h:selectBooleanCheckbox>
+									</rich:column>
+									<rich:column>
+										<f:facet name="header">
 								#{messages.msg_list_action_column}
 							</f:facet>
-									<h:panelGrid columns="6">
-										<a:commandLink action="#{preguntaAdder.upPregunta(_index)}"
-											execute="@this" render="pnlRespuestas">
-											<h:graphicImage value="/img/up.png" height="20" />
-										</a:commandLink>
+										<h:panelGrid columns="6">
+											<a:commandLink action="#{preguntaAdder.upPregunta(_index)}"
+												execute="@this" render="pnlRespuestas">
+												<h:graphicImage value="/img/up.png" height="20" />
+											</a:commandLink>
 								|
 								<a:commandLink action="#{preguntaAdder.downPregunta(_index)}"
-											execute="@this" render="pnlRespuestas">
-											<h:graphicImage value="/img/down.png" height="20" />
-										</a:commandLink>
+												execute="@this" render="pnlRespuestas">
+												<h:graphicImage value="/img/down.png" height="20" />
+											</a:commandLink>
 
 								
 								|
 								<a:commandLink action="#{preguntaAdder.removeRespuesta(_index)}"
-											execute="@this" render="pnlRespuestas"
-											value="#{messages.msg_delete}" />
+												execute="@this" render="pnlRespuestas"
+												value="#{messages.msg_delete}" />
 
 
-									</h:panelGrid>
-								</rich:column>
-							</rich:dataTable>
-						</a:outputPanel>
-					</rich:panel>
-
+										</h:panelGrid>
+									</rich:column>
+								</rich:dataTable>
+							</a:outputPanel>
+						</rich:panel>
+						<div style="clear: both;"/>
+					</s:div>
+					
+					
 
 				</h:panelGrid>
 

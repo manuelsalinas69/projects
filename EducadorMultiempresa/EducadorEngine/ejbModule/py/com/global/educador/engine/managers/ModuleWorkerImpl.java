@@ -92,7 +92,7 @@ public class ModuleWorkerImpl implements ModuleWorker{
 				QueueMessage queueMessage= new QueueMessage(subsParam);
 				QueueManager.sendObject(queueMessage, EducadorConstants.Queues.CLIENT_TASK_EVENT);
 				QueueManager.closeQueueConn(EducadorConstants.Queues.CLIENT_TASK_EVENT);
-				enginePause();
+				//enginePause();
 			}
 			long t2=System.currentTimeMillis();
 			log.debug("t2-t1---> "+(t2-t1)+"ms.");
@@ -104,16 +104,16 @@ public class ModuleWorkerImpl implements ModuleWorker{
 	}
 	
 
-	private void enginePause() {
-		try {
-			long value= Long.parseLong(systemParameterCache.getValue("system.engine.process.module.delay"));
-			if(value>0)Thread.sleep(value);
-		} catch (Exception e) {
-			log.error(e);
-		}
-		
-		
-	}
+//	private void enginePause() {
+//		try {
+//			long value= Long.parseLong(systemParameterCache.getValue("system.engine.process.module.delay"));
+//			if(value>0)Thread.sleep(value);
+//		} catch (Exception e) {
+//			log.error(e);
+//		}
+//		
+//		
+//	}
 
 
 	private int setearModuloActualASuscriptores(Long proyectoId, Long moduloId, String filter) {
