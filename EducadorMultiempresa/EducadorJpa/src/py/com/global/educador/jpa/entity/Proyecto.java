@@ -30,6 +30,8 @@ public class Proyecto implements Serializable {
 	private Set<Modulo> modulos;
 	private Promo promo;
 	private Empresa empresa;
+	private Boolean canalApp;
+	private Boolean canalSms;
 	private Set<SuscriptorProyecto> suscriptorProyectos;
 
 	public Proyecto() {
@@ -194,6 +196,24 @@ public class Proyecto implements Serializable {
 	}
 
 
+	@Column(name="CANAL_APP",precision=1,scale=0)
+	public Boolean getCanalApp() {
+		return canalApp;
+	}
+
+	public void setCanalApp(Boolean canalApp) {
+		this.canalApp = canalApp;
+	}
+	@Column(name="CANAL_SMS",precision=1,scale=0)
+	public Boolean getCanalSms() {
+		return canalSms;
+	}
+
+	public void setCanalSms(Boolean canalSms) {
+		this.canalSms = canalSms;
+	}
+
+	
 	//bi-directional many-to-one association to Modulo
 	@OneToMany(mappedBy="proyecto")
 	public Set<Modulo> getModulos() {

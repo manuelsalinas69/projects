@@ -100,14 +100,19 @@
 									disabled="#{!moduleController.canEdit()}"
 										value="#{moduleController.instance.descripcion}" />
 								</s:decorate>
-
-
-								<s:decorate id="objetivosField" template="layout/edit.xhtml">
-									<ui:define name="label">Objetivos</ui:define>
-									<h:inputTextarea id="objetivos" cols="80" rows="6" disabled="#{!moduleController.canEdit()}"
-										value="#{moduleController.instance.objetivos}" />
+								
+								<s:decorate template="layout/edit.xhtml">
+									<ui:define name="label">Canal App</ui:define>
+									<h:selectBooleanCheckbox value="#{moduleController.instance.canalApp}" />
+								</s:decorate>
+								
+								<s:decorate  template="layout/edit.xhtml">
+									<ui:define name="label">Canal Sms</ui:define>
+									<h:selectBooleanCheckbox value="#{moduleController.instance.canalSms}" />
 								</s:decorate>
 
+								
+								
 
 								<h:panelGrid columns="2">
 									<s:decorate id="fechaInicioField" template="layout/edit.xhtml">

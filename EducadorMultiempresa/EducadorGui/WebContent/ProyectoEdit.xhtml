@@ -17,82 +17,137 @@
 		</s:decorate>
 
 		<h:form id="proyecto" styleClass="edit">
-		<rich:tabPanel switchType="client">
-			<rich:tab header="Datos">
-				<h:panelGrid>
+			<rich:tabPanel switchType="client">
+				<rich:tab header="Datos">
+					<h:panelGrid>
 
-					<h:panelGrid columns="2">
-						<s:decorate id="nombreField" template="layout/edit.xhtml">
-							<ui:define name="label">Nombre</ui:define>
-							<h:inputText id="nombre" size="55" maxlength="100"
-								required="true" value="#{proyectoHome.instance.nombre}">
-								<a:ajax event="blur" render="nombreField" bypassUpdates="true" />
-							</h:inputText>
+						<h:panelGrid columns="2">
+							<s:decorate id="nombreField" template="layout/edit.xhtml">
+								<ui:define name="label">Nombre</ui:define>
+								<h:inputText id="nombre" size="55" maxlength="100"
+									required="true" value="#{proyectoHome.instance.nombre}">
+									<a:ajax event="blur" render="nombreField" bypassUpdates="true" />
+								</h:inputText>
+							</s:decorate>
+							<s:decorate id="numeroCortoField" template="layout/edit.xhtml">
+								<ui:define name="label">N&uacute;mero corto</ui:define>
+								<h:inputText id="numeroCorto" size="10" maxlength="30"
+									required="true" value="#{proyectoHome.instance.numeroCorto}">
+									<a:ajax event="blur" render="numeroCortoField"
+										bypassUpdates="true" />
+								</h:inputText>
+							</s:decorate>
+						</h:panelGrid>
+
+						<s:decorate id="descripcionField" template="layout/edit.xhtml">
+							<ui:define name="label">Descripci&oacute;n</ui:define>
+							<h:inputTextarea id="descripcion" cols="100" rows="3"
+								value="#{proyectoHome.instance.descripcion}" />
 						</s:decorate>
-						<s:decorate id="numeroCortoField" template="layout/edit.xhtml">
-							<ui:define name="label">N&uacute;mero corto</ui:define>
-							<h:inputText id="numeroCorto" size="10" maxlength="30"
-								required="true" value="#{proyectoHome.instance.numeroCorto}">
-								<a:ajax event="blur" render="numeroCortoField"
-									bypassUpdates="true" />
-							</h:inputText>
+
+						<s:decorate id="objetivosField" template="layout/edit.xhtml">
+							<ui:define name="label">Objetivos</ui:define>
+							<h:inputTextarea id="objetivos" cols="100" rows="3"
+								value="#{proyectoHome.instance.objetivos}" />
 						</s:decorate>
-					</h:panelGrid>
-
-					<s:decorate id="descripcionField" template="layout/edit.xhtml">
-						<ui:define name="label">Descripci&oacute;n</ui:define>
-						<h:inputTextarea id="descripcion" cols="100" rows="3"
-							value="#{proyectoHome.instance.descripcion}" />
-					</s:decorate>
-
-					<s:decorate id="objetivosField" template="layout/edit.xhtml">
-						<ui:define name="label">Objetivos</ui:define>
-						<h:inputTextarea id="objetivos" cols="100" rows="3"
-							value="#{proyectoHome.instance.objetivos}" />
-					</s:decorate>
 
 						<s:decorate id="empresaField" template="layout/edit.xhtml">
-						<ui:define name="label">Empresa</ui:define>
-						<h:selectOneMenu id="empresa" required="true"
-							value="#{proyectoHome.idEmpresa}" >
-							<f:selectItems value="#{empresaSelectItems}"/>
-						</h:selectOneMenu>
-					</s:decorate>
+							<ui:define name="label">Empresa</ui:define>
+							<h:selectOneMenu id="empresa" required="true"
+								value="#{proyectoHome.idEmpresa}">
+								<f:selectItems value="#{empresaSelectItems}" />
+							</h:selectOneMenu>
+						</s:decorate>
 
-				</h:panelGrid>
-			</rich:tab>
-			<rich:tab header="Configuracion">
-				<rich:panel style="border:0px;">
-				
+					</h:panelGrid>
+				</rich:tab>
+				<rich:tab header="Configuracion">
+					<rich:tabPanel switchType="client">
+						<rich:tab header="General">
+							<fieldset style="max-height: 350px; overflow-y: scroll;">
+								<legend>Par&aacute;metros Generales del proyecto</legend>
+								<h:outputText value="El proyecto no cuenta con parametros"
+									rendered="#{empty proyectoHome.parametros}" />
+								<rich:dataTable id="parametroList" var="_parametro"
+									value="#{proyectoHome.parametros}"
+									rendered="#{not empty proyectoHome.parametros}">
 
-				<fieldset style="max-height: 250px;overflow: scroll;">
-					<legend>Par&aacute;metros del proyecto</legend>
-					<h:outputText value="El proyecto no cuenta con parametros"
-						rendered="#{empty proyectoHome.parametros}" />
-					<rich:dataTable id="parametroList" var="_parametro" 
-						value="#{proyectoHome.parametros}" 
-						rendered="#{not empty proyectoHome.parametros}">
+									<rich:column id="paramDescrField" styleClass="left"
+										sortBy="_parametro.descripcion">
+										<f:facet name="header">Par&aacute;metro</f:facet>
+										<h:outputText value="#{_parametro.descripcion}" />
+									</rich:column>
 
-						<rich:column id="paramDescrField" styleClass="left" sortBy="_parametro.descripcion" >
-							<f:facet name="header">Par&aacute;metro</f:facet>
-							<h:outputText value="#{_parametro.descripcion}" />
-						</rich:column>
+									<rich:column id="paramValueField">
+										<f:facet name="header">Valor</f:facet>
+										<h:inputText value="#{_parametro.valor}" size="80"
+											maxlength="160">
+											<a:ajax event="blur" execute="@this" />
+										</h:inputText>
+									</rich:column>
 
-						<rich:column id="paramValueField" >
-							<f:facet name="header">Valor</f:facet>
-							<h:inputText value="#{_parametro.valor}" size="80"
-								maxlength="160">
-								<a:ajax event="blur" execute="@this" />
-							</h:inputText>
-						</rich:column>
+								</rich:dataTable>
+							</fieldset>
 
-					</rich:dataTable>
-				</fieldset>
-			</rich:panel>
-			</rich:tab>
-		</rich:tabPanel>
+						</rich:tab>
+						<rich:tab header="Canales de salida">
 
-			
+							<s:decorate template="layout/edit.xhtml"
+								title="Este canal se habilita para las aplicaciones externas que quieran utlizar el servicio, como por ejemplo las aplicaciones andriod, web apps, etc">
+								<ui:define name="label">
+									Canal App
+								</ui:define>
+								<h:selectBooleanCheckbox
+									value="#{proyectoHome.instance.canalApp}" />
+							</s:decorate>
+							<s:decorate template="layout/edit.xhtml"
+								title="Este canal se habilita para utilizar el servicio via SMS. Implica que sea confirgurada una conexion a un servidor de SMSC">
+								<ui:define name="label">
+									Canal Sms
+								</ui:define>
+								<h:selectBooleanCheckbox
+									value="#{proyectoHome.instance.canalSms}" />
+							</s:decorate>
+
+							<fieldset>
+								<legend>Par&aacute;metros de Conexion al servicio de
+									SMS</legend>
+
+								<rich:dataTable id="parametroSmscList" var="_parametro"
+									value="#{proyectoHome.parametrosCanalSms}"
+									rendered="#{not empty proyectoHome.parametrosCanalSms}">
+
+									<rich:column id="paramDescrField" styleClass="left"
+										sortBy="_parametro.descripcion">
+										<f:facet name="header">Par&aacute;metro</f:facet>
+										<h:outputText value="#{_parametro.descripcion}" />
+									</rich:column>
+
+									<rich:column id="paramValueField">
+										<f:facet name="header">Valor</f:facet>
+										<h:inputText value="#{_parametro.valor}" size="80"
+											maxlength="160">
+											<a:ajax event="blur" execute="@this" />
+										</h:inputText>
+									</rich:column>
+
+								</rich:dataTable>
+							</fieldset>
+
+
+
+						</rich:tab>
+
+					</rich:tabPanel>
+					<rich:panel style="border:0px;">
+
+
+
+					</rich:panel>
+				</rich:tab>
+			</rich:tabPanel>
+
+
 
 			<div style="clear: both; margin-top: 10px; margin-bottom: 10px;">
 				<span class="required">*</span> #{messages.msg_required_fields}

@@ -2,6 +2,7 @@ package py.com.global.educador.jpa.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
 import java.util.Date;
 import java.util.Set;
 
@@ -25,6 +26,9 @@ public class Modulo implements Serializable {
 	private String tipoModulo;
 	private String filtroSuscriptor;
 	private Promo promo;
+	private Boolean canalApp;
+	private Boolean canalSms;
+	
 	private Set<EjecucionSuscriptor> ejecucionSuscriptors;
 	private Set<Evaluacion> evaluacions;
 	private Proyecto proyecto;
@@ -220,6 +224,25 @@ public class Modulo implements Serializable {
 		this.promo = promo;
 	}
 
+	@Column(name="CANAL_APP",precision=1,scale=0)
+	public Boolean getCanalApp() {
+		return canalApp;
+	}
+
+	public void setCanalApp(Boolean canalApp) {
+		this.canalApp = canalApp;
+	}
+	@Column(name="CANAL_SMS",precision=1,scale=0)
+	public Boolean getCanalSms() {
+		return canalSms;
+	}
+
+	public void setCanalSms(Boolean canalSms) {
+		this.canalSms = canalSms;
+	}
+	
+	
+	
 
 	//bi-directional many-to-one association to PlanificacionEnvio
 	@OneToMany(mappedBy="modulo")

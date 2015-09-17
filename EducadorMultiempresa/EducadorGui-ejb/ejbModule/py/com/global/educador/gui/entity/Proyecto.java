@@ -49,6 +49,8 @@ public class Proyecto extends EntityInterface {
 	private String estadoRegistro;
 	private String numeroCorto;
 	private Empresa empresa;
+	private Boolean canalApp;
+	private Boolean canalSms;
 	private Set<Modulo> modulos = new HashSet<Modulo>(0);
 	
 	private Set<SuscriptorProyecto> suscriptorProyectos = new HashSet<SuscriptorProyecto>(
@@ -260,6 +262,23 @@ public class Proyecto extends EntityInterface {
 	}
 	
 	
+	@Column(name="CANAL_APP",precision=1,scale=0)
+	public Boolean getCanalApp() {
+		return canalApp;
+	}
+
+	public void setCanalApp(Boolean canalApp) {
+		this.canalApp = canalApp;
+	}
+	@Column(name="CANAL_SMS",precision=1,scale=0)
+	public Boolean getCanalSms() {
+		return canalSms;
+	}
+
+	public void setCanalSms(Boolean canalSms) {
+		this.canalSms = canalSms;
+	}
+
 	@Override
 	@Transient
 	public Serializable getId() {

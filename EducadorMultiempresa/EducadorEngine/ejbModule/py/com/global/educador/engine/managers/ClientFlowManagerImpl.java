@@ -367,26 +367,27 @@ public class ClientFlowManagerImpl implements ClientFlowManager{
 		message.addParam(QueueMessageParamKey.SUBSCRIBER_EXECUTION_DETAIL_ID, detalleEjecucion.getIdEjecucionDetalle());
 		message.addParam(QueueMessageParamKey.SUBSCRIBER_EVALUATION_ID, es.getIdEvaluacionSuscriptor());
 		//		message.addParam(EducadorConstants.QueueMessageParamKey.SHORT_NUMBER, getShortNumber());
-		String shortNumber=(String) message.getParam(EducadorConstants.QueueMessageParamKey.SHORT_NUMBER);
-		message.addParam(QueueMessageParamKey.MESSAGE, msg+getSuffix(shortNumber));
+//		String shortNumber=(String) message.getParam(EducadorConstants.QueueMessageParamKey.SHORT_NUMBER);
+//		message.addParam(QueueMessageParamKey.MESSAGE, msg+getSuffix(shortNumber));//FIXME: agregar
+		message.addParam(QueueMessageParamKey.MESSAGE, msg);//FIXME: agregar
 		QueueManager.sendObject(message, EducadorConstants.Queues.NOTIFICATION_REQUEST);
 		QueueManager.closeQueueConn(EducadorConstants.Queues.NOTIFICATION_REQUEST);
 		
 
 	}
 
-	private String getSuffix(String shortNumber) {
-		try {
-			String value=systemParameterCache.getValue(SystemParameterKey.SYSTEM_ENGINE_PROCESS_FLOW_EVALUATION_MESSAGES_SUFFIX,shortNumber );
-			if (value==null) {
-				return defaultFinalText;
-			}
-			return value;
-		} catch (Exception e) {
-			log.error(e);
-		}
-		return defaultFinalText;
-	}
+//	private String getSuffix(String shortNumber) {
+//		try {
+//			String value=systemParameterCache.getValue(SystemParameterKey.SYSTEM_ENGINE_PROCESS_FLOW_EVALUATION_MESSAGES_SUFFIX,shortNumber );
+//			if (value==null) {
+//				return defaultFinalText;
+//			}
+//			return value;
+//		} catch (Exception e) {
+//			log.error(e);
+//		}
+//		return defaultFinalText;
+//	}
 
 	private boolean tiempoEsperaExpirado(
 			EjecucionSuscriptorDetalle detalleEjecucion) {
@@ -425,6 +426,10 @@ public class ClientFlowManagerImpl implements ClientFlowManager{
 
 	@SuppressWarnings("unchecked")
 	private String getMessageToSend(Pregunta pregunta) {
+		StringBuilder st= new StringBuilder(pregunta.getContenidoPregunta()+"\n");
+		if (pregunta.getPreguntaAbierta()!=null && pregunta.getPreguntaAbierta()) {
+			return st.toString();
+		}
 		String hql="SELECT _r FROM Respuesta _r WHERE _r.pregunta= :pregunta ORDER BY _r.ordenRespuesta ";
 		List<Respuesta>l;
 		Query q= entityManager.createQuery(hql);
@@ -434,7 +439,7 @@ public class ClientFlowManagerImpl implements ClientFlowManager{
 			return null;
 		}
 
-		StringBuilder st= new StringBuilder(pregunta.getContenidoPregunta()+"\n");
+		
 		for (Respuesta respuesta : l) {
 			st.append(respuesta.getContenidoRespuesta()+"\n");
 		}

@@ -14,7 +14,7 @@ import py.com.global.educador.engine.dto.QueueMessage;
 import py.com.global.educador.engine.utils.QueueManager;
 
 
-@Path("/Services")
+@Path("/Utils")
 public class UtilsServices {
 QueueMessage message = new QueueMessage();
 	

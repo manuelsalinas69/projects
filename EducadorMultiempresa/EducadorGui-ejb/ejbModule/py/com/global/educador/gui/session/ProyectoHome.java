@@ -34,17 +34,22 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	String[] params={"system.smpp.system.type",
+	String[] params={
+			"message.for.welcome_2","message.for.welcome_1","system.engine.process.response.errors.mismatch","system.engine.process.response.errors.empty",
+			"system.engine.process.response.errors.null","system.engine.process.flow.evaluation.messages.suffix","system.engine.process.response.success.final.message",
+			"message.for.success.unsubscription.manual","message.for.success.unsubscription.auto","message.for.success.subscription.manual","message.for.success.subscription.auto",
+	};
+	
+	String[] paramsCanalSmsc={"system.smpp.system.type",
 			"system.smpp.system.id",
 			"system.smpp.service.type",
 			"system.smpp.server",
 			"system.smpp.receiver.check.inactivity",
 			"system.smpp.password",
-			"system.smpp.carrier",
-			"message.for.welcome_2","message.for.welcome_1","system.engine.process.response.errors.mismatch","system.engine.process.response.errors.empty",
-			"system.engine.process.response.errors.null","system.engine.process.flow.evaluation.messages.suffix","system.engine.process.response.success.final.message",
-			"message.for.success.unsubscription.manual","message.for.success.unsubscription.auto","message.for.success.subscription.manual","message.for.success.subscription.auto",
+			"system.smpp.carrier"
 	};
+	
+	
 
 	public static final String	PARAM1_PARAMETRO="message.for.success.subscription.auto";
 	public static final String	PARAM1_DESCRIPCION="Mensaje de suscripcion automatica";
@@ -82,6 +87,7 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 	Long idEmpresa;
 
 	private List<ParametroProyecto> parametros;
+	private List<ParametroProyecto> parametrosCanalSms;
 
 
 	public void init(){
@@ -92,13 +98,38 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 			}
 		}
 		else{
-			parametros=new ArrayList<ParametroProyecto>(cargarParametrosProyecto());
+			parametros=new ArrayList<ParametroProyecto>(cargarParametrosGeneralesProyecto());
+			parametrosCanalSms=new ArrayList<ParametroProyecto>(cargarParametrosSmsProyecto());
 		}
 
 	}
 
 	private void loadParametros() {
 		//List<ParametroProyecto> pp= new ArrayList<ParametroProyecto>(getInstance().getParametroProyectos());
+		loadParametrosGenerales();
+		loadParametrosSmsc();
+
+	}
+
+	private void loadParametrosSmsc() {
+		if (parametrosCanalSms==null) {
+			parametrosCanalSms= new ArrayList<ParametroProyecto>();
+		}
+		ParametroProyectoId id;
+
+		for (String _param : paramsCanalSmsc) {
+			id= new ParametroProyectoId(_param, getInstance().getIdProyecto());
+			ParametroProyecto pp= entityManager.find(ParametroProyecto.class, id);
+			if (pp==null) {
+				pp=loadFromSystemParams(_param);
+			}
+			parametrosCanalSms.add(pp);
+		}
+
+		
+	}
+
+	private void loadParametrosGenerales() {
 		if (parametros==null) {
 			parametros= new ArrayList<ParametroProyecto>();
 		}
@@ -113,7 +144,7 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 			parametros.add(pp);
 		}
 
-
+		
 	}
 
 	private ParametroProyecto loadFromSystemParams(String _p) {
@@ -140,11 +171,30 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 	@Override
 	protected Proyecto createInstance() {
 		Proyecto proyecto = new Proyecto();
-		proyecto.setParametroProyectos(cargarParametrosProyecto());
+		proyecto.setParametroProyectos(cargarParametrosGeneralesProyecto());
 		return proyecto;
 	}
 
-	private Set<ParametroProyecto> cargarParametrosProyecto() {
+	private Set<ParametroProyecto> cargarParametrosGeneralesProyecto() {
+		Set<ParametroProyecto> listaParam= new HashSet<ParametroProyecto>();
+
+		ParametroProyecto param;
+
+		for (String _p : params) {
+			ParametroSistema ps= entityManager.find(ParametroSistema.class, _p);
+			param= new ParametroProyecto();
+			param.setId(new ParametroProyectoId(_p, null));
+			if (ps!=null) {
+				param.setDescripcion(ps.getDescripcion());
+				param.setValor(ps.getValor());
+			}
+			listaParam.add(param);
+		}
+
+		return listaParam;
+	}
+	
+	private Set<ParametroProyecto> cargarParametrosSmsProyecto() {
 		Set<ParametroProyecto> listaParam= new HashSet<ParametroProyecto>();
 
 		ParametroProyecto param;
@@ -339,6 +389,15 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 			entityManager.flush();
 		};
 		return "updated";
+	}
+
+	
+	public List<ParametroProyecto> getParametrosCanalSms() {
+		return parametrosCanalSms;
+	}
+
+	public void setParametrosCanalSms(List<ParametroProyecto> parametrosCanalSms) {
+		this.parametrosCanalSms = parametrosCanalSms;
 	}
 
 	@Override

@@ -55,7 +55,8 @@ public class Modulo extends EntityInterface {
 	private Date fechaModificacion;
 	private Usuario usuarioModificacion;
 	private Usuario usuarioAlta;
-	
+	private Boolean canalApp;
+	private Boolean canalSms;
 	
 	
 	
@@ -265,7 +266,22 @@ public class Modulo extends EntityInterface {
 	}
 
 	
-	
+	@Column(name="CANAL_APP",precision=1,scale=0)
+	public Boolean getCanalApp() {
+		return canalApp;
+	}
+
+	public void setCanalApp(Boolean canalApp) {
+		this.canalApp = canalApp;
+	}
+	@Column(name="CANAL_SMS",precision=1,scale=0)
+	public Boolean getCanalSms() {
+		return canalSms;
+	}
+
+	public void setCanalSms(Boolean canalSms) {
+		this.canalSms = canalSms;
+	}
 	
 	
 	
