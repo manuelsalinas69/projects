@@ -17,10 +17,11 @@
 	<param name="estadoRegistro" value="#{moduloList.modulo.estadoRegistro}" />
 	<param name="configuracionEnvioTip" value="#{moduloList.modulo.configuracionEnvioTip}" />
 	<param name="tipoModulo" value="#{moduloList.modulo.tipoModulo}" />
-	<param name="idProyecto" value="#{moduloList.idProyecto}" />
+	<param name="idp" value="#{moduloList.idProyecto}" />
 	<param name="fechaInicioDesde" value="#{moduloList.fechaInicioDesde}" />
 	<param name="fechaInicioHasta" value="#{moduloList.fechaInicioHasta}" />
 	<param name="fechaFinDesde" value="#{moduloList.fechaFinDesde}" />
 	<param name="fechaFinHasta" value="#{moduloList.fechaFinHasta}" />
+	<param name="ix" value="#{moduloList.hashId}" />
 
 </page>

@@ -5,32 +5,38 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:a="http://richfaces.org/a4j"
-	xmlns:s="http://jboss.org/schema/seam/taglib" 
+	xmlns:s="http://jboss.org/schema/seam/taglib"
 	xmlns:rich="http://richfaces.org/rich"
-	xmlns:p="http://primefaces.prime.com.tr/ui"
-   contentType="text/html">
+	xmlns:p="http://primefaces.prime.com.tr/ui" contentType="text/html">
 
 	<h:html>
-	
-	   <h:head>
+
+	<h:head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>#{messages.APP_NAME}</title>
-		<link rel="shortcut icon" href="#{facesContext.externalContext.requestContextPath}/styles/css-tigo/favicon.ico" />
-	
+		<link rel="shortcut icon"
+			href="#{facesContext.externalContext.requestContextPath}/styles/css-tigo/favicon.ico" />
+
 		
+
 		<script type="text/javascript"
 			src="#{facesContext.externalContext.requestContextPath}/javascript/utils/Utils.js"></script>
-
+		<script type="text/javascript"
+			src="#{facesContext.externalContext.requestContextPath}/javascript/bootstrap/bootstrap.min.js"></script>
+		
 	</h:head>
-	
+
 	<h:body>
-		<rich:notifyMessage nonblocking="true" stayTime="#{generalHelper.tiempoMen()}"/>
-		<div id="main">
+		<rich:notifyMessage nonblocking="true"
+			stayTime="#{generalHelper.tiempoMen()}" />
+		<div id="main" style="background: url('#{facesContext.externalContext.requestContextPath}/img/business_table.jpg'); background-color: #668B8B">
+			<div style="background-color: rgba(246,220,193,0.34)">
+			
+			
 			<div id="menuBar" class="header">
 				<div class="header_resize">
 					<div class="logo">
-						<h:graphicImage value="/styles/css-global/images/tigo_login.jpg"
-							alt="Tigo" style="max-height: 62px;max-width: 87px;" />
+						
 					</div>
 					<span class="header_app_name">#{messages.header_app_name}</span>
 					<ui:insert name="mainMenu">
@@ -46,9 +52,9 @@
 
 
 
-			<div class="content">
+			<div class="content" style="opacity 1;">
 				<a:queue ignoreDupResponses="true" />
-				
+
 				<ui:insert name="content">
 					<div class="content_resize">
 
@@ -66,16 +72,22 @@
 							value="Global" /></a>
 				</p>
 			</div>
+			</div>
 		</div>
 		<!-- 
 		<h:outputStylesheet library="css" name="style.css"/>
 		<h:outputStylesheet library="css" name="style_global_educador.css"/>
 		-->
-		<h:outputStylesheet library="css" name="global_body.css"/>
-		<h:outputStylesheet library="css" name="global_educador_body.css"/>
-		<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css"/>
-		<link rel="stylesheet" href="#{facesContext.externalContext.requestContextPath}/resources/css/style_global_educador.css"/>
+		<h:outputStylesheet library="css" name="global_body.css" />
+		<link rel="stylesheet"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/bootstrap.min.css" />
+		<h:outputStylesheet library="css" name="global_educador_body.css" />
+		<link rel="stylesheet"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style.css" />
+		<link rel="stylesheet"
+			href="#{facesContext.externalContext.requestContextPath}/resources/css/style_global_educador.css" />
 		
+
 	</h:body>
 	</h:html>
 </f:view>

@@ -1,6 +1,11 @@
 package py.com.global.educador.gui.session;
 
 import py.com.global.educador.gui.entity.*;
+import py.com.global.educador.gui.managers.SessionManager;
+import py.com.global.educador.gui.utils.GeneralHelper;
+
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
 import java.util.Arrays;
@@ -13,6 +18,8 @@ public class ProyectoList extends EntityQuery<Proyecto> {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@In(create=true)
+	SessionManager sessionManager;
 
 	private static final String EJBQL = "select proyecto from Proyecto proyecto WHERE proyecto.estadoRegistro!='ELIMINADO'";
 	
@@ -26,10 +33,22 @@ public class ProyectoList extends EntityQuery<Proyecto> {
 			"lower(proyecto.estadoProyecto) like lower(concat(#{proyectoList.proyecto.estadoProyecto},'%'))",
 			"lower(proyecto.estadoRegistro) like lower(concat(#{proyectoList.proyecto.estadoRegistro},'%'))",
 			"lower(proyecto.numeroCorto) like lower(concat(#{proyectoList.proyecto.numeroCorto},'%'))",
-			"proyecto.empresa.idEmpresa=#{proyectoList.idEmpresa}",};
+			"proyecto.empresa.idEmpresa=#{proyectoList.idEmpresa}",
+			"proyecto.empresa.hashId=#{proyectoList.ix}",};
 
 	private Proyecto proyecto = new Proyecto();
 	private Long idEmpresa;
+	private String ix;
+	
+	
+	@Override
+	@Create
+	public void validate() {
+		super.validate();
+		if (!sessionManager.userFromSuperCompany()) {
+			idEmpresa=sessionManager.getLoggedUserCompany();
+		}
+	}
 
 	public ProyectoList() {
 		setEjbql(EJBQL);
@@ -48,6 +67,15 @@ public class ProyectoList extends EntityQuery<Proyecto> {
 	public void setIdEmpresa(Long idEmpresa) {
 		this.idEmpresa = idEmpresa;
 	}
+
+	public String getIx() {
+		return ix;
+	}
+
+	public void setIx(String ix) {
+		this.ix = ix;
+	}
+	
 	
 	
 }

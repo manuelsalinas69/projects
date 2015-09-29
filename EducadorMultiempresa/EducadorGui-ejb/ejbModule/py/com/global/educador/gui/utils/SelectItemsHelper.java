@@ -24,7 +24,7 @@ import py.com.global.educador.gui.session.ModuloList;
 import py.com.global.educador.gui.session.ProyectoList;
 
 @Name("selectItemsHelper")
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.PAGE)
 public class SelectItemsHelper implements Serializable {
 
 	/**
@@ -124,6 +124,56 @@ public class SelectItemsHelper implements Serializable {
 		return buildSelectItemListManyFieldsLabel(list.getResultList(), "<nombre>", true, false);
 	}
 	
+	@Factory(value="empresaHashSelectItems",scope=ScopeType.PAGE)
+	public List<SelectItem> empresaHashSelectItems(){
+		EmpresaList list= (EmpresaList) Component.getInstance(EmpresaList.class);
+		list.setMaxResults(null);
+		list.setOrderColumn("nombre");
+		return buildSelectItemListManyFieldsLabel(list.getResultList(),"hashId", "<nombre>", true, false);
+	}
+	
+	
+	
+	
+	/*
+	 * METODOS PARA MULTIEMPRESA
+	 * **/
+	
+	public List<SelectItem> modulosByProyectoSelectItems(Long idProyecto){
+		if (idProyecto==null) {
+			return emptySelectItemList();
+		}
+		ModuloList list= (ModuloList) Component.getInstance(ModuloList.class);
+		list.setMaxResults(null);
+		list.setIdProyecto(idProyecto);
+		list.setOrderColumn("idModulo");
+		list.setOrderDirection("desc");
+		return buildSelectItemListManyFieldsLabel(list.getResultList(), "<nombre>", true, false);
+	}
+	
+	public List<SelectItem> proyectoByEmpresaSelectItems(Long idEmpresa){
+		if (idEmpresa==null) {
+			return emptySelectItemList();
+		}
+		ProyectoList list= (ProyectoList) Component.getInstance(ProyectoList.class);
+		list.setMaxResults(null);
+		list.setOrderColumn("nombre");
+		list.setIdEmpresa(idEmpresa);
+		return buildSelectItemListManyFieldsLabel(list.getResultList(), "<nombre>", true, false);
+	}
+	
+	public List<SelectItem> proyectoByEmpresaSelectItems(String hashId){
+		if (hashId==null || hashId.trim().isEmpty()) {
+			return emptySelectItemList();
+		}
+		ProyectoList list= (ProyectoList) Component.getInstance(ProyectoList.class);
+		list.setMaxResults(null);
+		list.setOrderColumn("nombre");
+		list.setIx(hashId);
+		return buildSelectItemListManyFieldsLabel(list.getResultList(), "<nombre>", true, false);
+	}
+	
+	
 	
 	@Factory(value="estadosRegistroSelectItems",scope=ScopeType.APPLICATION)
 	public List<SelectItem> estadosRegistroSelectItems(){
@@ -134,7 +184,11 @@ public class SelectItemsHelper implements Serializable {
 		return l;
 	}
 	
-	
+	public List<SelectItem> emptySelectItemList(){
+		List<SelectItem>l= new ArrayList<SelectItem>();
+		l.add(new SelectItem(null, "Seleccione..."));
+		return l;
+	}
 	
 
 	/**

@@ -43,6 +43,7 @@ public class EducadorGui {
 			public static final String SYSTEM_ENGINE_PROCESS_FLOW_ATTEMPS_SMSC_NOREPLY="system.engine.process.flow.attemps.smsc.noreply";
 			public static final String SYSTEM_SERVER_HOST="system.server.host";
 			public static final String SYSTEM_SERVER_PORT="system.server.port";
+			public static final String SYSTEM_GUI_SUPERCOMPANY_ID="system.gui.supercompany.id";
 		}
 		
 		

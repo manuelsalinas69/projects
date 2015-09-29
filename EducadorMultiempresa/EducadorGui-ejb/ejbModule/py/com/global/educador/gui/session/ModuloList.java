@@ -1,8 +1,11 @@
 package py.com.global.educador.gui.session;
 
 import py.com.global.educador.gui.entity.*;
+import py.com.global.educador.gui.managers.SessionManager;
 import py.com.global.educador.gui.utils.GeneralHelper;
 
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
 import java.util.Arrays;
@@ -17,6 +20,9 @@ public class ModuloList extends EntityQuery<Modulo> {
 	private static final long serialVersionUID = 1L;
 
 	private static final String EJBQL = "select modulo from Modulo modulo";
+	
+	@In(create=true)
+	SessionManager sessionManager;
 
 	private static final String[] RESTRICTIONS = {
 			"lower(modulo.nombre) like lower(concat('%',#{moduloList.modulo.nombre},'%'))",
@@ -31,11 +37,15 @@ public class ModuloList extends EntityQuery<Modulo> {
 			"modulo.fechaFin>=#{moduloList.fechaFinDesde}",
 			"modulo.fechaFin<=#{moduloList.fechaFinHasta}",
 			"modulo.proyecto.idProyecto=#{moduloList.idProyecto}",
+			"modulo.proyecto.empresa.idEmpresa=#{moduloList.idEmpresa}",
+			"modulo.proyecto.empresa.hashId=#{moduloList.hashId}",
+			
 			};
 
 	private Modulo modulo = new Modulo();
 
-	
+	private Long idEmpresa;
+	private String hashId;
 	private Long idProyecto;
 	private Date fechaInicioDesde, fechaInicioHasta;
 	private Date fechaFinDesde, fechaFinHasta;
@@ -45,6 +55,15 @@ public class ModuloList extends EntityQuery<Modulo> {
 		setEjbql(EJBQL);
 		setRestrictionExpressionStrings(Arrays.asList(RESTRICTIONS));
 		setMaxResults(25);
+	}
+	
+	@Override
+	@Create
+	public void validate() {
+		super.validate();
+		if (!sessionManager.userFromSuperCompany()) {
+			idEmpresa=sessionManager.getLoggedUserCompany();
+		}
 	}
 
 	public Modulo getModulo() {
@@ -90,6 +109,22 @@ public class ModuloList extends EntityQuery<Modulo> {
 
 	public void setFechaFinHasta(Date fechaFinHasta) {
 		this.fechaFinHasta = fechaFinHasta;
+	}
+
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
+
+	public String getHashId() {
+		return hashId;
+	}
+
+	public void setHashId(String hashId) {
+		this.hashId = hashId;
 	}
 	
 	

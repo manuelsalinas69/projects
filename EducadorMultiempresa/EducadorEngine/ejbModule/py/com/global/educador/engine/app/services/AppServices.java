@@ -9,7 +9,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import py.com.global.educador.engine.enums.EstadoRegistro;
-import py.com.global.educador.jpa.entity.EjecucionSuscriptor;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.Proyecto;
 
