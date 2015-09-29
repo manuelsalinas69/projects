@@ -72,5 +72,11 @@ public class AppServices {
 		return ejecucionAppManager.createNew(idModulo, idSuscriptor);
 	}
 	
+	public FormularioDto putResponse(Long idEjecucion, Long idDetalle, Long idEvaluacion, Long idPregunta, Long idRespuesta, String respuesta){
+		return ejecucionAppManager.nextAction(idEjecucion, idDetalle, idEvaluacion, idPregunta, idRespuesta, respuesta);
+	}
+	public FormularioDto status(Long idEjecucion, Long idDetalle){
+		return ejecucionAppManager.statusEjecucion(idEjecucion, idDetalle);
+	}
 
 }

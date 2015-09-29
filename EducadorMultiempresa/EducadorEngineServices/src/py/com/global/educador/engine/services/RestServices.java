@@ -27,105 +27,124 @@ import py.com.global.educador.engine.enums.ServiceStatus;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.Proyecto;
 
-
 @Path("/Services")
 public class RestServices {
-QueueMessage message = new QueueMessage();
-	
+	QueueMessage message = new QueueMessage();
+
 	Logger log = Logger.getLogger(RestServices.class);
-	
+
 	@EJB
 	AppServices appServices;
-	
+
 	@GET()
 	@Produces("text/plain")
-	public String homeMessages(){
+	public String homeMessages() {
 		return "Request no valido,por favor arme correctamente su peticion";
 	}
-	
+
 	@GET()
 	@Path("project/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProyectoDto> proyectos(@QueryParam("idEmpresa") Long idEmpresa) {
-		
-		List<ProyectoDto> l=new ArrayList<ProyectoDto>();
+
+		List<ProyectoDto> l = new ArrayList<ProyectoDto>();
 		try {
-			List<Proyecto> proyectos=appServices.getProyectos(idEmpresa);
+			List<Proyecto> proyectos = appServices.getProyectos(idEmpresa);
 			for (Proyecto _p : proyectos) {
-				l.add(new ProyectoDto(_p.getIdProyecto(),_p.getNombre(),_p.getDescripcion()));
+				l.add(new ProyectoDto(_p.getIdProyecto(), _p.getNombre(), _p
+						.getDescripcion()));
 			}
-			
+
 		} catch (Exception e) {
-			System.out.println("Services.process(): "+e);
+			System.out.println("Services.process(): " + e);
 			e.printStackTrace();
 		}
 		return l;
 	}
-	
+
 	@GET()
 	@Path("module/list")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<ModuloDto> modulos(@QueryParam("idEmpresa") Long idEmpresa,@QueryParam("idProyecto")Long idProyecto) {
-		
-		List<ModuloDto> l=new ArrayList<ModuloDto>();
+	public List<ModuloDto> modulos(@QueryParam("idEmpresa") Long idEmpresa,
+			@QueryParam("idProyecto") Long idProyecto) {
+
+		List<ModuloDto> l = new ArrayList<ModuloDto>();
 		try {
-			List<Modulo> modulos=appServices.getModulos(idEmpresa, idProyecto);
+			List<Modulo> modulos = appServices
+					.getModulos(idEmpresa, idProyecto);
 			for (Modulo _m : modulos) {
-				l.add(new ModuloDto(_m.getIdModulo(),_m.getNombre(),(long)5));
+				l.add(new ModuloDto(_m.getIdModulo(), _m.getNombre(), (long) 5));
 			}
-			
+
 		} catch (Exception e) {
-			System.out.println("Services.process(): "+e);
+			System.out.println("Services.process(): " + e);
 			e.printStackTrace();
 		}
 		return l;
 	}
-	
+
 	@GET()
 	@Path("module/new")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseDto createNew(@QueryParam("idModulo") Long idModulo, @QueryParam("idSuscriptor") Long idSuscriptor) {
-		
-		FormularioDto data= appServices.createNew(idModulo, idSuscriptor);
-		Properties p=new Properties();
+	public ResponseDto createNew(@QueryParam("idModulo") Long idModulo,
+			@QueryParam("idSuscriptor") Long idSuscriptor) {
+
+		FormularioDto data = appServices.createNew(idModulo, idSuscriptor);
+		Properties p = new Properties();
 		p.put("data", data);
-		ResponseDto r= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);
-		
+		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(),
+				ServiceStatus.OK.getDescripcion(), p);
+
 		return r;
 	}
-	
+
 	@GET()
 	@Path("module/ejec/list")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseDto listEvaluaciones(@QueryParam("idModulo") Long idModulo, @QueryParam("idSuscriptor") Long idSuscriptor) {
-		
-		ResponseDto r= new ResponseDto(null, null, null);
-		
+	public ResponseDto listEvaluaciones(@QueryParam("idModulo") Long idModulo,
+			@QueryParam("idSuscriptor") Long idSuscriptor) {
+
+		ResponseDto r = new ResponseDto(null, null, null);
+
 		return r;
 	}
-	
+
 	@GET()
 	@Path("module/ejec/{idEjecucion}/{idDetalle}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseDto ejecucionStatus(@PathParam("idEjecucion") Long idEjecucion, @PathParam("idDetalle") Long idDetalle) {
+	public ResponseDto ejecucionStatus(
+			@PathParam("idEjecucion") Long idEjecucion,
+			@PathParam("idDetalle") Long idDetalle) {
+
+		FormularioDto formDto= appServices.status(idEjecucion, idDetalle);
 		
-		ResponseDto r= new ResponseDto(null, null, null);
+		Properties p= new Properties();
+		p.put("data", formDto);
 		
+		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), null);
+
 		return r;
 	}
-	
-	
+
 	@POST
 	@Path("module/ejec/{idEjecucion}/{idDetalle}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public ResponseDto ejecucionResponse(@PathParam("idEjecucion") Long idEjecucion, @PathParam("idDetalle") Long idDetalle, @FormParam("idRespuesta") Long idRespuesta) {
-		
-		ResponseDto r= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), null);
-		
+	public ResponseDto ejecucionResponse(
+			@PathParam("idEjecucion") Long idEjecucion,
+			@PathParam("idDetalle") Long idDetalle,
+			@FormParam("idEvaluacion") Long idEvaluacion,
+			@FormParam("idPregunta") Long idPregunta,
+			@FormParam("idRespuesta") Long idRespuesta,
+			@FormParam("respuesta") String respuesta) {
+		FormularioDto data = appServices.putResponse(idEjecucion, idDetalle,
+				idEvaluacion, idPregunta, idRespuesta, respuesta);
+		Properties p=new Properties();
+		p.put("data", data);
+		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(),
+				ServiceStatus.OK.getDescripcion(), p);
+
 		return r;
 	}
-	
-	
-	
+
 }
