@@ -36,7 +36,7 @@ public class EjecucionManager {
 		try {
 			ejecucionNueva= createEjecucionSubcriber0(idModulo, idSuscriptor, EstadoEjecucionSuscriptor.ACTIVO);
 			det= crearEjecucionSuscriptorDetalle(ejecucionNueva, 1);
-			FormularioDto dto= createForm(ejecucionNueva, det, getEvaluacion(det));
+			FormularioDto dto= createForm(ejecucionNueva, det, crearEvaluacionSuscriptor(det, 1));
 			return dto;
 		} catch (Exception e) {
 			System.out.println("AppServices.createEvaluacion(): "+e);
@@ -58,6 +58,55 @@ public class EjecucionManager {
 		}
 		return l.get(0);
 	}
+	
+	public FormularioDto statusEjecucion(Long idEjecucion, Long idDetalle){
+		EjecucionSuscriptor ej= entityManager.find(EjecucionSuscriptor.class, idEjecucion);
+		EjecucionSuscriptorDetalle det= entityManager.find(EjecucionSuscriptorDetalle.class, idDetalle);
+		EvaluacionSuscriptor ev= getEvaluacion(det);
+		return createForm(ej, det, ev);
+	}
+	
+	public FormularioDto nextAction(Long idEjecucion, Long idDetalle, Long idEvaluacion, Long idPregunta, Long idRespuesta, String respuesta){
+		EjecucionSuscriptor ej= entityManager.find(EjecucionSuscriptor.class, idEjecucion);
+		EjecucionSuscriptorDetalle det= entityManager.find(EjecucionSuscriptorDetalle.class, idDetalle);
+		
+		EjecucionSuscriptorDetalle nextDetail= nextDetail(ej, det);
+		EvaluacionSuscriptor ev=getEvaluacion(nextDetail);
+		//EvaluacionSuscriptor ev= entityManager.find(EvaluacionSuscriptor.class, idEvaluacion);
+		if (isTip(det.getEnviar())) {
+			return createForm(ej, nextDetail, null);
+		}
+		else{
+			Pregunta p= entityManager.find(Pregunta.class, idPregunta);
+			EvaluacionSuscriptor eva= entityManager.find(EvaluacionSuscriptor.class, idEvaluacion);
+			if (p.getPreguntaAbierta()!=null && p.getPreguntaAbierta()) {
+				ev.setRespuestaAbierta(respuesta);
+			}
+			else{
+				Respuesta r= entityManager.find(Respuesta.class, idRespuesta);
+				ev.setRespuesta(r);
+				ev.setRespuestaCorrecta(r.getEsRespuestaCorrecta());
+			}
+			
+		}
+		return createForm(ej, det, null);
+	}
+
+
+
+	@SuppressWarnings("unchecked")
+	private EjecucionSuscriptorDetalle nextDetail(EjecucionSuscriptor ej,
+			EjecucionSuscriptorDetalle det) {
+		String hql= "SELECT det FROM EjecucionSuscriptorDetalle det WHERE det.idEjecucionDetalle> :idDetalle AND det.ejecucionSuscriptor= :ej ORDER BY det.idEjecucionDetalle";
+		Query q= entityManager.createQuery(hql);
+		q.setParameter("idDetalle", det.getIdEjecucionDetalle());
+		q.setParameter("ej", ej);
+		List<EjecucionSuscriptorDetalle> l=q.getResultList();
+		if (l.isEmpty()) {
+			return crearEjecucionSuscriptorDetalle(ej, det.getOrden()+1);
+		}
+		return l.get(0);
+	}
 
 
 
@@ -69,6 +118,7 @@ public class EjecucionManager {
 		d.putAttr("idEjecucion", ej.getIdEjecucionSuscriptor());
 		d.putAttr("idDetalleEjecucion", det.getIdEjecucionDetalle());
 		d.putAttr("formType", det.getEnviar());
+		d.putAttr("final", det.getEnvioFinal());
 		if (isTip(det.getEnviar())) {
 			d.putAttr("info", det.getTip().getContenido());
 		}

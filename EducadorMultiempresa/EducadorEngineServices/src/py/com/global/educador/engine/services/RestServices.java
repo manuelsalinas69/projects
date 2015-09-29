@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -37,7 +41,7 @@ QueueMessage message = new QueueMessage();
 	}
 	
 	@GET()
-	@Path("list/projects")
+	@Path("project/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ProyectoDto> proyectos(@QueryParam("idEmpresa") Long idEmpresa) {
 		
@@ -56,7 +60,7 @@ QueueMessage message = new QueueMessage();
 	}
 	
 	@GET()
-	@Path("list/modules")
+	@Path("module/list")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<ModuloDto> modulos(@QueryParam("idEmpresa") Long idEmpresa,@QueryParam("idProyecto")Long idProyecto) {
 		
@@ -75,10 +79,41 @@ QueueMessage message = new QueueMessage();
 	}
 	
 	@GET()
-	@Path("list/modules")
+	@Path("module/new")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseDto createNew(@QueryParam("idEmpresa") Long idEmpresa,
-			@QueryParam("idProyecto")Long idProyecto, @QueryParam("idModulo") Long idModulo) {
+	public ResponseDto createNew(@QueryParam("idModulo") Long idModulo, @QueryParam("idSuscriptor") Long idSuscriptor) {
+		
+		ResponseDto r= new ResponseDto(null, null, null);
+		
+		return r;
+	}
+	
+	@GET()
+	@Path("module/ejec/list")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseDto listEvaluaciones(@QueryParam("idModulo") Long idModulo, @QueryParam("idSuscriptor") Long idSuscriptor) {
+		
+		ResponseDto r= new ResponseDto(null, null, null);
+		
+		return r;
+	}
+	
+	@GET()
+	@Path("module/ejec/{idEjecucion}/{idDetalle}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseDto ejecucionStatus(@PathParam("idEjecucion") Long idEjecucion, @PathParam("idDetalle") Long idDetalle) {
+		
+		ResponseDto r= new ResponseDto(null, null, null);
+		
+		return r;
+	}
+	
+	
+	@POST
+	@Path("module/ejec/{idEjecucion}/{idDetalle}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public ResponseDto ejecucionResponse(@PathParam("idEjecucion") Long idEjecucion, @PathParam("idDetalle") Long idDetalle, @FormParam("idRespuesta") Long idRespuesta) {
 		
 		ResponseDto r= new ResponseDto(null, null, null);
 		
