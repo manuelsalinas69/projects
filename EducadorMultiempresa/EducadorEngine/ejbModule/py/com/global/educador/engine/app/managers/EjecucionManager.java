@@ -1,6 +1,8 @@
 package py.com.global.educador.engine.app.managers;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -10,12 +12,15 @@ import javax.persistence.Query;
 import py.com.global.educador.engine.dto.FormularioDto;
 import py.com.global.educador.engine.enums.EstadoEjecucionSuscriptor;
 import py.com.global.educador.engine.enums.EstadoEjecucionSuscriptorDetalle;
+import py.com.global.educador.engine.enums.EstadoEvaluacionSuscriptor;
 import py.com.global.educador.jpa.entity.EjecucionSuscriptor;
 import py.com.global.educador.jpa.entity.EjecucionSuscriptorDetalle;
+import py.com.global.educador.jpa.entity.Evaluacion;
 import py.com.global.educador.jpa.entity.EvaluacionSuscriptor;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.PlanificacionEnvio;
 import py.com.global.educador.jpa.entity.Pregunta;
+import py.com.global.educador.jpa.entity.Respuesta;
 import py.com.global.educador.jpa.entity.Suscriptor;
 
 @Stateless
@@ -42,9 +47,16 @@ public class EjecucionManager {
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	private EvaluacionSuscriptor getEvaluacion(EjecucionSuscriptorDetalle det) {
-		// TODO Auto-generated method stub
-		return null;
+		String hql="SELECT ev FROM EvaluacionSuscriptor ev WHERE ev.ejecucionSuscriptorDetalle= :det";
+		Query q= entityManager.createQuery(hql);
+		q.setParameter("det", det);
+		List<EvaluacionSuscriptor> l=q.getResultList();
+		if (l.isEmpty()) {
+			return crearEvaluacionSuscriptor(det, 1);
+		}
+		return l.get(0);
 	}
 
 
@@ -84,9 +96,22 @@ public class EjecucionManager {
 
 
 
-	private Object getRespuestas(Pregunta pregunta) {
-		// TODO Auto-generated method stub
-		return null;
+	@SuppressWarnings("unchecked")
+	private List<FormularioDto> getRespuestas(Pregunta pregunta) {
+		List<Respuesta> l;
+		List<FormularioDto> respuestas= new ArrayList<FormularioDto>();
+		String hql="SELECT r from Respuesta r WHERE r.pregunta= :preg ORDER BY r.ordenRespuesta";
+		Query q= entityManager.createQuery(hql);
+		q.setParameter("preg", pregunta);
+		l=q.getResultList();
+		FormularioDto resDto;
+		for (Respuesta _r : l) {
+			resDto= new FormularioDto();
+			resDto.putAttr("idRespuesta", _r.getIdRespuesta());
+			resDto.putAttr("contenidoRespuesta", _r.getContenidoRespuesta());
+			respuestas.add(resDto);
+		}
+		return respuestas;
 	}
 
 
@@ -143,5 +168,34 @@ public class EjecucionManager {
 	
 	public boolean isTip(String enviar){
 		return "TIP".equalsIgnoreCase(enviar.trim());
+
 	}
+	
+	
+	private EvaluacionSuscriptor crearEvaluacionSuscriptor(
+			EjecucionSuscriptorDetalle detalleEjecucion, long orden) {
+		Pregunta _p=getPregunta(detalleEjecucion.getEvaluacion(),orden);
+		if (_p==null) {
+			System.out.println("No hay preguntas asociadas para la [evaluacion_id: "+detalleEjecucion.getEvaluacion().getIdEvaluacion()+"] y el [orden:"+orden+" ]");
+			return null;
+		}
+		EvaluacionSuscriptor _evs= new EvaluacionSuscriptor();
+		_evs.setEjecucionSuscriptorDetalle(detalleEjecucion);
+		_evs.setEvaluacion(detalleEjecucion.getEvaluacion());
+		_evs.setPregunta(_p);
+		_evs.setSuscriptor(detalleEjecucion.getEjecucionSuscriptor().getSuscriptor());
+		_evs.setEstadoEvaluacion(EstadoEvaluacionSuscriptor.ACTIVO.name());
+		_evs.setFechaAlta(new Date());
+		entityManager.persist(_evs);
+		return _evs;
+	}
+	
+	private Pregunta getPregunta(Evaluacion evaluacion, long orden) {
+		String hql="SELECT _p FROM Pregunta _p WHERE _p.evaluacion= :evaluacion AND _p.ordenPregunta= :orden ";
+		Query q= entityManager.createQuery(hql);
+		q.setParameter("evaluacion", evaluacion);
+		q.setParameter("orden", orden);
+		return (Pregunta) q.getSingleResult();
+	}
+
 }
