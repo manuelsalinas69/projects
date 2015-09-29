@@ -24,19 +24,19 @@ import py.com.global.educador.jpa.entity.Respuesta;
 import py.com.global.educador.jpa.entity.Suscriptor;
 
 @Stateless
-public class EjecucionManager {
+public class EjecucionAppManager {
 
 	
 	@PersistenceContext 
 	EntityManager entityManager;
 	
-	public FormularioDto nuevaFormulario(Long idModulo, Long idSuscriptor){
+	public FormularioDto createNew(Long idModulo, Long idSuscriptor){
 		EjecucionSuscriptor ejecucionNueva=null;
 		EjecucionSuscriptorDetalle det;
 		try {
 			ejecucionNueva= createEjecucionSubcriber0(idModulo, idSuscriptor, EstadoEjecucionSuscriptor.ACTIVO);
 			det= crearEjecucionSuscriptorDetalle(ejecucionNueva, 1);
-			FormularioDto dto= createForm(ejecucionNueva, det, crearEvaluacionSuscriptor(det, 1));
+			FormularioDto dto= createForm(ejecucionNueva, det);
 			return dto;
 		} catch (Exception e) {
 			System.out.println("AppServices.createEvaluacion(): "+e);
@@ -62,8 +62,7 @@ public class EjecucionManager {
 	public FormularioDto statusEjecucion(Long idEjecucion, Long idDetalle){
 		EjecucionSuscriptor ej= entityManager.find(EjecucionSuscriptor.class, idEjecucion);
 		EjecucionSuscriptorDetalle det= entityManager.find(EjecucionSuscriptorDetalle.class, idDetalle);
-		EvaluacionSuscriptor ev= getEvaluacion(det);
-		return createForm(ej, det, ev);
+		return createForm(ej, det);
 	}
 	
 	public FormularioDto nextAction(Long idEjecucion, Long idDetalle, Long idEvaluacion, Long idPregunta, Long idRespuesta, String respuesta){
@@ -71,25 +70,23 @@ public class EjecucionManager {
 		EjecucionSuscriptorDetalle det= entityManager.find(EjecucionSuscriptorDetalle.class, idDetalle);
 		
 		EjecucionSuscriptorDetalle nextDetail= nextDetail(ej, det);
-		EvaluacionSuscriptor ev=getEvaluacion(nextDetail);
-		//EvaluacionSuscriptor ev= entityManager.find(EvaluacionSuscriptor.class, idEvaluacion);
-		if (isTip(det.getEnviar())) {
-			return createForm(ej, nextDetail, null);
-		}
-		else{
+		if (!isTip(det.getEnviar())) {
 			Pregunta p= entityManager.find(Pregunta.class, idPregunta);
 			EvaluacionSuscriptor eva= entityManager.find(EvaluacionSuscriptor.class, idEvaluacion);
 			if (p.getPreguntaAbierta()!=null && p.getPreguntaAbierta()) {
-				ev.setRespuestaAbierta(respuesta);
+				eva.setRespuestaAbierta(respuesta);
 			}
 			else{
 				Respuesta r= entityManager.find(Respuesta.class, idRespuesta);
-				ev.setRespuesta(r);
-				ev.setRespuestaCorrecta(r.getEsRespuestaCorrecta());
+				eva.setRespuesta(r);
+				eva.setRespuestaCorrecta(r.getEsRespuestaCorrecta());
 			}
-			
+			eva.setEstadoEvaluacion(EstadoEvaluacionSuscriptor.RESPONDIDO.name());
+			det.setEstadoEjecucion(EstadoEjecucionSuscriptorDetalle.ENVIADO.name());
+			entityManager.merge(eva);
+			entityManager.merge(det);
 		}
-		return createForm(ej, det, null);
+		return createForm(ej, nextDetail);
 	}
 
 
@@ -111,7 +108,7 @@ public class EjecucionManager {
 
 
 	private FormularioDto createForm(EjecucionSuscriptor ej,
-			EjecucionSuscriptorDetalle det, EvaluacionSuscriptor ev) {
+			EjecucionSuscriptorDetalle det) {
 		
 		FormularioDto d= new FormularioDto();
 		
@@ -124,6 +121,7 @@ public class EjecucionManager {
 		}
 		else{
 			FormularioDto evDto=new FormularioDto();
+			EvaluacionSuscriptor ev= getEvaluacion(det);
 			evDto.putAttr("idEvaluacion",ev.getIdEvaluacionSuscriptor());
 			evDto.putAttr("idPregunta", ev.getPregunta().getIdPregunta());
 			evDto.putAttr("preguntaAbierta", ev.getPregunta().getPreguntaAbierta()==null?false:ev.getPregunta().getPreguntaAbierta());

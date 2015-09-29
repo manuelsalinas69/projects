@@ -2,6 +2,7 @@ package py.com.global.educador.engine.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -17,10 +18,12 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 
 import py.com.global.educador.engine.app.services.AppServices;
+import py.com.global.educador.engine.dto.FormularioDto;
 import py.com.global.educador.engine.dto.ModuloDto;
 import py.com.global.educador.engine.dto.ProyectoDto;
 import py.com.global.educador.engine.dto.QueueMessage;
 import py.com.global.educador.engine.dto.ResponseDto;
+import py.com.global.educador.engine.enums.ServiceStatus;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.Proyecto;
 
@@ -83,7 +86,10 @@ QueueMessage message = new QueueMessage();
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseDto createNew(@QueryParam("idModulo") Long idModulo, @QueryParam("idSuscriptor") Long idSuscriptor) {
 		
-		ResponseDto r= new ResponseDto(null, null, null);
+		FormularioDto data= appServices.createNew(idModulo, idSuscriptor);
+		Properties p=new Properties();
+		p.put("data", data);
+		ResponseDto r= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);
 		
 		return r;
 	}
@@ -115,7 +121,7 @@ QueueMessage message = new QueueMessage();
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public ResponseDto ejecucionResponse(@PathParam("idEjecucion") Long idEjecucion, @PathParam("idDetalle") Long idDetalle, @FormParam("idRespuesta") Long idRespuesta) {
 		
-		ResponseDto r= new ResponseDto(null, null, null);
+		ResponseDto r= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), null);
 		
 		return r;
 	}

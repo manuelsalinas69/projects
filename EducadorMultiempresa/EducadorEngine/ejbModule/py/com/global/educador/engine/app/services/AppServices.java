@@ -3,11 +3,14 @@ package py.com.global.educador.engine.app.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import py.com.global.educador.engine.app.managers.EjecucionAppManager;
+import py.com.global.educador.engine.dto.FormularioDto;
 import py.com.global.educador.engine.enums.EstadoRegistro;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.Proyecto;
@@ -17,6 +20,9 @@ public class AppServices {
 
 	@PersistenceContext(unitName="EducadorJpa")
 	EntityManager entityManager;
+	
+	@EJB
+	EjecucionAppManager ejecucionAppManager;
 	
 	
 	
@@ -62,6 +68,9 @@ public class AppServices {
 		return l;
 	}
 
+	public FormularioDto createNew(Long idModulo, Long idSuscriptor){
+		return ejecucionAppManager.createNew(idModulo, idSuscriptor);
+	}
 	
 
 }

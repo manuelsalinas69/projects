@@ -324,24 +324,7 @@ public class ClientFlowManagerImpl implements ClientFlowManager{
 			entityManager.merge(detalleEjecucion);
 			log.info("Reprocesando el pedido de envio para--> "+message);
 			process(message);//Reprocesar pedido
-//			EjecucionSuscriptor ejeSus=detalleEjecucion.getEjecucionSuscriptor();
-//			ejeSus.setEstadoEjecucion(EstadoEjecucionSuscriptor.CANCELADO.name());
-//			ejeSus.setMotivoCancelacion(MotivosCancelacion.FALTA_RESPUESTA.name());
-//			entityManager.merge(ejeSus);
-//			Long subsId=(Long) message.getParam(EducadorConstants.QueueMessageParamKey.SUBSCRIBER_ID);
-//			String susNro=(String) message.getParam(EducadorConstants.QueueMessageParamKey.SUBSCRIBER_NUMBER);
-//			Long moduloId=(Long) message.getParam(EducadorConstants.QueueMessageParamKey.MODULE_ID);
-//			Long proyectId=(Long) message.getParam(QueueMessageParamKey.PROJECT_ID);
-//			subscriberStateUpdater.updateSuscriptorModulo(proyectId,moduloId, subsId, EstadoSuscriptorModulo.CANCELADO);
-//			QueueMessage notificationMessage=new QueueMessage();
-//			String shortNumber=(String) message.getParam(EducadorConstants.QueueMessageParamKey.SHORT_NUMBER);
-//			notificationMessage.addParam(EducadorConstants.QueueMessageParamKey.SHORT_NUMBER, shortNumber);
-//			notificationMessage.addParam(EducadorConstants.QueueMessageParamKey.SUBSCRIBER_NUMBER, susNro);
-//			notificationMessage.addParam("SESSION_REQUIRED", false);
-//			notificationMessage.addParam("FORCE_SEND", true);
-//			notificationMessage.addParam("MESSAGE", "Su suscripcion al modulo del educador ha sido cancelada por falta de respuesta a tiempo.");
-//			QueueManager.sendObject(notificationMessage, Educador_Constants.Queues.NOTIFICATION_REQUEST);
-//			QueueManager.closeQueueConn(Educador_Constants.Queues.NOTIFICATION_REQUEST);
+
 			return;
 
 		}
@@ -441,7 +424,7 @@ public class ClientFlowManagerImpl implements ClientFlowManager{
 
 		
 		for (Respuesta respuesta : l) {
-			st.append(respuesta.getContenidoRespuesta()+"\n");
+			st.append(respuesta.getOrdenRespuesta()+")"+ respuesta.getContenidoRespuesta()+"\n");
 		}
 		return st.toString();
 	}
