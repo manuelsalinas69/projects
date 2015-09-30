@@ -69,7 +69,8 @@ public class EjecucionAppManager {
 		EjecucionSuscriptor ej= entityManager.find(EjecucionSuscriptor.class, idEjecucion);
 		EjecucionSuscriptorDetalle det= entityManager.find(EjecucionSuscriptorDetalle.class, idDetalle);
 		
-		EjecucionSuscriptorDetalle nextDetail= nextDetail(ej, det);
+		
+		
 		if (!isTip(det.getEnviar())) {
 			Pregunta p= entityManager.find(Pregunta.class, idPregunta);
 			EvaluacionSuscriptor eva= entityManager.find(EvaluacionSuscriptor.class, idEvaluacion);
@@ -86,6 +87,16 @@ public class EjecucionAppManager {
 			entityManager.merge(eva);
 			entityManager.merge(det);
 		}
+
+		if (det.getEnvioFinal()!=null && det.getEnvioFinal()) {
+			FormularioDto finalForm= new FormularioDto();
+			finalForm.putAttr("info", "Usted ha finalizado con exito");
+			finalForm.putAttr("formType", "INFO");
+			finalForm.putAttr("nextActions", "false");
+			return finalForm;
+		}
+		
+		EjecucionSuscriptorDetalle nextDetail= nextDetail(ej, det);
 		return createForm(ej, nextDetail);
 	}
 
@@ -115,7 +126,7 @@ public class EjecucionAppManager {
 		d.putAttr("idEjecucion", ej.getIdEjecucionSuscriptor());
 		d.putAttr("idDetalleEjecucion", det.getIdEjecucionDetalle());
 		d.putAttr("formType", det.getEnviar());
-		d.putAttr("final", det.getEnvioFinal());
+		d.putAttr("final", det.getEnvioFinal()==null?false:det.getEnvioFinal());
 		if (isTip(det.getEnviar())) {
 			d.putAttr("info", det.getTip().getContenido());
 		}
@@ -125,6 +136,7 @@ public class EjecucionAppManager {
 			evDto.putAttr("idEvaluacion",ev.getIdEvaluacionSuscriptor());
 			evDto.putAttr("idPregunta", ev.getPregunta().getIdPregunta());
 			evDto.putAttr("preguntaAbierta", ev.getPregunta().getPreguntaAbierta()==null?false:ev.getPregunta().getPreguntaAbierta());
+			evDto.putAttr("contenidoPregunta", ev.getPregunta().getContenidoPregunta());
 			evDto.putAttr("estadoEvaluacion", ev.getEstadoEvaluacion());
 			if (ev.getPregunta().getPreguntaAbierta()) {
 				if (ev.getRespuestaAbierta()!=null && !ev.getRespuestaAbierta().trim().isEmpty()) {
@@ -134,12 +146,14 @@ public class EjecucionAppManager {
 			else{
 				if (ev.getRespuesta()!=null) {
 					evDto.putAttr("idRespuesta", ev.getRespuesta().getIdRespuesta());
-					evDto.putAttr("respuestas", getRespuestas(ev.getPregunta()));
+					
 				}
+				evDto.putAttr("respuestas", getRespuestas(ev.getPregunta()));
 			}
+			d.putAttr("evaluacion", evDto);
 		}
 		
-		return null;
+		return d;
 	}
 
 

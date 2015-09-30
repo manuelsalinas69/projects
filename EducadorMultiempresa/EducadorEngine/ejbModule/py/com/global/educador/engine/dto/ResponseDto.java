@@ -11,12 +11,12 @@ public class ResponseDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	public Integer statusCode;
 	public String statusDescription;
-	public Properties data;
+	public Properties responseBody;
 	public ResponseDto(Integer statusCode, String statusDescription,
-			Properties data) {
+			Properties responseBody) {
 		this.statusCode = statusCode;
 		this.statusDescription = statusDescription;
-		this.data = data;
+		this.responseBody = responseBody;
 	}
 	
 	
@@ -40,13 +40,13 @@ public class ResponseDto implements Serializable{
 	}
 
 
-	public Properties getData() {
-		return data;
+	public Properties getResponseBody() {
+		return responseBody;
 	}
 
 
-	public void setData(Properties data) {
-		this.data = data;
+	public void setResponseBody(Properties responseBody) {
+		this.responseBody = responseBody;
 	}
 
 
@@ -56,7 +56,7 @@ public class ResponseDto implements Serializable{
 				+ (statusCode != null ? "statusCode=" + statusCode + ", " : "")
 				+ (statusDescription != null ? "statusDescription="
 						+ statusDescription + ", " : "")
-				+ (data != null ? "data=" + data : "") + "]";
+				+ (responseBody != null ? "responseBody=" + responseBody : "") + "]";
 	}
 	
 	

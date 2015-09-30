@@ -91,7 +91,7 @@ public class RestServices {
 
 		FormularioDto data = appServices.createNew(idModulo, idSuscriptor);
 		Properties p = new Properties();
-		p.put("data", data);
+		p.put("formulario", data);
 		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(),
 				ServiceStatus.OK.getDescripcion(), p);
 
@@ -119,9 +119,9 @@ public class RestServices {
 		FormularioDto formDto= appServices.status(idEjecucion, idDetalle);
 		
 		Properties p= new Properties();
-		p.put("data", formDto);
+		p.put("formulario", formDto);
 		
-		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), null);
+		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);
 
 		return r;
 	}
@@ -140,7 +140,7 @@ public class RestServices {
 		FormularioDto data = appServices.putResponse(idEjecucion, idDetalle,
 				idEvaluacion, idPregunta, idRespuesta, respuesta);
 		Properties p=new Properties();
-		p.put("data", data);
+		p.put("formulario", data);
 		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(),
 				ServiceStatus.OK.getDescripcion(), p);
 
