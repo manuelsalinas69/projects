@@ -104,7 +104,10 @@ public class RestServices {
 	public ResponseDto listEvaluaciones(@QueryParam("idModulo") Long idModulo,
 			@QueryParam("idSuscriptor") Long idSuscriptor) {
 
-		ResponseDto r = new ResponseDto(null, null, null);
+		List<Properties> l= appServices.getEjecuciones(idModulo, idSuscriptor);
+		Properties p= new Properties();
+		p.put("ejecuciones", l);
+		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);
 
 		return r;
 	}
@@ -117,6 +120,22 @@ public class RestServices {
 			@PathParam("idDetalle") Long idDetalle) {
 
 		FormularioDto formDto= appServices.status(idEjecucion, idDetalle);
+		
+		Properties p= new Properties();
+		p.put("formulario", formDto);
+		
+		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);
+
+		return r;
+	}
+	
+	@GET()
+	@Path("module/ejec/{idEjecucion}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseDto ejecucionResume(
+			@PathParam("idEjecucion") Long idEjecucion) {
+
+		FormularioDto formDto= appServices.resume(idEjecucion);
 		
 		Properties p= new Properties();
 		p.put("formulario", formDto);

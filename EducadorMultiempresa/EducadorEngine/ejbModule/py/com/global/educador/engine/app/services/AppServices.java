@@ -2,6 +2,7 @@ package py.com.global.educador.engine.app.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -68,6 +69,10 @@ public class AppServices {
 		return l;
 	}
 
+	public List<Properties> getEjecuciones(Long idModulo, Long idSuscriptor){
+		return ejecucionAppManager.getEjecucciones(idModulo, idSuscriptor);
+	}
+
 	public FormularioDto createNew(Long idModulo, Long idSuscriptor){
 		return ejecucionAppManager.createNew(idModulo, idSuscriptor);
 	}
@@ -75,8 +80,13 @@ public class AppServices {
 	public FormularioDto putResponse(Long idEjecucion, Long idDetalle, Long idEvaluacion, Long idPregunta, Long idRespuesta, String respuesta){
 		return ejecucionAppManager.nextAction(idEjecucion, idDetalle, idEvaluacion, idPregunta, idRespuesta, respuesta);
 	}
+	
 	public FormularioDto status(Long idEjecucion, Long idDetalle){
 		return ejecucionAppManager.statusEjecucion(idEjecucion, idDetalle);
+	}
+	
+	public FormularioDto resume(Long idEjecucion){
+		return ejecucionAppManager.resumeEjecucion(idEjecucion);
 	}
 
 }
