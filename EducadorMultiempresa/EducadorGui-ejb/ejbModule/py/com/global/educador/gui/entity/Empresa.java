@@ -43,6 +43,7 @@ public class Empresa extends EntityInterface {
 	private String gmapsUbicacion;
 	private String estadoRegistro;
 	private Date fechaCreacion;
+	private String hashId;
 	private Set<Usuario> usuarios = new HashSet<Usuario>(0);
 	private Set<Proyecto> proyectos = new HashSet<Proyecto>(0);
 
@@ -184,6 +185,16 @@ public class Empresa extends EntityInterface {
 
 	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
+	}
+	
+	
+	@Column(name="HASH_ID")
+	public String getHashId() {
+		return hashId;
+	}
+
+	public void setHashId(String hashId) {
+		this.hashId = hashId;
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "empresa")

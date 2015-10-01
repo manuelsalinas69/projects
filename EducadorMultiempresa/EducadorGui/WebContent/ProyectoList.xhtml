@@ -34,11 +34,11 @@
 							value="#{proyectoList.proyecto.numeroCorto}" />
 					</s:decorate>
 					
-					<s:decorate template="layout/display.xhtml">
+					<s:decorate template="layout/display.xhtml" rendered="#{sessionManager.userFromSuperCompany()}">
 						<ui:define name="label">Empresa</ui:define>
-						<h:selectOneMenu id="idEmpresa"
-							value="#{proyectoList.idEmpresa}" >
-							<f:selectItems value="#{empresaSelectItems}"/>
+						<h:selectOneMenu id="ix"
+							value="#{proyectoList.ix}" >
+							<f:selectItems value="#{empresaHashSelectItems}"/>
 						</h:selectOneMenu>
 					</s:decorate>
 					
@@ -119,7 +119,17 @@
 						</f:facet>
 						<h:outputText value="#{_proyecto.numeroCorto}" />
 					</rich:column>
-					<rich:column styleClass="left">
+					<rich:column styleClass="center">
+						<f:facet name="header">
+							
+								Canales
+						</f:facet>
+						<h:panelGrid columns="2">
+							<h:outputText rendered="#{_proyecto.canalApp}" value="APP" />
+							<h:outputText rendered="#{_proyecto.canalSms}" value="SMS" />
+						</h:panelGrid>
+					</rich:column>
+					<rich:column styleClass="left" rendered="#{sessionManager.userFromSuperCompany()}">
 						<f:facet name="header">
 							<ui:include src="layout/sort.xhtml">
 								<ui:param name="entityList" value="#{proyectoList}" />

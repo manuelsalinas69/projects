@@ -29,14 +29,7 @@
 									<a:ajax event="blur" render="nombreField" bypassUpdates="true" />
 								</h:inputText>
 							</s:decorate>
-							<s:decorate id="numeroCortoField" template="layout/edit.xhtml">
-								<ui:define name="label">N&uacute;mero corto</ui:define>
-								<h:inputText id="numeroCorto" size="10" maxlength="30"
-									required="true" value="#{proyectoHome.instance.numeroCorto}">
-									<a:ajax event="blur" render="numeroCortoField"
-										bypassUpdates="true" />
-								</h:inputText>
-							</s:decorate>
+
 						</h:panelGrid>
 
 						<s:decorate id="descripcionField" template="layout/edit.xhtml">
@@ -51,7 +44,7 @@
 								value="#{proyectoHome.instance.objetivos}" />
 						</s:decorate>
 
-						<s:decorate id="empresaField" template="layout/edit.xhtml">
+						<s:decorate id="empresaField" template="layout/edit.xhtml" rendered="#{sessionManager.userFromSuperCompany()}">
 							<ui:define name="label">Empresa</ui:define>
 							<h:selectOneMenu id="empresa" required="true"
 								value="#{proyectoHome.idEmpresa}">
@@ -112,6 +105,14 @@
 							<fieldset>
 								<legend>Par&aacute;metros de Conexion al servicio de
 									SMS</legend>
+
+								<s:decorate id="numeroCortoField" template="layout/edit.xhtml">
+									<ui:define name="label">N&uacute;mero corto</ui:define>
+									<h:inputText id="numeroCorto" size="10" maxlength="30"
+										value="#{proyectoHome.instance.numeroCorto}">
+										
+									</h:inputText>
+								</s:decorate>
 
 								<rich:dataTable id="parametroSmscList" var="_parametro"
 									value="#{proyectoHome.parametrosCanalSms}"

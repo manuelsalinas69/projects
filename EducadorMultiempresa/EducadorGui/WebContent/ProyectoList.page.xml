@@ -19,6 +19,6 @@
    <param name="estadoProyecto" value="#{proyectoList.proyecto.estadoProyecto}"/>
    <param name="estadoRegistro" value="#{proyectoList.proyecto.estadoRegistro}"/>
    <param name="numeroCorto" value="#{proyectoList.proyecto.numeroCorto}"/>
-   <param name="idEmpresa" value="#{proyectoList.idEmpresa}"/>
+   <param name="ix" value="#{proyectoList.ix}"/>
 
 </page>

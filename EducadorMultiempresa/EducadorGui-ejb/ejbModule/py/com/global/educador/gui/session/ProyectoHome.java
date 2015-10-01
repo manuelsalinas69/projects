@@ -25,6 +25,7 @@ import py.com.global.educador.gui.entity.SuscriptorProyecto;
 import py.com.global.educador.gui.entity.Usuario;
 import py.com.global.educador.gui.enums.ABMActions;
 import py.com.global.educador.gui.enums.EstadoRegistro;
+import py.com.global.educador.gui.managers.SessionManager;
 
 @Name("proyectoHome")
 public class ProyectoHome extends EntityHome<Proyecto> {
@@ -84,6 +85,9 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 	@In
 	EntityManager entityManager;
 	
+	@In(create=true)
+	SessionManager sessionManager;
+	
 	Long idEmpresa;
 
 	private List<ParametroProyecto> parametros;
@@ -100,6 +104,9 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 		else{
 			parametros=new ArrayList<ParametroProyecto>(cargarParametrosGeneralesProyecto());
 			parametrosCanalSms=new ArrayList<ParametroProyecto>(cargarParametrosSmsProyecto());
+			if (!sessionManager.userFromSuperCompany()) {
+				idEmpresa=sessionManager.getLoggedUserCompany();
+			}
 		}
 
 	}
@@ -199,7 +206,7 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 
 		ParametroProyecto param;
 
-		for (String _p : params) {
+		for (String _p : paramsCanalSmsc) {
 			ParametroSistema ps= entityManager.find(ParametroSistema.class, _p);
 			param= new ParametroProyecto();
 			param.setId(new ParametroProyectoId(_p, null));
@@ -293,7 +300,16 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 				param.setProyecto(getInstance());
 				entityManager.persist(param);
 			}
+			
+			for (ParametroProyecto param : parametrosCanalSms) {
+				paramId=param.getId();
+				paramId.setIdProyecto(getInstance().getIdProyecto());
+				param.setId(paramId);
+				param.setProyecto(getInstance());
+				entityManager.persist(param);
+			}
 			entityManager.flush();
+			parametros.addAll(parametrosCanalSms);
 			getInstance().setParametroProyectos(new HashSet<>(parametros));
 			return "persisted";
 		}
@@ -308,13 +324,17 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 			if (idEmpresa==null) {
 				return new ValidationResult(false, "Debe seleccionar una empresa");
 			}
-			if (existShortNumber()) {
-				return new ValidationResult(false, "El numero corto ingresado ya se encuentra en uso por otro Proyecto Activo, por favor verifique");
+		
+			if (getInstance().getCanalSms()!=null && getInstance().getCanalSms()) {
+				if (getInstance().getNumeroCorto()==null || getInstance().getNumeroCorto().trim().isEmpty()) {
+					return new ValidationResult(false, "Si selecciona el canal SMS debe ingresar un numero corto con el cual se conectara al SMSC");
+				}
+				if (existShortNumber()) {
+					return new ValidationResult(false, "El numero corto ingresado ya se encuentra en uso por otro Proyecto Activo, por favor verifique");
+				}
+				
 			}
-			if (!shortNumberIsParams()) {
-				return new ValidationResult(false, "El numero corto ingresado no se encuentra validado por el sistema; debe estar agregado a la lista de numeros cortos en el parametro de sistema. Por favor consulte con su administrador sobre este error, luego intentelo de nuevo.");
-
-			}
+		
 			
 			break;
 
@@ -324,16 +344,16 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 		return new ValidationResult(true, null);
 	}
 
-	private boolean shortNumberIsParams() {
-		String param=entityManager.find(ParametroSistema.class, "system.smpp.short.number").getValor();
-		String[] shortNumbers=param.split(",");
-		for (String _sn : shortNumbers) {
-			if (_sn.trim().equalsIgnoreCase(getInstance().getNumeroCorto().trim())) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	private boolean shortNumberIsParams() {
+//		String param=entityManager.find(ParametroSistema.class, "system.smpp.short.number").getValor();
+//		String[] shortNumbers=param.split(",");
+//		for (String _sn : shortNumbers) {
+//			if (_sn.trim().equalsIgnoreCase(getInstance().getNumeroCorto().trim())) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 	private boolean existShortNumber() {
 		String hql="SELECT count(_p) FROM Proyecto _p WHERE trim(_p.numeroCorto)= trim(:numeroCorto) AND _p.estadoRegistro= :estadoRegistro";
@@ -374,6 +394,20 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 		if(super.update().equalsIgnoreCase("updated")){
 			ParametroProyectoId paramId;
 			for (ParametroProyecto param : parametros) {
+				paramId=param.getId();
+				if (paramId.getIdProyecto()==null) {
+					paramId.setIdProyecto(getInstance().getIdProyecto());
+					param.setId(paramId);
+					param.setProyecto(getInstance());
+					entityManager.persist(param);
+
+				}
+				else{
+					entityManager.merge(param);
+				}
+			}
+			
+			for (ParametroProyecto param : parametrosCanalSms) {
 				paramId=param.getId();
 				if (paramId.getIdProyecto()==null) {
 					paramId.setIdProyecto(getInstance().getIdProyecto());
