@@ -81,6 +81,7 @@ table{
 .header {
 	min-width: 100px;
 	background: rgba(48, 142, 173, 0.58);
+	border-bottom: 15px solid rgba(252, 252, 165,0.9);
 }
 
 .header_app_name {
@@ -1149,7 +1150,7 @@ ol li .send {
 	width: 90px;
 	height: 90px;;
 	background: #fff;
-	color: #ADD8E6;
+	color: #76B4C5;
 	font-size: 12px;
 	border: 2px solid #ADD8E6;
 }
@@ -1708,7 +1709,7 @@ a.historialClass {
 	color: #fff;
 	font-family: "Open Sans";
 	font-size: 13px;
-	background: #ADD8E6;
+	background: #7BB6C5;
 	border: 0px;
 	height: 30px;
 	line-height: 30px;
@@ -1733,7 +1734,7 @@ a.historialClass {
 	panel 
 ============================*/
 *.rf-p-hdr {
-	background: #ADD8E6;
+	background: #7BB6C5;
 	font-size: 13px;
 	color: #fff;
 	font-family: "Open Sans";

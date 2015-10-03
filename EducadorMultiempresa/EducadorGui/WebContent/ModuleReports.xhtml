@@ -233,52 +233,10 @@
 									</tr>
 								</table>
 
-
-
 							</h:panelGrid>
 						</rich:panel>
 					</rich:tab>
-					<rich:tab header="Archivos">
-						<rich:panel styleClass="tabContent"  style="border:0px">
-							<rich:dataTable value="#{moduleReporManager.preguntas}"
-									var="_det" rowKeyVar="_index">
-									<rich:column>
-										<f:facet name="header">
-											Preguntas
-										</f:facet>
-										<h:outputText value="#{_det.contenidoPregunta}" />
-									</rich:column>
-									<rich:column>
-										<f:facet name="header">
-											#{messages.msg_list_action_column}
-										</f:facet>
-										<h:commandButton action="#{moduleReporManager.downloadNumerosPreguntas(_det.evaluacion.idEvaluacion)}" value="Descagar numeros"
-											title="Descarga los numeros de los usuarios de Tigo que han respondido a la pregunta seleccionada"
-										 />
-									</rich:column>
-								</rich:dataTable>
-						</rich:panel>
-					</rich:tab>
-					<rich:tab header="Leyendas">
-						<rich:panel styleClass="tabContent"  style="border:0px">
-							<h:panelGrid>
-								<s:div styleClass="infoClass defaultText ">
-									
-										<h:outputText value="Errores conocidos del SMS (Command Status)" />
-										<ui>
-											<li><h:outputText value="1005 - Black List" /></li>
-											<li><h:outputText value="'11' - El numero se ha portado, se denuncio como robado o el numero no esta en uso (El cliente cambio de numero)" /></li>
-											<li><h:outputText value="'8' - El numero tiene un corte administrativo o se encuetra en Roaming y no tiene el servicio activo" /></li>
-											
-										</ui>
-									
-								</s:div>
-								
-							
-							</h:panelGrid>
-						
-						</rich:panel>
-					</rich:tab>
+					
 				</rich:tabPanel>
 
 

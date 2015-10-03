@@ -241,7 +241,14 @@ public class ModuleReporManager implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	private List<Object[]> getResumenPreguntasRespondidas0(Long idPregunta) {
+		Pregunta p= entityManager.find(Pregunta.class, idPregunta);
 		String hql="SELECT _es.respuesta.contenidoRespuesta ,count(_es) FROM EvaluacionSuscriptor _es WHERE _es.pregunta.idPregunta= :idPregunta GROUP BY _es.respuesta.contenidoRespuesta";
+		if (p.getPreguntaAbierta()==null || !p.getPreguntaAbierta()) {
+			hql="SELECT _es.respuesta.contenidoRespuesta ,count(_es) FROM EvaluacionSuscriptor _es WHERE _es.pregunta.idPregunta= :idPregunta GROUP BY _es.respuesta.contenidoRespuesta";
+		}
+		else{
+			hql="SELECT _es.respuestaAbierta ,count(_es) FROM EvaluacionSuscriptor _es WHERE _es.pregunta.idPregunta= :idPregunta GROUP BY _es.respuestaAbierta";
+		}
 		Query q= entityManager.createQuery(hql);
 		q.setParameter("idPregunta", idPregunta);
 		return q.getResultList();

@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd"
 	version="5">
 
-	<display-name>EducadorGui-ear</display-name>
+	<display-name>ELS-app</display-name>
 
 	<!-- JBIDE-4166 Workaround - Make sure we deploy this first, since this is referenced in xxx-ejb.jar--> 
 	<module>
@@ -14,7 +14,7 @@
 	<module>
 		<web>
 			<web-uri>EducadorGui.war</web-uri>
-			<context-root>/EducadorGui</context-root>
+			<context-root>/ELS</context-root>
 		</web>
 	</module>
 

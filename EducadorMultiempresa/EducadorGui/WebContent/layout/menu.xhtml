@@ -47,7 +47,7 @@
 							</ul></li>
 					</h:panelGroup>
 
-					<h:panelGroup id="menu_sistema" rendered="#{usuario.rolAdminSistema}">
+					<h:panelGroup id="menu_sistema" rendered="#{usuario.rolAdminSistema and sessionManager.userFromSuperCompany()}">
 						<li class="top"><h:commandLink styleClass="top_link">
 								<span><h:outputText value="#{messages.menu_sistema}" /></span>
 							</h:commandLink>
@@ -77,12 +77,12 @@
 							</h:commandLink>
 							<ul class="sub">
 								<h:panelGroup>
-									<s:div>
+									<s:div rendered="#{sessionManager.userFromSuperCompany()}">
 										<li><s:link view="/LogSmsInList.seam"
 												value="#{messages.ConsultasMensajeEntrada_menu}"
 												includePageParams="false" propagation="none" /></li>
 									</s:div>
-									<s:div>
+									<s:div rendered="#{sessionManager.userFromSuperCompany()}">
 										<li><s:link view="/LogSmsOutList.seam"
 												value="#{messages.ConsultasMensajeSalida_menu}"
 												includePageParams="false" propagation="none" /></li>
@@ -92,12 +92,12 @@
 												value="#{messages.ConsultasPorModulo_menu}"
 												includePageParams="false" propagation="none" /></li>
 									</s:div>
-									<s:div>
+									<s:div rendered="#{sessionManager.userFromSuperCompany()}">
 										<li><s:link view="/LogSuscripcionList.seam"
 												value="#{messages.ConsultasSuscripciones_menu}"
 												includePageParams="false" propagation="none" /></li>
 									</s:div>
-									<s:div>
+									<s:div rendered="#{sessionManager.userFromSuperCompany()}">
 										<li><s:link view="/Consultas.seam"
 												value="#{messages.ConsultasDinamicas_menu}"
 												includePageParams="false" propagation="none" /></li>

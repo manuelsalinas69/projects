@@ -5,6 +5,7 @@
       login-required="true">
 
 <restrict>#{usuario.rolAdminSistema}</restrict>
+<restrict>#{sessionManager.userFromSuperCompany()}</restrict>
 
    <param name="firstResult" value="#{usuarioList.firstResult}"/>
    <param name="sort" value="#{usuarioList.orderColumn}"/>

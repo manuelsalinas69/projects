@@ -2,7 +2,7 @@ package py.com.global.educador.gui.entity;
 
 // Generated Aug 21, 2014 6:09:06 PM by Hibernate Tools 3.4.0.CR1
 
-import java.math.BigDecimal;
+import java.lang.Long;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -24,7 +24,11 @@ import javax.validation.constraints.Size;
 @Table(name = "EVALUACION_SUSCRIPTOR" )
 public class EvaluacionSuscriptor implements java.io.Serializable {
 
-	private BigDecimal idEvaluacionSuscriptor;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Long idEvaluacionSuscriptor;
 	private Evaluacion evaluacion;
 	private Suscriptor suscriptor;
 	private Pregunta pregunta;
@@ -35,23 +39,24 @@ public class EvaluacionSuscriptor implements java.io.Serializable {
 	private Date fechaAlta;
 	private Date fechaRespuesta;
 	private Date fechaEnvioPregunta;
-	private BigDecimal intento;
+	private Long intento;
 	private String respuestaSenderSmsc;
 	private String estadoEnvio;
+	private String respuestaAbierta;
 
 	public EvaluacionSuscriptor() {
 	}
 
-	public EvaluacionSuscriptor(BigDecimal idEvaluacionSuscriptor) {
+	public EvaluacionSuscriptor(Long idEvaluacionSuscriptor) {
 		this.idEvaluacionSuscriptor = idEvaluacionSuscriptor;
 	}
 
-	public EvaluacionSuscriptor(BigDecimal idEvaluacionSuscriptor,
+	public EvaluacionSuscriptor(Long idEvaluacionSuscriptor,
 			Evaluacion evaluacion, Suscriptor suscriptor, Pregunta pregunta,
 			EjecucionSuscriptorDetalle ejecucionSuscriptorDetalle,
-			BigDecimal idRespuesta, Boolean respuestaCorrecta,
+			Long idRespuesta, Boolean respuestaCorrecta,
 			String estadoEvaluacion, Date fechaAlta, Date fechaRespuesta,
-			Date fechaEnvioPregunta, BigDecimal intento,
+			Date fechaEnvioPregunta, Long intento,
 			String respuestaSenderSmsc, String estadoEnvio) {
 		this.idEvaluacionSuscriptor = idEvaluacionSuscriptor;
 		this.evaluacion = evaluacion;
@@ -72,11 +77,11 @@ public class EvaluacionSuscriptor implements java.io.Serializable {
 	@Id
 	@Column(name = "ID_EVALUACION_SUSCRIPTOR", unique = true, nullable = false, precision = 22, scale = 0)
 	@NotNull
-	public BigDecimal getIdEvaluacionSuscriptor() {
+	public Long getIdEvaluacionSuscriptor() {
 		return this.idEvaluacionSuscriptor;
 	}
 
-	public void setIdEvaluacionSuscriptor(BigDecimal idEvaluacionSuscriptor) {
+	public void setIdEvaluacionSuscriptor(Long idEvaluacionSuscriptor) {
 		this.idEvaluacionSuscriptor = idEvaluacionSuscriptor;
 	}
 
@@ -183,11 +188,11 @@ public class EvaluacionSuscriptor implements java.io.Serializable {
 	}
 
 	@Column(name = "INTENTO", precision = 22, scale = 0)
-	public BigDecimal getIntento() {
+	public Long getIntento() {
 		return this.intento;
 	}
 
-	public void setIntento(BigDecimal intento) {
+	public void setIntento(Long intento) {
 		this.intento = intento;
 	}
 
@@ -210,5 +215,16 @@ public class EvaluacionSuscriptor implements java.io.Serializable {
 	public void setEstadoEnvio(String estadoEnvio) {
 		this.estadoEnvio = estadoEnvio;
 	}
+
+	@Column(name="RESPUESTA_ABIERTA")
+	public String getRespuestaAbierta() {
+		return respuestaAbierta;
+	}
+
+	public void setRespuestaAbierta(String respuestaAbierta) {
+		this.respuestaAbierta = respuestaAbierta;
+	}
+	
+	
 
 }

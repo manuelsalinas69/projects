@@ -29,12 +29,11 @@
 
 
 </head>
-<body class="login_page" style="background-image: url('#{facesContext.externalContext.requestContextPath}/img/login.jpg');">
-	<rich:notifyMessage nonblocking="true" stayTime="#{generalHelper.tiempoMen()}"/>
-
+<body class="login_page" style="background-image: url('#{facesContext.externalContext.requestContextPath}/img/bkg_login.jpg');">
+	<div>
 	<div id="login_bar"> 
 		<div class="header_bar">
-			<h1>ELS</h1>
+			ELS
 		</div>
 		<div id="form_div">
 	
@@ -66,8 +65,8 @@
 		</div>
 	</div>
 	<div class="loginfooter">
-	   <a href="http://www.globalsi.com.py"> #{messages.login_panel_developed_by}</a>  
+	   <a href="#"> #{messages.login_panel_developed_by}</a>  
 	</div>
-	
+	</div>
 </body>
 </html>
