@@ -34,14 +34,7 @@
 						</h:selectOneMenu>
 					</s:decorate>
 
-					<s:decorate template="layout/display.xhtml">
-						<ui:define name="label">Estado en el m&oacute;dulo</ui:define>
-						<h:selectOneMenu id="estadoSuscriptorModulo"
-							value="#{suscriptorProyectoList.suscriptorProyecto.estadoSuscriptorModulo}">
-							<f:selectItems
-								value="#{enumAppHelper.enumsValueItems('EstadoSuscriptorModulo','name',true)}" />
-						</h:selectOneMenu>
-					</s:decorate>
+				
 
 					<s:decorate template="layout/display.xhtml">
 						<ui:define name="label">Tipo de suscripci&oacute;n</ui:define>
@@ -51,22 +44,42 @@
 								value="#{enumAppHelper.enumsValueItems('TipoSuscripcion','name',true)}" />
 						</h:selectOneMenu>
 					</s:decorate>
+					
+					<s:decorate template="layout/display.xhtml"
+						rendered="#{sessionManager.userFromSuperCompany()}">
+						<ui:define name="label">Empresa</ui:define>
+						<h:selectOneMenu id="ix" value="#{suscriptorProyectoList.ix}"
+							onchange="proyectoByEmpresa(this.value)">
+							<f:selectItems value="#{empresaHashSelectItems}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<a:outputPanel id="pnlProyecto"
+						rendered="#{sessionManager.userFromSuperCompany()}">
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">Proyecto</ui:define>
+							<h:selectOneMenu id="idp" value="#{suscriptorProyectoList.idProyecto}">
+								<f:selectItems value="#{selectorManager.proyectos}" />
+							</h:selectOneMenu>
+						</s:decorate>
+					</a:outputPanel>
 
 					<s:decorate template="layout/display.xhtml">
 						<ui:define name="label">Proyecto</ui:define>
-						<h:selectOneMenu id="idProyecto"
+						<h:selectOneMenu id="idp"
 							value="#{suscriptorProyectoList.idProyecto}">
-							<f:selectItems value="#{proyectoSelectItems}" />
+							<f:selectItems value="#{selectItemsHelper.proyectoByEmpresaSelectItems(suscriptorProyectoList.idEmpresa)}" />
 						</h:selectOneMenu>
 					</s:decorate>
+						<a:jsFunction name="proyectoByEmpresa"
+						action="#{selectorManager.populateProyectoList(hashId)}"
+						execute="@this" render="pnlProyecto"
+						rendered="#{sessionManager.userFromSuperCompany()}">
+						<a:param name="hashId" assignTo="#{hashId}" />
+					</a:jsFunction>
+					
 
-					<s:decorate template="layout/display.xhtml">
-						<ui:define name="label">M&oacute;dulo Actual</ui:define>
-						<h:selectOneMenu id="idModuloActual"
-							value="#{suscriptorProyectoList.idModuloActual}">
-							<f:selectItems value="#{modulosSelectItems}" />
-						</h:selectOneMenu>
-					</s:decorate>
+					
 
 				</h:panelGrid>
 				<h:panelGrid columns="2">
@@ -101,7 +114,7 @@
 			<div class="actionButtons">
 				<h:commandButton id="search"
 					value="#{messages.msg_list_search_button}"
-					action="/SuscriptorProyectoList.xhtml" />
+					/>
 				<s:button id="reset"
 					value="#{messages.msg_list_search_reset_button}"
 					includePageParams="false" />

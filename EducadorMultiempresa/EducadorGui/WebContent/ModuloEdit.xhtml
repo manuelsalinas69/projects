@@ -494,10 +494,10 @@
 			</div>
 
 			<a:jsFunction name="proyectoByEmpresa"
-				action="#{selectorManager.populateProyectoListByEmpresaId(proyectoId)}"
+				action="#{selectorManager.populateProyectoListByEmpresaId(empresaId)}"
 				execute="@this" render="pnlProyecto"
 				rendered="#{sessionManager.userFromSuperCompany()}">
-				<a:param name="proyectoId" assignTo="#{proyectoId}" />
+				<a:param name="empresaId" assignTo="#{empresaId}" />
 			</a:jsFunction>
 		</h:form>
 

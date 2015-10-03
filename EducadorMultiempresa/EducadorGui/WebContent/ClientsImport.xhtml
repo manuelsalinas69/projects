@@ -18,12 +18,31 @@
 		<h:form>
 			<rich:panel id="pnlMain" style="border:0px;">
 				<h:panelGrid>
-					<s:decorate template="/layout/edit.xhtml">
+					<s:decorate template="layout/display.xhtml"
+						rendered="#{sessionManager.userFromSuperCompany()}">
+						<ui:define name="label">Empresa</ui:define>
+						<h:selectOneMenu id="ix" value="#{subscriberImporterManager.idEmpresa}"
+							onchange="proyectoByEmpresa(this.value)">
+							<f:selectItems value="#{empresaSelectItems}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+					<a:outputPanel id="pnlProyecto"
+						rendered="#{sessionManager.userFromSuperCompany()}">
+						<s:decorate template="layout/display.xhtml">
+							<ui:define name="label">Proyecto</ui:define>
+							<h:selectOneMenu id="idp" value="#{subscriberImporterManager.idProyecto}">
+								<f:selectItems value="#{selectorManager.proyectos}" />
+							</h:selectOneMenu>
+						</s:decorate>
+					</a:outputPanel>
+					
+					<s:decorate template="/layout/edit.xhtml" rendered="#{!sessionManager.userFromSuperCompany()}">
 						<ui:define name="label">
 							Proyecto
 						</ui:define>
 						<h:selectOneMenu value="#{subscriberImporterManager.idProyecto}">
-							<f:selectItems value="#{proyectoSelectItems}" />
+							<f:selectItems value="#{selectItemsHelper.proyectoByEmpresaSelectItems(subscriberImporterManager.idEmpresa)}" />
 							<a:ajax event="change" execute="@this" />
 						</h:selectOneMenu>
 					</s:decorate>
@@ -53,6 +72,12 @@
 
 				</h:panelGrid>
 			</rich:panel>
+			<a:jsFunction name="proyectoByEmpresa"
+				action="#{selectorManager.populateProyectoListByEmpresaId(empresaId)}"
+				execute="@this" render="pnlProyecto"
+				rendered="#{sessionManager.userFromSuperCompany()}">
+				<a:param name="empresaId" assignTo="#{empresaId}" />
+			</a:jsFunction>
 		</h:form>
 	</ui:define>
 

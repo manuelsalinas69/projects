@@ -32,6 +32,8 @@ public class SubscriberImporterManager implements Serializable{
 	@In EntityManager entityManager;
 	@In StatusMessages statusMessages;
 	@In(create=true) SubscriberWorker subscriberWorker;
+	@In(create=true) SessionManager sessionManager;
+	Long idEmpresa;
 	Long idProyecto;
 	String operacion;
 	
@@ -40,7 +42,9 @@ public class SubscriberImporterManager implements Serializable{
 	
 	@Create
 	public void init(){
-		
+		if (!sessionManager.userFromSuperCompany()) {
+			idEmpresa=sessionManager.getLoggedUserCompany();
+		}
 	}
 	
 	public void fileUploadListener(FileUploadEvent event){
@@ -135,6 +139,14 @@ public class SubscriberImporterManager implements Serializable{
 
 	public boolean isFileDefined(){
 		return data!=null && data.length>=0 && fileName!=null && !fileName.trim().isEmpty();
+	}
+
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
 	
 

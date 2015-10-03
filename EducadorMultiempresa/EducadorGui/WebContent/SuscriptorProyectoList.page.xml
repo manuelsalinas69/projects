@@ -18,7 +18,8 @@
 	<param name="tipoAlta" value="#{suscriptorProyectoList.tipoAlta}" />
 	<param name="fechaAltaDesde" value="#{suscriptorProyectoList.fechaAltaDesde}" />
 	<param name="fechaAltaHasta" value="#{suscriptorProyectoList.fechaAltaHasta}" />
-	<param name="idProyecto" value="#{suscriptorProyectoList.idProyecto}" />
+	-<param name="idp" value="#{suscriptorProyectoList.idProyecto}" />
+	<param name="ix" value="#{suscriptorProyectoList.ix}" />
 	<param name="idModuloActual" value="#{suscriptorProyectoList.idModuloActual}" />
 
 

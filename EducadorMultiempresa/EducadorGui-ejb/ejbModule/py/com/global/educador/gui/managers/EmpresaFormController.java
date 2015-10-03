@@ -48,7 +48,7 @@ public class EmpresaFormController extends EntityBaseController<Empresa>{
 
 	@Override
 	public void setDetailsData() {
-		// TODO Auto-generated method stub
+		getInstance().setHashId(GeneralHelper.MD5(getInstance().getIdEmpresa().toString()));
 		
 	}
 
@@ -105,6 +105,7 @@ public class EmpresaFormController extends EntityBaseController<Empresa>{
 		if (isNew()) {
 			getInstance().setFechaCreacion(new Date());
 			getInstance().setEstadoRegistro(EstadoRegistro.ACTIVO.name());
+			
 		}
 		
 	}

@@ -1,8 +1,11 @@
 package py.com.global.educador.gui.session;
 
 import py.com.global.educador.gui.entity.*;
+import py.com.global.educador.gui.managers.SessionManager;
 import py.com.global.educador.gui.utils.GeneralHelper;
 
+import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
 import java.util.Arrays;
@@ -27,16 +30,22 @@ public class SuscriptorProyectoList extends EntityQuery<SuscriptorProyecto> {
 			"suscriptorProyecto.suscriptor.tipoAlta=#{suscriptorProyectoList.tipoAlta}",
 			"suscriptorProyecto.suscriptor.fechaAlta>=#{suscriptorProyectoList.fechaAltaDesde}",
 			"suscriptorProyecto.suscriptor.fechaAlta<=#{suscriptorProyectoList.fechaAltaHasta}",
+			"suscriptorProyecto.proyecto.empresa.idEmpresa=#{moduloList.idEmpresa}",
+			"suscriptorProyecto.proyecto.empresa.hashId=#{moduloList.hashId}",
 	};
 
 	private SuscriptorProyecto suscriptorProyecto;
 
+	@In(create=true) SessionManager sessionManager;
+	
+	Long idEmpresa;
 	String numeroSuscriptor;
 	Long idProyecto;
 	Long idModuloActual;
 	Date fechaAltaDesde;
 	Date fechaAltaHasta;
 	String tipoAlta;
+	String ix;
 	
 	
 	public SuscriptorProyectoList() {
@@ -47,6 +56,15 @@ public class SuscriptorProyectoList extends EntityQuery<SuscriptorProyecto> {
 		setMaxResults(25);
 		setOrderColumn("suscriptorProyecto.suscriptor.fechaAlta");
 		setOrderDirection("DESC");
+	}
+	
+	@Override
+	@Create
+	public void validate() {
+		super.validate();
+		if (!sessionManager.userFromSuperCompany()) {
+			idEmpresa=sessionManager.getLoggedUserCompany();
+		}
 	}
 
 	public SuscriptorProyecto getSuscriptorProyecto() {
@@ -100,6 +118,22 @@ public class SuscriptorProyectoList extends EntityQuery<SuscriptorProyecto> {
 
 	public void setTipoAlta(String tipoAlta) {
 		this.tipoAlta = tipoAlta;
+	}
+
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
+
+	public String getIx() {
+		return ix;
+	}
+
+	public void setIx(String ix) {
+		this.ix = ix;
 	}
 	
 	
