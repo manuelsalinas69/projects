@@ -17,6 +17,11 @@ import py.com.global.educador.gui.utils.SelectItemsHelper;
 @Scope(ScopeType.PAGE)
 public class SelectorManager implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@In(create=true)
 	SelectItemsHelper selectItemsHelper;
 	
@@ -37,6 +42,13 @@ public class SelectorManager implements Serializable{
 			proyectos=selectItemsHelper.emptySelectItemList();
 		}
 		proyectos=selectItemsHelper.proyectoByEmpresaSelectItems(hashId);
+	}
+	
+	public void populateProyectoListByEmpresaId(Long idEmpresa){
+		if (idEmpresa==null) {
+			proyectos=selectItemsHelper.emptySelectItemList();
+		}
+		proyectos=selectItemsHelper.proyectoByEmpresaSelectItems(idEmpresa);
 	}
 	
 	public void populateModuloList(Long idProyecto){

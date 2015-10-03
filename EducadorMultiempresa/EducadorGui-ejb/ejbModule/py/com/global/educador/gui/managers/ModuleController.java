@@ -57,13 +57,13 @@ public class ModuleController extends EntityBaseController<Modulo> {
 	@In PreguntaAdder preguntaAdder;
 	@In PreguntaEditor preguntaEditor;
 	@In Usuario usuario;
-
+	@In(create=true) SessionManager sessionManager;
 	List<Tip> tips;
 	List<Evaluacion> evaluaciones;
 	List<PlanificacionEnvio> planificacionEnvio;
 
 	Long idProyecto;
-
+	Long idEmpresa;
 	String contenidoTip;
 	String nombreEvaluacion;
 
@@ -85,6 +85,8 @@ public class ModuleController extends EntityBaseController<Modulo> {
 		if (moduloHome.isManaged() || moduloHome.isIdDefined()) {
 			edit(moduloHome.getInstance().getId());
 			loadDataFor(getInstance());
+			idEmpresa=sessionManager.userFromSuperCompany()?getInstance().getProyecto().getEmpresa()==null?null:getInstance().getProyecto().getEmpresa().getIdEmpresa():sessionManager.getLoggedUserCompany();
+			
 		}
 		else{
 			setNewModule();
@@ -105,7 +107,9 @@ public class ModuleController extends EntityBaseController<Modulo> {
 
 	private void setNewModule() {
 		createNew();
-
+		if (!sessionManager.userFromSuperCompany()) {
+			idEmpresa=sessionManager.getLoggedUserCompany();
+		}
 
 	}
 
@@ -754,6 +758,16 @@ public class ModuleController extends EntityBaseController<Modulo> {
 
 	public void setIdProyecto(Long idProyecto) {
 		this.idProyecto = idProyecto;
+	}
+
+
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
 	}
 
 

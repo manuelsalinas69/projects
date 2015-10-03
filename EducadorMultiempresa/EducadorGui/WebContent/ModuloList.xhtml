@@ -5,9 +5,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:rich="http://richfaces.org/rich" 
-	xmlns:a="http://richfaces.org/a4j"
-	template="layout/template.xhtml">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j" template="layout/template.xhtml">
 
 	<ui:define name="body">
 
@@ -21,31 +20,39 @@
 				switchType="client">
 
 				<h:panelGrid columns="3">
-					<s:decorate template="layout/display.xhtml" rendered="#{sessionManager.userFromSuperCompany()}">
+					<s:decorate template="layout/display.xhtml"
+						rendered="#{sessionManager.userFromSuperCompany()}">
 						<ui:define name="label">Empresa</ui:define>
-						<h:selectOneMenu id="ix" value="#{moduloList.hashId}" onchange="proyectoByEmpresa(this.value)">
+						<h:selectOneMenu id="ix" value="#{moduloList.hashId}"
+							onchange="proyectoByEmpresa(this.value)">
 							<f:selectItems value="#{empresaHashSelectItems}" />
 						</h:selectOneMenu>
 					</s:decorate>
-				
-				<a:outputPanel id="pnlProyecto" rendered="#{sessionManager.userFromSuperCompany()}">
+
+					<a:outputPanel id="pnlProyecto"
+						rendered="#{sessionManager.userFromSuperCompany()}">
 						<s:decorate template="layout/display.xhtml">
-						<ui:define name="label">Proyecto</ui:define>
-						<h:selectOneMenu id="idp" value="#{moduloList.idProyecto}">
-							<f:selectItems value="#{selectorManager.proyectos}" />
-						</h:selectOneMenu>
-					</s:decorate>
-				</a:outputPanel>
-				
-					
-					<a:jsFunction name="proyectoByEmpresa" action="#{selectorManager.populateProyectoList(hashId)}" execute="@this" render="pnlProyecto" rendered="#{sessionManager.userFromSuperCompany()}">
-						<a:param name="hashId" assignTo="#{hashId}"/>
+							<ui:define name="label">Proyecto</ui:define>
+							<h:selectOneMenu id="idp" value="#{moduloList.idProyecto}">
+								<f:selectItems value="#{selectorManager.proyectos}" />
+							</h:selectOneMenu>
+						</s:decorate>
+					</a:outputPanel>
+
+
+					<a:jsFunction name="proyectoByEmpresa"
+						action="#{selectorManager.populateProyectoList(hashId)}"
+						execute="@this" render="pnlProyecto"
+						rendered="#{sessionManager.userFromSuperCompany()}">
+						<a:param name="hashId" assignTo="#{hashId}" />
 					</a:jsFunction>
 
-				<s:decorate template="layout/display.xhtml" rendered="#{!sessionManager.userFromSuperCompany()}">
+					<s:decorate template="layout/display.xhtml"
+						rendered="#{!sessionManager.userFromSuperCompany()}">
 						<ui:define name="label">Proyecto</ui:define>
 						<h:selectOneMenu id="idp" value="#{moduloList.idProyecto}">
-							<f:selectItems value="#{selectItemsHelper.proyectoByEmpresaSelectItems(moduloList.idEmpresa)}" />
+							<f:selectItems
+								value="#{selectItemsHelper.proyectoByEmpresaSelectItems(moduloList.idEmpresa)}" />
 						</h:selectOneMenu>
 					</s:decorate>
 
@@ -126,8 +133,7 @@
 
 			<div class="actionButtons">
 				<h:commandButton id="search"
-					value="#{messages.msg_list_search_button}"
- />
+					value="#{messages.msg_list_search_button}" />
 				<s:button id="reset"
 					value="#{messages.msg_list_search_reset_button}"
 					includePageParams="false" />
@@ -159,6 +165,19 @@
 				<rich:dataTable id="moduloList" var="_modulo"
 					value="#{moduloList.resultList}"
 					rendered="#{not empty moduloList.resultList}">
+
+					<rich:column styleClass="left" rendered="#{sessionManager.userFromSuperCompany()}">
+						<f:facet name="header">
+							<ui:include src="layout/sort.xhtml">
+								<ui:param name="entityList" value="#{moduloList}" />
+								<ui:param name="propertyLabel" value="Empresa" />
+								<ui:param name="propertyPath" value="modulo.proyecto.empresa.nombre" />
+							</ui:include>
+						</f:facet>
+						<h:outputText value="#{_modulo.proyecto.empresa.nombre}">
+							<f:convertNumber />
+						</h:outputText>
+					</rich:column>
 
 					<rich:column styleClass="left">
 						<f:facet name="header">
