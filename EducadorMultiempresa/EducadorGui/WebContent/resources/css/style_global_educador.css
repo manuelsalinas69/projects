@@ -80,7 +80,7 @@ table{
 =================================*/
 .header {
 	min-width: 100px;
-	background: #406ab6;
+	background: rgba(48, 142, 173, 0.58);
 }
 
 .header_app_name {
@@ -104,7 +104,7 @@ table{
 			FOOTER
 =============================*/
 #footer {
-	border-top: 3px solid #406ab6;
+	border-top: 3px solid #ADD8E6;
 	margin-top: 40px;
 	width: 100%;
 	background-color: #ccc;
@@ -118,7 +118,7 @@ table{
 	padding: inherit;
 	text-decoration: none;
 	font-weight: 300;
-	color: #406ab6;
+	color: #ADD8E6;
 	font-size: 12px;
 }
 
@@ -273,12 +273,12 @@ table{
 .rich-calendar-date-layout {
 	background: #FFF;
 	border: 1px solid;
-	border-color: #406ab6;
+	border-color: #ADD8E6;
 	position: relative;
 }
 
 .rich-calendar-editor-btn-selected {
-	background-color: #406ab6;
+	background-color: #ADD8E6;
 	padding: 0px;
 	border: 0;
 	color: #fff;
@@ -296,20 +296,20 @@ table{
 .rich-calendar-date-layout-cancel {
 	background: #fff;
 	border-top: 1px solid;
-	border-top-color: #406ab6;
+	border-top-color: #ADD8E6;
 	padding: 5px 5px 5px 5px;
 }
 
 .rich-calendar-date-layout-ok {
 	background: #fff;
 	border-top: 1px solid;
-	border-top-color: #406ab6;
+	border-top-color: #ADD8E6;
 	padding: 5px 5px 5px 5px;
 }
 
 .rich-calendar-time-btn {
 	width: 45px;
-	border: 1px solid #406ab6;
+	border: 1px solid #ADD8E6;
 	background: #fff;
 	text-align: center;
 	padding: 2px;
@@ -319,7 +319,7 @@ table{
 }
 
 .rich-calendar-time-btn:hover {
-	background: #406ab6;
+	background: #ADD8E6;
 	color: #fff;
 }
 
@@ -337,7 +337,7 @@ table{
 
 .rich-calendar-date-layout-split {
 	border-right: 1px solid;
-	border-right-color: #406ab6;
+	border-right-color: #ADD8E6;
 }
 
 .rich-calendar-tool-btn-hover {
@@ -486,20 +486,20 @@ input[type=submit],input[type=button],input[type=file] {
 	height: 25px;
 	padding: 0 18px;
 	background: #fff;
-	color: #406ab6;
+	color: #ADD8E6;
 	cursor: pointer;
 	text-decoration: none;
 	font-family: "Open Sans";
 	font-weight: 300;
 	font-size: 14px;
-	border: 1px solid #406ab6;
+	border: 1px solid #ADD8E6;
 }
 
 input[type=submit]:hover,input[type=button]:hover,input[type=file]:hover
 	{
-	background: #406ab6;
+	background: #ADD8E6;
 	color: #fff;
-	border-color: #406ab6;
+	border-color: #ADD8E6;
 }
 
 input[type=submit]:active,input[type=button]:active,input[type=file]:active
@@ -1149,14 +1149,14 @@ ol li .send {
 	width: 90px;
 	height: 90px;;
 	background: #fff;
-	color: #406ab6;
+	color: #ADD8E6;
 	font-size: 12px;
-	border: 2px solid #406ab6;
+	border: 2px solid #ADD8E6;
 }
 
 .shortcuts span li a:hover {
 	display: block;
-	background: #406ab6;
+	background: #ADD8E6;
 	color: #fff;
 	text-shadow: none;
 }
@@ -1252,7 +1252,7 @@ ol li .send {
 .rich-tab-active {
 	color: #5f5f5f;
 	border-color: #d8d8d8;
-	border-top-color: #406ab6;
+	border-top-color: #ADD8E6;
 	border-top-width: 2px;
 }
 
@@ -1481,7 +1481,7 @@ a.historialClass {
 
 .mainLegendClass {
 	border: 1px solid #d4d4d4;
-	border-top: 2px solid #406ab6;
+	border-top: 2px solid #ADD8E6;
 	width: 200px;
 	background-color: white;
 }
@@ -1666,7 +1666,7 @@ a.historialClass {
 .rich-panel .rich-panel-header,.rich-stglpanel .rich-stglpanel-header {
 	font-family: "Open Sans";
 	font-size: 13px;
-	background: #406ab6;
+	background: #ADD8E6;
 	border: 0px;
 	height: 30px;
 	line-height: 30px;
@@ -1680,7 +1680,7 @@ a.historialClass {
 }
 
 .rich-stglpanel,.rich-panel {
-	border: 2px solid #406ab6;
+	border: 2px solid #ADD8E6;
 	padding: 0px;
 	margin-top: 5px;
 }
@@ -1695,7 +1695,7 @@ a.historialClass {
 ==========================*/
 *.rf-cp {
 	background-color: #FFFFFF;
-	border: 2px solid #406ab6;
+	border: 2px solid #ADD8E6;
 	padding: 0px;
 	margin-top: 5px;
 	margin-bottom: 10px;
@@ -1708,7 +1708,7 @@ a.historialClass {
 	color: #fff;
 	font-family: "Open Sans";
 	font-size: 13px;
-	background: #406ab6;
+	background: #ADD8E6;
 	border: 0px;
 	height: 30px;
 	line-height: 30px;
@@ -1733,7 +1733,7 @@ a.historialClass {
 	panel 
 ============================*/
 *.rf-p-hdr {
-	background: #406ab6;
+	background: #ADD8E6;
 	font-size: 13px;
 	color: #fff;
 	font-family: "Open Sans";
@@ -1751,7 +1751,7 @@ a.historialClass {
 	border-width: 2px;
 	border-style: solid;
 	padding: 0px;
-	border-color: #406ab6;
+	border-color: #ADD8E6;
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
@@ -1862,7 +1862,7 @@ a.historialClass {
 *.rf-tab-hdr-act.rf-tab-hdr-top {
 	padding: 0px 5px 3px 5px;
 	border-bottom: 0px;
-	border-top: 1px solid #406ab6;
+	border-top: 1px solid #ADD8E6;
 	font-weight: bold;
 	font-size: 14px;
 	vertical-align: top;
@@ -1907,7 +1907,7 @@ a.historialClass {
 *.rf-tab-hdr-tabline-vis.rf-tab-hdr-tabline-top {
 	background: none;
 	background-color: #fff;
-	border-color: #406ab6;
+	border-color: #ADD8E6;
 	border-style: solid;
 	border-width: 0px;
 	border-bottom-width: 0px;
@@ -1952,7 +1952,7 @@ a.historialClass {
 	left: 1px;
 	width: 15px;
 	height: 25px;
-	border: 1px solid #406ab6;
+	border: 1px solid #ADD8E6;
 	text-align: center;
 	font-weight: bold;
 	font-family: "Open Sans", sans-serif;
@@ -1967,7 +1967,7 @@ a.historialClass {
 	right: 17px;
 	width: 15px;
 	height: 25px;
-	border: 1px solid #406ab6;
+	border: 1px solid #ADD8E6;
 	text-align: center;
 	font-family: "Open Sans", sans-serif;
 	font-size: 11px;
@@ -1982,7 +1982,7 @@ a.historialClass {
 	right: 1px;
 	width: 15px;
 	height: 25px;
-	border: 1px solid #406ab6;
+	border: 1px solid #ADD8E6;
 	font-weight: bold;
 	text-align: center;
 	font-family: "Open Sans", sans-serif;
@@ -2221,16 +2221,16 @@ FILE UPLOAD
 ============================*/
 *.rf-fu {
 	background: #FFFFFF;
-	border-color: #406ab6;
+	border-color: #ADD8E6;
 	border-style: solid;
 	border-width: 1px;
 	width: 400px;
 }
 
 *.rf-fu-hdr {
-	background-color: #406ab6;
+	background-color: #ADD8E6;
 	background-image: none;
-	border-color: #406ab6;
+	border-color: #ADD8E6;
 	border-style: solid;
 	border-width: 0px;
 	margin-left: 0px;
@@ -2275,7 +2275,7 @@ FILE UPLOAD
 *.rf-fu-btn-add,*.rf-fu-btn-upl,*.rf-fu-btn-clr {
 	background-color: #fff;
 	background-image: none;
-	border-color: #406ab6;
+	border-color: #ADD8E6;
 }
 
 *.rf-fu-btn-add-dis {

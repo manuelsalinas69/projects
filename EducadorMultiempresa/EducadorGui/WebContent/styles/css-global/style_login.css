@@ -40,7 +40,7 @@ html,.main {
 =================================*/
 #login_bar {
 	margin-top: 180px;
-	background: #406AB6;
+	background: #ADD8E6;
 	height: 200px;
 	width: 100%;
 	border-left: 6px solid #2C497D;
@@ -112,7 +112,7 @@ input[type=submit],input[type=button],input[type=file] {
 
 input[type=submit]:hover,input[type=button]:hover,input[type=file]:hover
 	{
-	background: #406AB6;
+	background: #ADD8E6;
 }
 
 input[type=submit]:active,input[type=button]:active,input[type=file]:active
