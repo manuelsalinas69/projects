@@ -40,10 +40,11 @@ html,.main {
 =================================*/
 #login_bar {
 	margin-top: 180px;
-	background: #ADD8E6;
-	height: 200px;
-	width: 100%;
-	border-left: 6px solid #2C497D;
+	margin-left: 40%;
+	/*background: #ADD8E6;*/
+	height: 250px;
+	width: 400px;
+	/*border-left: 6px solid #2C497D;*/
 }
 
 #logo_div {
@@ -58,11 +59,11 @@ html,.main {
 }
 
 #form_div {
-	float: right;
-	width: 60%;
+	
+	
 	height: 160px;
-	color: #fff;
-	margin: 20px 0px;
+	color: rgb(85, 85, 85);
+	background-color: #fff;
 }
 
 .login_page {
@@ -71,6 +72,7 @@ html,.main {
 	width: 100%;
 	text-decoration: none;
 	display: block;
+	text-align: center;
 }
 
 .login_button {
@@ -141,7 +143,7 @@ input[type=submit]:active,input[type=button]:active,input[type=file]:active
 input[type=text],input[type=password],textarea {
 	font-family: "Open Sans";
 	font-size: 16px;
-	border: 1px solid #4C85ED;
+	border: 1px solid #C6DAFF;
 	padding: 2px 7px;
 	outline: 0;
 	-webkit-appearance: none;
@@ -179,4 +181,10 @@ a:hover {
 	text-shadow: 0 0 10px #EAF0F8, 0 0 20px #EAF0F8, 0 0 30px #EAF0F8, 0 0
 		40px #EAF0F8, 0 0 70px #EAF0F8, 0 0 80px #EAF0F8, 0 0 100px #EAF0F8, 0
 		0 150px #EAF0F8;
+}
+.header_bar{
+	background-color: rgba(255,255,255,0.55);
+	border-bottom: 2px solid #ddd;
+	text-align: center;
+	height: 50px;
 }
