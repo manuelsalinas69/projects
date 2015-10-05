@@ -119,7 +119,7 @@ table{
 	padding: inherit;
 	text-decoration: none;
 	font-weight: 300;
-	color: #ADD8E6;
+	color: #0C0C0C;
 	font-size: 12px;
 }
 
@@ -1167,7 +1167,9 @@ ol li .send {
 	width: 48px;
 	height: 48px;
 	padding: 10px 0 5px 0;
-	margin: 0 auto;
+	/*margin: 0 auto;*/
+	font-size: 30px;
+	text-align: center;
 }
 
 .shortcuts span li .shortcuts-label {
@@ -2389,4 +2391,10 @@ FILE UPLOAD
 
 .jqplot-point-label {
 	font-size: 12px;
+}
+
+.info_div{
+	background-color: rgba(0,0,0,0.9);
+	border: 1px solid black;
+	color: #fff;
 }

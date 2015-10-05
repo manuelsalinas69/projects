@@ -1,14 +1,14 @@
 package py.com.global.educador.gui.session;
 
-import py.com.global.educador.gui.entity.*;
-import py.com.global.educador.gui.managers.SessionManager;
-import py.com.global.educador.gui.utils.GeneralHelper;
+import java.util.Arrays;
 
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityQuery;
-import java.util.Arrays;
+
+import py.com.global.educador.gui.entity.Proyecto;
+import py.com.global.educador.gui.managers.SessionManager;
 
 @Name("proyectoList")
 public class ProyectoList extends EntityQuery<Proyecto> {
@@ -34,11 +34,14 @@ public class ProyectoList extends EntityQuery<Proyecto> {
 			"lower(proyecto.estadoRegistro) like lower(concat(#{proyectoList.proyecto.estadoRegistro},'%'))",
 			"lower(proyecto.numeroCorto) like lower(concat(#{proyectoList.proyecto.numeroCorto},'%'))",
 			"proyecto.empresa.idEmpresa=#{proyectoList.idEmpresa}",
-			"proyecto.empresa.hashId=#{proyectoList.ix}",};
+			"proyecto.empresa.hashId=#{proyectoList.ix}",
+			"proyecto.canalApp=#{proyectoList.proyecto.canalApp}",
+			"proyecto.canalSms=#{proyectoList.proyecto.canalSms}",};
 
 	private Proyecto proyecto = new Proyecto();
 	private Long idEmpresa;
 	private String ix;
+	
 	
 	
 	@Override
@@ -75,6 +78,10 @@ public class ProyectoList extends EntityQuery<Proyecto> {
 	public void setIx(String ix) {
 		this.ix = ix;
 	}
+
+	
+	
+	
 	
 	
 	

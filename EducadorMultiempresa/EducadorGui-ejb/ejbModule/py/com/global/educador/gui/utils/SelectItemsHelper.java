@@ -89,16 +89,20 @@ public class SelectItemsHelper implements Serializable {
 		return l;
 	}
 
-	
-	private List<SelectItem> createArrayOfValues(Integer start, Integer end){
-		int size=end-start+1;
-		List<SelectItem> l= new ArrayList<SelectItem>();
-		for (int i = 0; i < size; i++) {
-			l.add(new SelectItem(i));
-		}
+	@Factory(value="booleanSelectItems", scope=ScopeType.APPLICATION)
+	public List<SelectItem> booleanSelectItems(){
+		List<SelectItem> l=new ArrayList<SelectItem>();
+		l.add(new SelectItem(null, "Seleccione..."));
+		l.add(new SelectItem(Boolean.TRUE, "SI"));
+		l.add(new SelectItem(Boolean.FALSE, "NO"));
 		return l;
+
+
 	}
 	
+	/*
+	 * METODOS para logica de negocio
+	 * **/
 	@Factory(value="modulosSelectItems",scope=ScopeType.PAGE)
 	public List<SelectItem> modulosSelectItems(){
 		ModuloList list= (ModuloList) Component.getInstance(ModuloList.class);
@@ -194,6 +198,16 @@ public class SelectItemsHelper implements Serializable {
 	/**
 	 * METODOS DE CREACION
 	 **/
+	
+	
+	private List<SelectItem> createArrayOfValues(Integer start, Integer end){
+		int size=end-start+1;
+		List<SelectItem> l= new ArrayList<SelectItem>();
+		for (int i = 0; i < size; i++) {
+			l.add(new SelectItem(i));
+		}
+		return l;
+	}
 
 	public static List<SelectItem> buildSelectItemList(
 			List<? extends EntityInterface> resultList, String displayName,

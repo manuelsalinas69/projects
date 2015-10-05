@@ -1,66 +1,80 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:s="http://jboss.org/schema/seam/taglib"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:rich="http://richfaces.org/rich"
-    template="layout/template.xhtml">
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
 
 
-    <ui:define name="body">
-       <div align="center" style="min-height:400px;">
-        <ul class="shortcuts" >
-					<s:span title="Vea la lista de suscriptores a la plataforma"
-						rendered="#{usuario.rolAdminSistema}">
+	<ui:define name="body">
+		<div style="min-height: 400px;">
+			<ul class="shortcuts">
+				
+					<s:span
+						title="Vea la lista de empresa registradas o registre una nueva"
+						rendered="#{usuario.rolAdminSistema and sessionManager.userFromSuperCompany()}">
 						<li><s:link view="/EmpresaList.xhtml" propagation="none">
 								<span class="shortcuts-icon iconsi-event">
-									<p style="font-size: 25px">E</p>
+									
+										<span class="glyphicon glyphicon-briefcase"></span>
+									
 								</span>
 								<span class="shortcuts-label">Empresas</span>
+								
+							</s:link></li>
+					</s:span>
+					<s:span title="Vea los proyectos que tiene asociados"
+						rendered="#{usuario.rolAdminProyectos}">
+						<li><s:link view="/ProyectoList.xhtml" propagation="none">
+								<span class="shortcuts-icon iconsi-event">
+									<span class="glyphicon glyphicon-book"></span>
+								</span>
+								<span class="shortcuts-label">Proyectos</span>
 							</s:link></li>
 					</s:span>
 					<s:span title="Acceda al listado de m&oacute;dulos del sistema"
-					rendered="#{usuario.rolAdminProyectos}"
-						>
+						rendered="#{usuario.rolAdminProyectos}">
 						<li><s:link view="/ModuloList.xhtml" propagation="none">
 								<span class="shortcuts-icon iconsi-event">
-									<p style="font-size: 25px">M</p>
+									<span class="glyphicon glyphicon-list-alt"></span>
 								</span>
 								<span class="shortcuts-label">M&oacute;dulos</span>
 							</s:link></li>
 					</s:span>
 
 					<s:span title="Acceda a la pantalla de Consultas por m&oacute;dulo"
-					rendered="#{usuario.rolAdminProyectos or usuario.rolConsultas}">
+						rendered="#{usuario.rolAdminProyectos or usuario.rolConsultas}">
 						<li class="products"><s:link view="/ModuleReports.xhtml"
 								propagation="none">
 								<span class="shortcuts-icon iconsi-cart">
-									<p style="font-size: 25px">CM</p>
+									<span class="glyphicon glyphicon-search"></span>
 								</span>
 								<span class="shortcuts-label">Cons. M&oacute;dulo</span>
 							</s:link></li>
 					</s:span>
 
-					<s:span title="Vea los mensajes de texto que los usuarios de Tigo han enviado a la plataforma"
-					rendered="#{usuario.rolAdminProyectos or usuario.rolConsultas}">
+					<s:span
+						title="Vea los mensajes de texto que los usuarios han enviado a la plataforma"
+						rendered="#{(usuario.rolAdminProyectos or usuario.rolConsultas) and sessionManager.userFromSuperCompany()}">
 						<li class="archive"><s:link view="/LogSmsInList.xhtml"
 								propagation="none">
 
 								<span class="shortcuts-icon">
-									<p style="font-size: 25px">IN</p>
+									<span class="glyphicon glyphicon-import"></span>
 								</span>
 								<span class="shortcuts-label">SMS Entrada</span>
 							</s:link></li>
 					</s:span>
-					<s:span title="Acceda a la lista de mensajes de salida que la plataforma ha enviado a los usuarios de Tigo"
-					rendered="#{usuario.rolAdminProyectos or usuario.rolConsultas}">
+					<s:span
+						title="Acceda a la lista de mensajes de salida que la plataforma ha enviado a los usuarios"
+						rendered="#{(usuario.rolAdminProyectos or usuario.rolConsultas) and sessionManager.userFromSuperCompany()}">
 						<li class="archive"><s:link view="/LogSmsOutList.xhtml"
 								propagation="none">
 
 								<span class="shortcuts-icon">
-									<p style="font-size: 25px">OUT</p>
+									<span class="glyphicon glyphicon-export"></span>
 								</span>
 								<span class="shortcuts-label">SMS Salida</span>
 							</s:link></li>
@@ -68,31 +82,22 @@
 
 					<s:span title="Vea la lista de suscriptores a la plataforma"
 						rendered="#{usuario.rolAdminProyectos}">
-						<li><s:link view="/SuscriptorProyectoList.xhtml" propagation="none">
+						<li><s:link view="/SuscriptorProyectoList.xhtml"
+								propagation="none">
 								<span class="shortcuts-icon iconsi-event">
-									<p style="font-size: 25px">S</p>
+									<span class="glyphicon glyphicon-user"></span>
 								</span>
 								<span class="shortcuts-label">Suscriptores</span>
 							</s:link></li>
 					</s:span>
 
-				
+
+
 
 				
+			</ul>
 
-				</ul>
-        <rich:panel >
-            <table align="center">
-            	<tr align="center">
-            		<td align="center" valign="middle">
-            		 	<h1>#{messages.home_text}</h1>
-            		</td>
-            	</tr>
-            </table>
-               
-            
-        </rich:panel>
-	</div>
-    </ui:define>
-    
+		</div>
+	</ui:define>
+
 </ui:composition>

@@ -72,6 +72,9 @@ public class ModuleController extends EntityBaseController<Modulo> {
 	String hour;
 	String minute;
 	Map<String, String> configuracionEnvioMap;
+	
+	Boolean hasCanalApp, hasCanalSms;
+	
 
 	public ModuleController() {
 		super(Modulo.class);
@@ -151,9 +154,22 @@ public class ModuleController extends EntityBaseController<Modulo> {
 
 	private void loadProyecto(Modulo instance) {
 		setIdProyecto(instance.getProyecto().getIdProyecto());
+		manageSelectedProject(instance.getProyecto().getIdProyecto());
 		
 	}
 
+	public void manageSelectedProject(Long idProyecto){
+		this.idProyecto=idProyecto;
+		if (idProyecto==null) {
+			hasCanalApp=null;
+			hasCanalSms=null;
+		}
+		else{
+			Proyecto p= entityManager.find(Proyecto.class, idProyecto);
+			hasCanalApp=p.getCanalApp();
+			hasCanalSms=p.getCanalSms();
+		}
+	}
 
 	private void loadScheduleValues(Modulo instance) {
 		configuracionEnvioMap=getMapOfScheduleStringConf(instance.getConfiguracionEnvioTip());
@@ -768,6 +784,26 @@ public class ModuleController extends EntityBaseController<Modulo> {
 
 	public void setIdEmpresa(Long idEmpresa) {
 		this.idEmpresa = idEmpresa;
+	}
+
+
+	public Boolean getHasCanalApp() {
+		return hasCanalApp;
+	}
+
+
+	public void setHasCanalApp(Boolean hasCanalApp) {
+		this.hasCanalApp = hasCanalApp;
+	}
+
+
+	public Boolean getHasCanalSms() {
+		return hasCanalSms;
+	}
+
+
+	public void setHasCanalSms(Boolean hasCanalSms) {
+		this.hasCanalSms = hasCanalSms;
 	}
 
 

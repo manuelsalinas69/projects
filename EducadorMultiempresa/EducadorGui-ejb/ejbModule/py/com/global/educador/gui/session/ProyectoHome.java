@@ -284,6 +284,12 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 			getInstance().setEmpresa(entityManager.find(Empresa.class, idEmpresa));
 		}
 		
+		if (getInstance().getCanalApp()==null) {
+			getInstance().setCanalApp(Boolean.FALSE);
+		}
+		if (getInstance().getCanalSms()==null) {
+			getInstance().setCanalSms(Boolean.FALSE);
+		}
 		
 		getInstance().setUsuarioAlta(usuario);
 		getInstance().setEstadoRegistro(EstadoRegistro.ACTIVO.name());
@@ -387,6 +393,13 @@ public class ProyectoHome extends EntityHome<Proyecto> {
 		}
 		if (idEmpresa!=null) {
 			getInstance().setEmpresa(entityManager.find(Empresa.class, idEmpresa));
+		}
+		
+		if (getInstance().getCanalApp()==null) {
+			getInstance().setCanalApp(Boolean.FALSE);
+		}
+		if (getInstance().getCanalSms()==null) {
+			getInstance().setCanalSms(Boolean.FALSE);
 		}
 		getInstance().setUsuarioModificacion(usuario);
 		getInstance().setFechaModificacion(new Date());

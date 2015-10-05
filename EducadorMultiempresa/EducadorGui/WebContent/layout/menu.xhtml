@@ -11,9 +11,19 @@
 			<ul class="menu">
 				<ui:insert name="menu">
 					<h:panelGroup>
-						<li class="top"><span> <s:link styleClass="top_link"
+						<li class="top"><span title="#{messages.menu_home}"> <s:link styleClass="top_link" 
 									id="menuHomeId" view="/home.xhtml"
-									value="#{messages.menu_home}" propagation="none" /></span></li>
+									 propagation="none">
+									 <span style="font-size: 20px" class="glyphicon glyphicon-home"></span> </s:link>
+									 </span></li>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<li class="top"><span title="#{messages.menu_home}"> <s:link styleClass="top_link" 
+									id="pipe"
+									 propagation="none" value="|">
+									 </s:link>
+									 </span></li>
 					</h:panelGroup>
 
 					<h:panelGroup id="menu_educador" rendered="#{usuario.rolAdminProyectos}">
@@ -125,6 +135,7 @@
 					<li class="top" style="float:right; "><span><s:link
 								value="Usuario : #{credentials.username}"
 								rendered="#{identity.loggedIn}" styleClass="top_link">
+								
 							</s:link></span></li>
 					
 

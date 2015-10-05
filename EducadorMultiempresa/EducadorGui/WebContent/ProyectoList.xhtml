@@ -42,6 +42,22 @@
 						</h:selectOneMenu>
 					</s:decorate>
 					
+					<s:decorate template="layout/display.xhtml" >
+						<ui:define name="label">Canal App</ui:define>
+						<h:selectOneMenu id="canalApp"
+							value="#{proyectoList.proyecto.canalApp}" >
+							<f:selectItems value="#{booleanSelectItems}"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
+						<s:decorate template="layout/display.xhtml" >
+						<ui:define name="label">Canal SMS</ui:define>
+						<h:selectOneMenu id="canalSms"
+							value="#{proyectoList.proyecto.canalSms}" >
+							<f:selectItems value="#{booleanSelectItems}"/>
+						</h:selectOneMenu>
+					</s:decorate>
+					
 				</h:panelGrid>
 			</rich:collapsiblePanel>
 
