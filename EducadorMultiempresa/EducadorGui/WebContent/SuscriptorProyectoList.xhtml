@@ -5,7 +5,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j"
+	 template="layout/template.xhtml">
 
 	<ui:define name="body">
 		<s:decorate template="/layout/title.xhtml">
@@ -64,7 +66,7 @@
 						</s:decorate>
 					</a:outputPanel>
 
-					<s:decorate template="layout/display.xhtml">
+					<s:decorate template="layout/display.xhtml" rendered="#{!sessionManager.userFromSuperCompany()}">
 						<ui:define name="label">Proyecto</ui:define>
 						<h:selectOneMenu id="idp"
 							value="#{suscriptorProyectoList.idProyecto}">

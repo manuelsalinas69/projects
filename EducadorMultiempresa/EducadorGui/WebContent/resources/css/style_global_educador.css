@@ -1863,9 +1863,8 @@ a.historialClass {
 }
 
 *.rf-tab-hdr-act.rf-tab-hdr-top {
-	padding: 0px 5px 3px 5px;
-	border-bottom: 0px;
-	border-top: 1px solid #ADD8E6;
+	padding: 2px 5px 3px 5px;
+	border-bottom: 3px solid #70B2C4;
 	font-weight: bold;
 	font-size: 14px;
 	vertical-align: top;
@@ -1909,7 +1908,7 @@ a.historialClass {
 
 *.rf-tab-hdr-tabline-vis.rf-tab-hdr-tabline-top {
 	background: none;
-	background-color: #fff;
+	background-color: transparent;
 	border-color: #ADD8E6;
 	border-style: solid;
 	border-width: 0px;
@@ -2394,7 +2393,13 @@ FILE UPLOAD
 }
 
 .info_div{
-	background-color: rgba(0,0,0,0.9);
+	background-color: rgba(0,0,0,0.7);
+	vertical-align: middle;
+	text-align: center;
 	border: 1px solid black;
 	color: #fff;
+	min-height: 20px;
+	padding: 10px;
+	border-radius: 3px;
+	
 }

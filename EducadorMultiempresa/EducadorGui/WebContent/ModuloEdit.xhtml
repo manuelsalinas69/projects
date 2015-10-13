@@ -76,7 +76,8 @@
 				<rich:tab header="Datos del m&oacute;dulo">
 					<rich:panel styleClass="tabContent" style="border:0px;">
 						<h:panelGrid>
-							<s:decorate template="/layout/edit.xhtml" rendered="#{sessionManager.userFromSuperCompany()}">
+							<s:decorate template="/layout/edit.xhtml"
+								rendered="#{sessionManager.userFromSuperCompany()}">
 								<ui:define name="label">
 										Empresa
 									</ui:define>
@@ -88,31 +89,39 @@
 							</s:decorate>
 
 
-							<a:outputPanel id="pnlProyecto" rendered="#{sessionManager.userFromSuperCompany()}">
+							<a:outputPanel id="pnlProyecto"
+								rendered="#{sessionManager.userFromSuperCompany()}">
 								<s:decorate template="/layout/edit.xhtml">
 									<ui:define name="label">
-										Proyecto
+										Proyecto asociado
 									</ui:define>
-									<h:selectOneMenu value="#{moduleController.idProyecto}" onchange="manageProjectSelected(this.value)"
-										required="true" disabled="#{!moduleController.canEdit()}">
+									<h:selectOneMenu value="#{moduleController.idProyecto}"
+										onchange="manageProjectSelected(this.value)" required="true"
+										disabled="#{!moduleController.canEdit()}">
 										<f:selectItems value="#{selectorManager.proyectos}" />
 									</h:selectOneMenu>
 								</s:decorate>
 							</a:outputPanel>
-							
-							<s:decorate template="/layout/edit.xhtml" rendered="#{!sessionManager.userFromSuperCompany()}">
-									<ui:define name="label">
-										Proyecto
-									</ui:define>
-									<h:selectOneMenu value="#{moduleController.idProyecto}" onchange="manageProjectSelected(this.value)"
-										required="true" disabled="#{!moduleController.canEdit()}">
-										<f:selectItems value="#{selectItemsHelper.proyectoByEmpresaSelectItems(moduleController.idEmpresa)}" />
-									</h:selectOneMenu>
-								</s:decorate>
 
-								<a:jsFunction name="manageProjectSelected" execute="@this" action="#{moduleController.manageSelectedProject(idP)}" rendered="pnlCanalApp,pnlCanalSms">
-									<ui:param name="idP" value="#{idP}" />
-								</a:jsFunction>
+							<s:decorate template="/layout/edit.xhtml"
+								rendered="#{!sessionManager.userFromSuperCompany()}">
+								<ui:define name="label">
+										Proyecto asociado
+									</ui:define>
+
+								<h:selectOneMenu value="#{moduleController.idProyecto}"
+									onchange="manageProjectSelected(this.value)" required="true"
+									disabled="#{!moduleController.canEdit()}">
+									<f:selectItems
+										value="#{selectItemsHelper.proyectoByEmpresaSelectItems(moduleController.idEmpresa)}" />
+								</h:selectOneMenu>
+							</s:decorate>
+
+							<a:jsFunction name="manageProjectSelected" execute="@this"
+								action="#{moduleController.manageSelectedProject(idP)}"
+								render="pnlCanalApp,pnlCanalSms">
+								<a:param name="idP" assignTo="#{idP}" />
+							</a:jsFunction>
 
 							<s:decorate id="nombreField" template="layout/edit.xhtml">
 								<ui:define name="label">Nombre</ui:define>
@@ -131,30 +140,34 @@
 									value="#{moduleController.instance.descripcion}" />
 							</s:decorate>
 
-							<h:panelGrid columns="2">
-								<s:decorate template="layout/edit.xhtml">
-									<ui:define name="label">Canal App</ui:define>
-									<h:selectBooleanCheckbox disabled="#{!moduleController.hasCanalApp}"
-										value="#{moduleController.instance.canalApp}" />
-								</s:decorate>
-								<a:outputPanel id="pnlCanalApp">
-									<s:div styleClass="info_div" rendered="#{!moduleController.hasCanalApp and moduleController.idProyecto!=null}">
+							<a:outputPanel id="pnlCanalApp">
+								<h:panelGrid columns="2">
+									<s:decorate template="layout/edit.xhtml">
+										<ui:define name="label">Canal App</ui:define>
+										<h:selectBooleanCheckbox
+											disabled="#{!moduleController.hasCanalApp}"
+											value="#{moduleController.instance.canalApp}" />
+									</s:decorate>
+									<s:div styleClass="info_div"
+										rendered="#{!moduleController.hasCanalApp and moduleController.idProyecto!=null}">
 										El proyecto seleccionado no permite el Canal App
 									</s:div>
-								</a:outputPanel>
-							</h:panelGrid>
-							<h:panelGrid columns="2">
-								<s:decorate template="layout/edit.xhtml">
-									<ui:define name="label">Canal Sms</ui:define>
-									<h:selectBooleanCheckbox disabled="#{!moduleController.hasCanalSms}"
-										value="#{moduleController.instance.canalSms}" />
-								</s:decorate>
-								<a:outputPanel id="pnlCanalSms">
-									<s:div styleClass="info_div" rendered="#{!moduleController.hasCanalSms and moduleController.idProyecto!=null}">
+								</h:panelGrid>
+							</a:outputPanel>
+							<a:outputPanel id="pnlCanalSms">
+								<h:panelGrid columns="2">
+									<s:decorate template="layout/edit.xhtml">
+										<ui:define name="label">Canal Sms</ui:define>
+										<h:selectBooleanCheckbox
+											disabled="#{!moduleController.hasCanalSms}"
+											value="#{moduleController.instance.canalSms}" />
+									</s:decorate>
+									<s:div styleClass="info_div"
+										rendered="#{!moduleController.hasCanalSms and moduleController.idProyecto!=null}">
 										El proyecto seleccionado no permite el Canal Sms
 									</s:div>
-								</a:outputPanel>
-							</h:panelGrid>
+								</h:panelGrid>
+							</a:outputPanel>
 
 
 

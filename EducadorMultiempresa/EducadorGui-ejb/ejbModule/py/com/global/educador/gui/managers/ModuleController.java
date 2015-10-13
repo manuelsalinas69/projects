@@ -160,12 +160,16 @@ public class ModuleController extends EntityBaseController<Modulo> {
 
 	public void manageSelectedProject(Long idProyecto){
 		this.idProyecto=idProyecto;
-		if (idProyecto==null) {
+		if (idProyecto==null || idProyecto <=0) {
 			hasCanalApp=null;
 			hasCanalSms=null;
 		}
 		else{
 			Proyecto p= entityManager.find(Proyecto.class, idProyecto);
+			if (p==null) {
+				System.out.println("Proyecto no encontrado para el ID--> "+idProyecto);
+				return;
+			}
 			hasCanalApp=p.getCanalApp();
 			hasCanalSms=p.getCanalSms();
 		}
