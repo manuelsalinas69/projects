@@ -37,6 +37,8 @@ public class ModuleReporManager implements Serializable {
 	EntityManager entityManager;
 	@In(create=true)
 	DynamicReportHelper dynamicReportHelper;
+	@In(create=true)
+	SessionManager sessionManager;
 	
 	List<Object[]> resumenEjecucion;
 	List<Object[]> resumenCancelados;
@@ -46,6 +48,8 @@ public class ModuleReporManager implements Serializable {
 	
 	List<Object[]> jsonData;
 	List<Tip> tips;
+	Long idEmpresa;
+	Long idProyecto;
 	Long idModulo=null;
 	List<Pregunta> preguntas;
 	Long idPregunta;
@@ -54,6 +58,9 @@ public class ModuleReporManager implements Serializable {
 	public void init(){
 		updateDirtyRecords();
 		loadPreguntasByModulo();
+		if (!sessionManager.userFromSuperCompany()) {
+			idEmpresa=sessionManager.getLoggedUserCompany();
+		}
 	}
 	
 	private void updateDirtyRecords() {
@@ -414,6 +421,22 @@ public class ModuleReporManager implements Serializable {
 
 	public void setTips(List<Tip> tips) {
 		this.tips = tips;
+	}
+
+	public Long getIdEmpresa() {
+		return idEmpresa;
+	}
+
+	public void setIdEmpresa(Long idEmpresa) {
+		this.idEmpresa = idEmpresa;
+	}
+
+	public Long getIdProyecto() {
+		return idProyecto;
+	}
+
+	public void setIdProyecto(Long idProyecto) {
+		this.idProyecto = idProyecto;
 	}
 	
 	

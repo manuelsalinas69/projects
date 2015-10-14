@@ -41,216 +41,274 @@
 
 
 		<h:form>
-			<rich:panel id="pnlMain" style="border:0px;">
-				<h:selectOneMenu value="#{moduleReporManager.idModulo}">
-					<f:selectItems value="#{modulosSelectItems}" />
-					<a:ajax event="change" execute="@this" render="pnlMain"
-						oncomplete="reloadData();" />
-				</h:selectOneMenu>
-				<a:jsFunction name="reloadData"
-					action="#{moduleReporManager.loadPreguntasByModulo()}"
-					render="pnlMain" />
-				<rich:tabPanel switchType="client">
+			<rich:panel style="border:0px;">
+				<h:panelGrid columns="4">
+
+					<s:decorate template="/layout/edit.xhtml"
+						rendered="#{sessionManager.userFromSuperCompany()}">
+						<ui:define name="label">
+										Empresa
+									</ui:define>
+						<h:selectOneMenu value="#{moduleReporManager.idEmpresa}"
+							onchange="proyectoByEmpresa(this.value)">
+							<f:selectItems value="#{empresaSelectItems}" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+
+					<a:outputPanel id="pnlProyecto"
+						rendered="#{sessionManager.userFromSuperCompany()}">
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">
+										Proyecto
+									</ui:define>
+							<h:selectOneMenu value="#{moduleReporManager.idProyecto}"
+								onchange="manageProjectSelected(this.value)">
+								<f:selectItems value="#{selectorManager.proyectos}" />
+							</h:selectOneMenu>
+						</s:decorate>
+					</a:outputPanel>
+					<s:decorate template="/layout/edit.xhtml"
+						rendered="#{!sessionManager.userFromSuperCompany()}">
+						<ui:define name="label">
+										Proyecto
+									</ui:define>
+
+						<h:selectOneMenu value="#{moduleReporManager.idProyecto}"
+							onchange="manageProjectSelected(this.value)"
+							>
+							<f:selectItems
+								value="#{selectItemsHelper.proyectoByEmpresaSelectItems(moduleReporManager.idEmpresa)}" />
+						</h:selectOneMenu>
+					</s:decorate>
+					<a:outputPanel id="pnlModulo">
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">
+								Modulo
+							</ui:define>
+							<h:selectOneMenu value="#{moduleReporManager.idModulo}">
+								<f:selectItems value="#{selectorManager.modulos}" />
+								<a:ajax event="change" execute="@this" render="pnlMain"
+									oncomplete="reloadData();" />
+							</h:selectOneMenu>
+
+						</s:decorate>
+					</a:outputPanel>
+					<a:jsFunction name="reloadData"
+						action="#{moduleReporManager.loadPreguntasByModulo()}"
+						render="pnlMain" />
+
+				</h:panelGrid>
+
+				<a:outputPanel id="pnlMain">
+					<rich:tabPanel switchType="client">
 
 
 
 
-					<rich:tab header="Ejecuciones">
-						<a:commandButton action="#{moduleReporManager.reportTest()}"
-							execute="@this" data="#{moduleReporManager.resumenEjecucion}"
-							oncomplete="plotBarReport('#resumenEjecucion','Resumen Ejecuciones',event.data);"
-							value="Resumen" />
-						<a:commandButton action="#{moduleReporManager.reportCancelados()}"
-							execute="@this" data="#{moduleReporManager.resumenCancelados}"
-							oncomplete="plotBarReport('#resumenCancelados','Resumen Cancelados',event.data);"
-							value="Cancelados" />
-						<rich:panel styleClass="tabContent" style="border:0px">
-
-							<table>
-								<tr>
-									<td>
-										<div id="resumenEjecucion" class="jqplot-target" />
-									</td>
-									<td>
-										<div id="resumenCancelados" class="jqplot-target" />
-									</td>
-								</tr>
-
-							</table>
-						</rich:panel>
-					</rich:tab>
-					<rich:tab header="Comportamiento de env&iacute;o de respuestas">
-						<a:commandButton
-							action="#{moduleReporManager.reportFechaRespuestas()}"
-							execute="@this"
-							data="#{moduleReporManager.resumenfechaRespuestas}"
-							oncomplete="plotDateReport('#resumenRespuestas','Fechas Respuestas',event.data);"
-							value="Respuestas" />
-						<rich:panel styleClass="tabContent"  style="border:0px">
-							<table width="100%">
-								<tr>
-									<td width="100%">
-										<div id="resumenRespuestas" class="jqplot-target" />
-									</td>
-								</tr>
-							</table>
-						</rich:panel>
-					</rich:tab>
-					<rich:tab header="Tips">
-						<h:panelGrid columns="2">
-							<a:commandButton value="Ver enviados"
-								action="#{moduleReporManager.reportTipEviados()}"
-								render="pnlTips" data="#{moduleReporManager.jsonData}"
-								execute="@this"
-								oncomplete="plotBarLegendReport('#tipReportes','Enviados',event.data);" />
-							<a:commandButton value="Ver fallidos"
-								action="#{moduleReporManager.reportTipFallidos()}"
-								render="pnlTips" data="#{moduleReporManager.jsonData}"
-								execute="@this"
-								oncomplete="plotBarLegendReport('#tipReportesFallidos','Fallidos',event.data);" />
-						</h:panelGrid>
-						<rich:panel styleClass="tabContent" style="border:0px">
-							<table>
-								<tr>
-									<td valign="middle" colspan="3"><a:outputPanel
-											id="pnlTips">
-											<rich:dataTable value="#{moduleReporManager.tips}" var="_det"
-												rowKeyVar="_index">
-												<rich:column>
-													<h:outputText value="#{_index+1}" />
-
-												</rich:column>
-												<rich:column>
-													<h:outputText value="#{_det.contenido}" />
-												</rich:column>
-												<rich:column>
-													<a:commandLink value="Ver fallidos"
-														action="#{moduleReporManager.reporteFallidoPorTip(_det.idTip)}"
-														execute="@this" data="#{moduleReporManager.jsonData}"
-														oncomplete="plotBarReport('#tipFallidosPorTip','Resumen Fallidos',event.data);" />
-												</rich:column>
-											</rich:dataTable>
-										</a:outputPanel></td>
-								</tr>
-								<tr>
-									<td valign="top">
-										<div id="tipReportes" />
-									</td>
-									<td valign="top">
-										<div id="tipReportesFallidos" />
-									</td>
-									<td valign="top">
-										<div id="tipFallidosPorTip" />
-									</td>
-
-								</tr>
-							</table>
-						</rich:panel>
-					</rich:tab>
-					<rich:tab header="Preguntas">
-						<rich:panel styleClass="tabContent">
-							<f:facet name="header">
-									Preguntas
-								</f:facet>
-
-							<h:panelGrid columns="4" columnClasses="top,top,top,top">
-
-								<rich:dataTable value="#{moduleReporManager.preguntas}"
-									var="_det" rowKeyVar="_index">
-									<rich:column>
-										<f:facet name="header">
-											Preguntas
-										</f:facet>
-										<a:commandLink value="#{_det.contenidoPregunta}"
-											onclick="res4(#{_det.idPregunta});res5(#{_det.idPregunta});res1(#{_det.idPregunta}); res2(#{_det.idPregunta}); res3(#{_det.idPregunta});" />
-										<a:jsFunction name="res4" execute="@this"
-											action="#{moduleReporManager.reportEnvioPregunta()}"
-											data="#{moduleReporManager.jsonData}"
-											oncomplete="plotBarReport('#resumenPreguntaEnvios','Resumen Envios',event.data);">
-											<a:param name="idPregunta"
-												assignTo="#{moduleReporManager.idPregunta}" />
-										</a:jsFunction>
-										
-										<a:jsFunction name="res5" execute="@this"
-											action="#{moduleReporManager.reporteEnvioFallidoEnvioPregunta()}"
-											data="#{moduleReporManager.jsonData}"
-											oncomplete="plotBarReport('#resumenPreguntasFallidas','Fallidos',event.data);">
-											<a:param name="idPregunta"
-												assignTo="#{moduleReporManager.idPregunta}" />
-										</a:jsFunction>
-										
-										<a:jsFunction name="res1" execute="@this"
-											action="#{moduleReporManager.reportPregunta()}"
-											data="#{moduleReporManager.resumenPregunta}"
-											oncomplete="plotBarReport('#resumenPregunta','Resumen General Pregunta',event.data);">
-											<a:param name="idPregunta"
-												assignTo="#{moduleReporManager.idPregunta}" />
-										</a:jsFunction>
-										<a:jsFunction name="res2"
-											action="#{moduleReporManager.reportPreguntaRespondidas()}"
-											execute="@this"
-											data="#{moduleReporManager.resumenPreguntasRepondidas}"
-											oncomplete="plotBarReport('#resumenPreguntaRespondidaBar','Respondidas',event.data);">
-											<a:param name="idPregunta"
-												assignTo="#{moduleReporManager.idPregunta}" />
-										</a:jsFunction>
-										<a:jsFunction name="res3"
-											action="#{moduleReporManager.reportPreguntasCorrectas()}"
-											data="#{moduleReporManager.jsonData}" execute="@this"
-											oncomplete="plotPieReport('#resumenPreguntaRespondidaPie','Porcentaje',event.data);">
-											<a:param name="idPregunta"
-												assignTo="#{moduleReporManager.idPregunta}" />
-										</a:jsFunction>
-									</rich:column>
-
-								</rich:dataTable>
+						<rich:tab header="Ejecuciones">
+							<a:commandButton action="#{moduleReporManager.reportTest()}"
+								execute="@this" data="#{moduleReporManager.resumenEjecucion}"
+								oncomplete="plotBarReport('#resumenEjecucion','Resumen Ejecuciones',event.data);"
+								value="Resumen" />
+							<a:commandButton
+								action="#{moduleReporManager.reportCancelados()}"
+								execute="@this" data="#{moduleReporManager.resumenCancelados}"
+								oncomplete="plotBarReport('#resumenCancelados','Resumen Cancelados',event.data);"
+								value="Cancelados" />
+							<rich:panel styleClass="tabContent" style="border:0px">
 
 								<table>
-									<thead align="center">
-										Datos de la pregunta seleccionada
-									</thead>
 									<tr>
 										<td>
-											<div id="resumenPreguntaEnvios" />
+											<div id="resumenEjecucion" class="jqplot-target" />
 										</td>
 										<td>
-											<div id="resumenPreguntasFallidas" />
+											<div id="resumenCancelados" class="jqplot-target" />
 										</td>
 									</tr>
+
+								</table>
+							</rich:panel>
+						</rich:tab>
+						<rich:tab header="Comportamiento de env&iacute;o de respuestas">
+							<a:commandButton
+								action="#{moduleReporManager.reportFechaRespuestas()}"
+								execute="@this"
+								data="#{moduleReporManager.resumenfechaRespuestas}"
+								oncomplete="plotDateReport('#resumenRespuestas','Fechas Respuestas',event.data);"
+								value="Respuestas" />
+							<rich:panel styleClass="tabContent" style="border:0px">
+								<table width="100%">
 									<tr>
-										<td colspan="2">
-											<div id="resumenPregunta" />
-											
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div id="resumenPreguntaRespondidaBar" />
-										</td>
-										<td>
-											<div id="resumenPreguntaRespondidaPie" />
+										<td width="100%">
+											<div id="resumenRespuestas" class="jqplot-target" />
 										</td>
 									</tr>
 								</table>
-
+							</rich:panel>
+						</rich:tab>
+						<rich:tab header="Tips">
+							<h:panelGrid columns="2">
+								<a:commandButton value="Ver enviados"
+									action="#{moduleReporManager.reportTipEviados()}"
+									render="pnlTips" data="#{moduleReporManager.jsonData}"
+									execute="@this"
+									oncomplete="plotBarLegendReport('#tipReportes','Enviados',event.data);" />
+								<a:commandButton value="Ver fallidos"
+									action="#{moduleReporManager.reportTipFallidos()}"
+									render="pnlTips" data="#{moduleReporManager.jsonData}"
+									execute="@this"
+									oncomplete="plotBarLegendReport('#tipReportesFallidos','Fallidos',event.data);" />
 							</h:panelGrid>
-						</rich:panel>
-					</rich:tab>
-					
-				</rich:tabPanel>
+							<rich:panel styleClass="tabContent" style="border:0px">
+								<table>
+									<tr>
+										<td valign="middle" colspan="3"><a:outputPanel
+												id="pnlTips">
+												<rich:dataTable value="#{moduleReporManager.tips}"
+													var="_det" rowKeyVar="_index">
+													<rich:column>
+														<h:outputText value="#{_index+1}" />
 
+													</rich:column>
+													<rich:column>
+														<h:outputText value="#{_det.contenido}" />
+													</rich:column>
+													<rich:column>
+														<a:commandLink value="Ver fallidos"
+															action="#{moduleReporManager.reporteFallidoPorTip(_det.idTip)}"
+															execute="@this" data="#{moduleReporManager.jsonData}"
+															oncomplete="plotBarReport('#tipFallidosPorTip','Resumen Fallidos',event.data);" />
+													</rich:column>
+												</rich:dataTable>
+											</a:outputPanel></td>
+									</tr>
+									<tr>
+										<td valign="top">
+											<div id="tipReportes" />
+										</td>
+										<td valign="top">
+											<div id="tipReportesFallidos" />
+										</td>
+										<td valign="top">
+											<div id="tipFallidosPorTip" />
+										</td>
 
+									</tr>
+								</table>
+							</rich:panel>
+						</rich:tab>
+						<rich:tab header="Preguntas">
+							<rich:panel styleClass="tabContent">
+								<f:facet name="header">
+									Preguntas
+								</f:facet>
 
+								<h:panelGrid columns="4" columnClasses="top,top,top,top">
 
+									<rich:dataTable value="#{moduleReporManager.preguntas}"
+										var="_det" rowKeyVar="_index">
+										<rich:column>
+											<f:facet name="header">
+											Preguntas
+										</f:facet>
+											<a:commandLink value="#{_det.contenidoPregunta}"
+												onclick="res4(#{_det.idPregunta});res5(#{_det.idPregunta});res1(#{_det.idPregunta}); res2(#{_det.idPregunta}); res3(#{_det.idPregunta});" />
+											<a:jsFunction name="res4" execute="@this"
+												action="#{moduleReporManager.reportEnvioPregunta()}"
+												data="#{moduleReporManager.jsonData}"
+												oncomplete="plotBarReport('#resumenPreguntaEnvios','Resumen Envios',event.data);">
+												<a:param name="idPregunta"
+													assignTo="#{moduleReporManager.idPregunta}" />
+											</a:jsFunction>
 
+											<a:jsFunction name="res5" execute="@this"
+												action="#{moduleReporManager.reporteEnvioFallidoEnvioPregunta()}"
+												data="#{moduleReporManager.jsonData}"
+												oncomplete="plotBarReport('#resumenPreguntasFallidas','Fallidos',event.data);">
+												<a:param name="idPregunta"
+													assignTo="#{moduleReporManager.idPregunta}" />
+											</a:jsFunction>
 
+											<a:jsFunction name="res1" execute="@this"
+												action="#{moduleReporManager.reportPregunta()}"
+												data="#{moduleReporManager.resumenPregunta}"
+												oncomplete="plotBarReport('#resumenPregunta','Resumen General Pregunta',event.data);">
+												<a:param name="idPregunta"
+													assignTo="#{moduleReporManager.idPregunta}" />
+											</a:jsFunction>
+											<a:jsFunction name="res2"
+												action="#{moduleReporManager.reportPreguntaRespondidas()}"
+												execute="@this"
+												data="#{moduleReporManager.resumenPreguntasRepondidas}"
+												oncomplete="plotBarReport('#resumenPreguntaRespondidaBar','Respondidas',event.data);">
+												<a:param name="idPregunta"
+													assignTo="#{moduleReporManager.idPregunta}" />
+											</a:jsFunction>
+											<a:jsFunction name="res3"
+												action="#{moduleReporManager.reportPreguntasCorrectas()}"
+												data="#{moduleReporManager.jsonData}" execute="@this"
+												oncomplete="plotPieReport('#resumenPreguntaRespondidaPie','Porcentaje',event.data);">
+												<a:param name="idPregunta"
+													assignTo="#{moduleReporManager.idPregunta}" />
+											</a:jsFunction>
+										</rich:column>
 
+									</rich:dataTable>
 
+									<table>
+										<thead align="center">Datos de la pregunta
+											seleccionada
+										</thead>
+										<tr>
+											<td>
+												<div id="resumenPreguntaEnvios" />
+											</td>
+											<td>
+												<div id="resumenPreguntasFallidas" />
+											</td>
+										</tr>
+										<tr>
+											<td colspan="2">
+												<div id="resumenPregunta" />
 
+											</td>
+										</tr>
+										<tr>
+											<td>
+												<div id="resumenPreguntaRespondidaBar" />
+											</td>
+											<td>
+												<div id="resumenPreguntaRespondidaPie" />
+											</td>
+										</tr>
+									</table>
+
+								</h:panelGrid>
+							</rich:panel>
+						</rich:tab>
+
+					</rich:tabPanel>
+				</a:outputPanel>
 
 
 
 			</rich:panel>
+
+			<a:jsFunction name="proyectoByEmpresa"
+				action="#{selectorManager.populateProyectoListByEmpresaId(empresaId)}"
+				execute="@this" render="pnlProyecto"
+				rendered="#{sessionManager.userFromSuperCompany()}">
+				<a:param name="empresaId" assignTo="#{empresaId}" />
+			</a:jsFunction>
+
+
+			<a:jsFunction name="manageProjectSelected" execute="@this"
+				action="#{selectorManager.populateModuloList(idP)}"
+				render="pnlModulo">
+				<a:param name="idP" assignTo="#{idP}" />
+			</a:jsFunction>
 		</h:form>
 	</ui:define>
 

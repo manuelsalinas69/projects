@@ -93,7 +93,7 @@
 								rendered="#{sessionManager.userFromSuperCompany()}">
 								<s:decorate template="/layout/edit.xhtml">
 									<ui:define name="label">
-										Proyecto asociado
+										Proyecto
 									</ui:define>
 									<h:selectOneMenu value="#{moduleController.idProyecto}"
 										onchange="manageProjectSelected(this.value)" required="true"
@@ -106,7 +106,7 @@
 							<s:decorate template="/layout/edit.xhtml"
 								rendered="#{!sessionManager.userFromSuperCompany()}">
 								<ui:define name="label">
-										Proyecto asociado
+										Proyecto
 									</ui:define>
 
 								<h:selectOneMenu value="#{moduleController.idProyecto}"
