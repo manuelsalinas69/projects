@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import py.com.global.educador.engine.dto.FormularioDto;
 import py.com.global.educador.engine.enums.EstadoEjecucionSuscriptor;
 import py.com.global.educador.engine.enums.EstadoEjecucionSuscriptorDetalle;
 import py.com.global.educador.engine.enums.EstadoEvaluacionSuscriptor;
@@ -30,14 +29,14 @@ public class EjecucionAppManager {
 	@PersistenceContext
 	EntityManager entityManager;
 
-	public FormularioDto createNew(Long idModulo, Long idSuscriptor) {
+	public Properties createNew(Long idModulo, Long idSuscriptor) {
 		EjecucionSuscriptor ejecucionNueva = null;
 		EjecucionSuscriptorDetalle det;
 		try {
 			ejecucionNueva = createEjecucionSubcriber0(idModulo, idSuscriptor,
 					EstadoEjecucionSuscriptor.ACTIVO);
 			det = crearEjecucionSuscriptorDetalle(ejecucionNueva, 1);
-			FormularioDto dto = createForm(ejecucionNueva, det);
+			Properties dto = createForm(ejecucionNueva, det);
 			return dto;
 		} catch (Exception e) {
 			System.out.println("AppServices.createEvaluacion(): " + e);
@@ -78,7 +77,7 @@ public class EjecucionAppManager {
 		return l.get(0);
 	}
 
-	public FormularioDto statusEjecucion(Long idEjecucion, Long idDetalle) {
+	public Properties statusEjecucion(Long idEjecucion, Long idDetalle) {
 		EjecucionSuscriptor ej = entityManager.find(EjecucionSuscriptor.class,
 				idEjecucion);
 		EjecucionSuscriptorDetalle det = entityManager.find(
@@ -86,7 +85,7 @@ public class EjecucionAppManager {
 		return createForm(ej, det);
 	}
 	
-	public FormularioDto resumeEjecucion(Long idEjecucion){
+	public Properties resumeEjecucion(Long idEjecucion){
 		EjecucionSuscriptor ej = entityManager.find(EjecucionSuscriptor.class,
 				idEjecucion);
 		EjecucionSuscriptorDetalle det = getLastDetail(ej);
@@ -95,7 +94,7 @@ public class EjecucionAppManager {
 
 	
 
-	public FormularioDto nextAction(Long idEjecucion, Long idDetalle,
+	public Properties nextAction(Long idEjecucion, Long idDetalle,
 			Long idEvaluacion, Long idPregunta, Long idRespuesta,
 			String respuesta) {
 		EjecucionSuscriptor ej = entityManager.find(EjecucionSuscriptor.class,
@@ -126,10 +125,10 @@ public class EjecucionAppManager {
 			ej.setEstadoEjecucion(EstadoEjecucionSuscriptor.FINALIZADO.name());
 			entityManager.merge(ej);
 
-			FormularioDto finalForm = new FormularioDto();
-			finalForm.putAttr("info", "Usted ha finalizado con exito");
-			finalForm.putAttr("formType", "INFO");
-			finalForm.putAttr("nextActions", "false");
+			Properties finalForm = new Properties();
+			finalForm.put("info", "Usted ha finalizado con exito");
+			finalForm.put("formType", "INFO");
+			finalForm.put("nextActions", "false");
 			return finalForm;
 		}
 
@@ -151,61 +150,61 @@ public class EjecucionAppManager {
 		return l.get(0);
 	}
 
-	private FormularioDto createForm(EjecucionSuscriptor ej,
+	private Properties createForm(EjecucionSuscriptor ej,
 			EjecucionSuscriptorDetalle det) {
 
-		FormularioDto d = new FormularioDto();
+		Properties d = new Properties();
 
-		d.putAttr("idEjecucion", ej.getIdEjecucionSuscriptor());
-		d.putAttr("idDetalleEjecucion", det.getIdEjecucionDetalle());
-		d.putAttr("formType", det.getEnviar());
-		d.putAttr("final",
+		d.put("idEjecucion", ej.getIdEjecucionSuscriptor());
+		d.put("idDetalleEjecucion", det.getIdEjecucionDetalle());
+		d.put("formType", det.getEnviar());
+		d.put("final",
 				det.getEnvioFinal() == null ? false : det.getEnvioFinal());
 		if (isTip(det.getEnviar())) {
-			d.putAttr("info", det.getTip().getContenido());
+			d.put("info", det.getTip().getContenido());
 		} else {
-			FormularioDto evDto = new FormularioDto();
+			Properties evDto = new Properties();
 			EvaluacionSuscriptor ev = getEvaluacion(det);
-			evDto.putAttr("idEvaluacion", ev.getIdEvaluacionSuscriptor());
-			evDto.putAttr("idPregunta", ev.getPregunta().getIdPregunta());
-			evDto.putAttr("preguntaAbierta", ev.getPregunta()
+			evDto.put("idEvaluacion", ev.getIdEvaluacionSuscriptor());
+			evDto.put("idPregunta", ev.getPregunta().getIdPregunta());
+			evDto.put("preguntaAbierta", ev.getPregunta()
 					.getPreguntaAbierta() == null ? false : ev.getPregunta()
 					.getPreguntaAbierta());
-			evDto.putAttr("contenidoPregunta", ev.getPregunta()
+			evDto.put("contenidoPregunta", ev.getPregunta()
 					.getContenidoPregunta());
-			evDto.putAttr("estadoEvaluacion", ev.getEstadoEvaluacion());
+			evDto.put("estadoEvaluacion", ev.getEstadoEvaluacion());
 			if (ev.getPregunta().getPreguntaAbierta()) {
 				if (ev.getRespuestaAbierta() != null
 						&& !ev.getRespuestaAbierta().trim().isEmpty()) {
-					evDto.putAttr("respuesta", ev.getRespuestaAbierta());
+					evDto.put("respuesta", ev.getRespuestaAbierta());
 				}
 			} else {
 				if (ev.getRespuesta() != null) {
-					evDto.putAttr("idRespuesta", ev.getRespuesta()
+					evDto.put("idRespuesta", ev.getRespuesta()
 							.getIdRespuesta());
 
 				}
-				evDto.putAttr("respuestas", getRespuestas(ev.getPregunta()));
+				evDto.put("respuestas", getRespuestas(ev.getPregunta()));
 			}
-			d.putAttr("evaluacion", evDto);
+			d.put("evaluacion", evDto);
 		}
 
 		return d;
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<FormularioDto> getRespuestas(Pregunta pregunta) {
+	private List<Properties> getRespuestas(Pregunta pregunta) {
 		List<Respuesta> l;
-		List<FormularioDto> respuestas = new ArrayList<FormularioDto>();
+		List<Properties> respuestas = new ArrayList<Properties>();
 		String hql = "SELECT r from Respuesta r WHERE r.pregunta= :preg ORDER BY r.ordenRespuesta";
 		Query q = entityManager.createQuery(hql);
 		q.setParameter("preg", pregunta);
 		l = q.getResultList();
-		FormularioDto resDto;
+		Properties resDto;
 		for (Respuesta _r : l) {
-			resDto = new FormularioDto();
-			resDto.putAttr("idRespuesta", _r.getIdRespuesta());
-			resDto.putAttr("contenidoRespuesta", _r.getContenidoRespuesta());
+			resDto = new Properties();
+			resDto.put("idRespuesta", _r.getIdRespuesta());
+			resDto.put("contenidoRespuesta", _r.getContenidoRespuesta());
 			respuestas.add(resDto);
 		}
 		return respuestas;

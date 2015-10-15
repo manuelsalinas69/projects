@@ -11,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import py.com.global.educador.engine.app.managers.EjecucionAppManager;
-import py.com.global.educador.engine.dto.FormularioDto;
 import py.com.global.educador.engine.enums.EstadoRegistro;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.Proyecto;
@@ -73,19 +72,19 @@ public class AppServices {
 		return ejecucionAppManager.getEjecucciones(idModulo, idSuscriptor);
 	}
 
-	public FormularioDto createNew(Long idModulo, Long idSuscriptor){
+	public Properties createNew(Long idModulo, Long idSuscriptor){
 		return ejecucionAppManager.createNew(idModulo, idSuscriptor);
 	}
 	
-	public FormularioDto putResponse(Long idEjecucion, Long idDetalle, Long idEvaluacion, Long idPregunta, Long idRespuesta, String respuesta){
+	public Properties putResponse(Long idEjecucion, Long idDetalle, Long idEvaluacion, Long idPregunta, Long idRespuesta, String respuesta){
 		return ejecucionAppManager.nextAction(idEjecucion, idDetalle, idEvaluacion, idPregunta, idRespuesta, respuesta);
 	}
 	
-	public FormularioDto status(Long idEjecucion, Long idDetalle){
+	public Properties status(Long idEjecucion, Long idDetalle){
 		return ejecucionAppManager.statusEjecucion(idEjecucion, idDetalle);
 	}
 	
-	public FormularioDto resume(Long idEjecucion){
+	public Properties resume(Long idEjecucion){
 		return ejecucionAppManager.resumeEjecucion(idEjecucion);
 	}
 

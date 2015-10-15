@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import org.apache.log4j.Logger;
 
 import py.com.global.educador.engine.app.services.AppServices;
-import py.com.global.educador.engine.dto.FormularioDto;
 import py.com.global.educador.engine.dto.ModuloDto;
 import py.com.global.educador.engine.dto.ProyectoDto;
 import py.com.global.educador.engine.dto.QueueMessage;
@@ -89,7 +88,7 @@ public class RestServices {
 	public ResponseDto createNew(@QueryParam("idModulo") Long idModulo,
 			@QueryParam("idSuscriptor") Long idSuscriptor) {
 
-		FormularioDto data = appServices.createNew(idModulo, idSuscriptor);
+		Properties data = appServices.createNew(idModulo, idSuscriptor);
 		Properties p = new Properties();
 		p.put("formulario", data);
 		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(),
@@ -119,7 +118,7 @@ public class RestServices {
 			@PathParam("idEjecucion") Long idEjecucion,
 			@PathParam("idDetalle") Long idDetalle) {
 
-		FormularioDto formDto= appServices.status(idEjecucion, idDetalle);
+		Properties formDto= appServices.status(idEjecucion, idDetalle);
 		
 		Properties p= new Properties();
 		p.put("formulario", formDto);
@@ -135,7 +134,7 @@ public class RestServices {
 	public ResponseDto ejecucionResume(
 			@PathParam("idEjecucion") Long idEjecucion) {
 
-		FormularioDto formDto= appServices.resume(idEjecucion);
+		Properties formDto= appServices.resume(idEjecucion);
 		
 		Properties p= new Properties();
 		p.put("formulario", formDto);
@@ -156,7 +155,7 @@ public class RestServices {
 			@FormParam("idPregunta") Long idPregunta,
 			@FormParam("idRespuesta") Long idRespuesta,
 			@FormParam("respuesta") String respuesta) {
-		FormularioDto data = appServices.putResponse(idEjecucion, idDetalle,
+		Properties data = appServices.putResponse(idEjecucion, idDetalle,
 				idEvaluacion, idPregunta, idRespuesta, respuesta);
 		Properties p=new Properties();
 		p.put("formulario", data);
