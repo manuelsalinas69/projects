@@ -3,6 +3,7 @@ package py.com.global.educador.engine.app.managers;
 import java.util.Properties;
 
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -10,6 +11,7 @@ import py.com.global.educador.engine.configuration.EducadorConstants.ErrorCode;
 import py.com.global.educador.engine.dto.EducadorError;
 import py.com.global.educador.engine.interfaces.SubscriptionProcessManager;
 
+@Stateless
 public class SubscriptionAppManager {
 
 	@PersistenceContext(unitName="EducadorJpa")

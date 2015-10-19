@@ -222,12 +222,12 @@ SubscriptionProcessManager {
 			if (subscriberProject==null) {
 				subscriberProject= new SuscriptorProyecto();
 				subscriberProject.setId(spPK);
-				subscriberProject.setEstadoSuscriptorModulo(EstadoSuscriptorProyecto.ACTIVO.name());
+				subscriberProject.setEstadoSuscriptorProyecto(EstadoSuscriptorProyecto.ACTIVO.name());
 				entityManager.persist(subscriberProject);
 				
 			}
 			else{
-				subscriberProject.setEstadoSuscriptorModulo(EstadoSuscriptorProyecto.ACTIVO.name());
+				subscriberProject.setEstadoSuscriptorProyecto(EstadoSuscriptorProyecto.ACTIVO.name());
 				entityManager.merge(subscriberProject);
 			}
 			error.setCode(EducadorConstants.ErrorCode.SUCCESS);

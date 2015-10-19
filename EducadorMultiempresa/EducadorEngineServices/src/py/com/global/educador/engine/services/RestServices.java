@@ -164,6 +164,8 @@ public class RestServices {
 
 	@POST
 	@Path("login")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public ResponseDto login(@FormParam("user") String user, @FormParam("pass") String pass){
 		Properties loginInfo=appServices.login(user, pass);
 		ResponseDto d= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), loginInfo);
@@ -171,7 +173,9 @@ public class RestServices {
 	}
 	
 	@POST
-	@Path("login")
+	@Path("subscribe")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public ResponseDto subscribe(@FormParam("idSuscriptor") Long idSuscriptor, @FormParam("idProyecto") Long idProyecto){
 		Properties suscriptionInfo=appServices.subscribe(idSuscriptor, idProyecto);
 		ResponseDto d= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), suscriptionInfo);

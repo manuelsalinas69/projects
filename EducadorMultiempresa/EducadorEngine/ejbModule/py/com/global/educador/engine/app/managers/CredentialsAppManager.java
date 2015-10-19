@@ -31,7 +31,7 @@ public class CredentialsAppManager {
 			String hql="SELECT u FROM Usuario u WHERE lower(trim(u.usuario))= lower(trim(:user)) and u.contrasena=:pass AND u.estado=:estado";
 			Query q= entityManager.createQuery(hql);
 			q.setParameter("user", user);
-			q.setParameter("pass", DigestUtils.md5(pass));
+			q.setParameter("pass", DigestUtils.md5Hex(pass));
 			q.setParameter("estado", EstadoRegistro.ACTIVO.name());
 			List<Usuario> l=q.getResultList();
 			if (l.isEmpty()) {
