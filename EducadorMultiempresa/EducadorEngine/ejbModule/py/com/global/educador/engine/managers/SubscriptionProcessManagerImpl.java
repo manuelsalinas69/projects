@@ -26,7 +26,7 @@ import py.com.global.educador.jpa.entity.SuscriptorProyectoPK;
  */
 @Stateless
 public class SubscriptionProcessManagerImpl implements
-		SubscriptionProcessManager {
+SubscriptionProcessManager {
 
 	Logger log = Logger.getLogger(SubscriptionProcessManagerImpl.class);
 
@@ -41,10 +41,10 @@ public class SubscriptionProcessManagerImpl implements
 				.getParam(EducadorConstants.QueueMessageParamKey.SUBSCRIBER_NUMBER);
 		String shortNumber = (String) message
 				.getParam(EducadorConstants.QueueMessageParamKey.SHORT_NUMBER);
-		
+
 		Suscriptor subscriber = findSubscriber(subscriberNumber);
 		Proyecto project = findProject(shortNumber);
-	
+
 		SuscriptorProyectoPK spPK;
 		SuscriptorProyecto subscriberProject;
 
@@ -54,8 +54,8 @@ public class SubscriptionProcessManagerImpl implements
 			spPK.setIdProyecto(project.getIdProyecto());
 			spPK.setIdSuscriptor(subscriber.getIdSuscriptor());
 			//subscriberProject=subscriberCache.getSuscriptorProyecto(spPK);
-//			if (subscriberProject==null) {
-//			}
+			//			if (subscriberProject==null) {
+			//			}
 			subscriberProject = entityManager.find(SuscriptorProyecto.class,
 					spPK);
 			if (subscriberProject != null) {
@@ -69,13 +69,13 @@ public class SubscriptionProcessManagerImpl implements
 					return error;
 				} else {
 					subscriberProject
-							.setEstadoSuscriptorProyecto(EstadoSuscriptorProyecto.ACTIVO
-									.name());
+					.setEstadoSuscriptorProyecto(EstadoSuscriptorProyecto.ACTIVO
+							.name());
 					entityManager.merge(subscriberProject);
 					//subscriberCache.addToSuscriptorProyectoCache(spPK, subscriberProject);
 					//entityManager.flush();
 					error.setCode(EducadorConstants.ErrorCode.SUCCESS);
-					
+
 					logSubscription((String)message.getParam(EducadorConstants.QueueMessageParamKey.MESSAGE), 
 							(String)message.getParam(EducadorConstants.QueueMessageParamKey.OPERATION_TYPE),
 							subscriberNumber, project.getNombre(), (String)message.getParam(EducadorConstants.QueueMessageParamKey.SUBSCRIPTION_TYPE),
@@ -91,8 +91,8 @@ public class SubscriptionProcessManagerImpl implements
 			subscriber.setNumero(subscriberNumber);
 			subscriber.setFechaAlta(new Date());
 			subscriber
-					.setTipoAlta((String) message
-							.getParam(EducadorConstants.QueueMessageParamKey.SUBSCRIPTION_TYPE));
+			.setTipoAlta((String) message
+					.getParam(EducadorConstants.QueueMessageParamKey.SUBSCRIPTION_TYPE));
 			entityManager.persist(subscriber);
 			//subscriberCache.addToSuscriptorCache(subscriberNumber, subscriber);
 			spPK = new SuscriptorProyectoPK();
@@ -102,7 +102,7 @@ public class SubscriptionProcessManagerImpl implements
 			subscriberProject = new SuscriptorProyecto();
 			subscriberProject.setId(spPK);
 			subscriberProject
-					.setEstadoSuscriptorProyecto(EstadoSuscriptorProyecto.ACTIVO.name());
+			.setEstadoSuscriptorProyecto(EstadoSuscriptorProyecto.ACTIVO.name());
 			entityManager.persist(subscriberProject);
 			//subscriberCache.addToSuscriptorProyectoCache(spPK, subscriberProject);
 			//entityManager.flush();
@@ -118,11 +118,11 @@ public class SubscriptionProcessManagerImpl implements
 
 	@SuppressWarnings("unchecked")
 	private Suscriptor findSubscriber(String subscriberNumber) {
-//		Suscriptor s=subscriberCache.getSuscriptor(subscriberNumber);
-//		if (s!=null) {
-//			return s;
-//		}
-		
+		//		Suscriptor s=subscriberCache.getSuscriptor(subscriberNumber);
+		//		if (s!=null) {
+		//			return s;
+		//		}
+
 		String hql = "SELECT _s FROM Suscriptor _s WHERE _s.numero =:subscriberNumber";
 		Query q = entityManager.createQuery(hql);
 		q.setParameter("subscriberNumber", subscriberNumber);
@@ -165,8 +165,8 @@ public class SubscriptionProcessManagerImpl implements
 					spPK);
 			if (subscriberProject != null) {
 				subscriberProject
-						.setEstadoSuscriptorProyecto(EstadoSuscriptorProyecto.INACTIVO
-								.name());
+				.setEstadoSuscriptorProyecto(EstadoSuscriptorProyecto.INACTIVO
+						.name());
 				entityManager.merge(subscriberProject);
 				//entityManager.flush();
 				//subscriberCache.addToSuscriptorProyectoCache(spPK, subscriberProject);
@@ -209,5 +209,38 @@ public class SubscriptionProcessManagerImpl implements
 
 	}
 
-	
+	@Override
+	public EducadorError addSubscriber(Long idSuscriptor, Long idProyecto) {
+		EducadorError error = new EducadorError();
+		try {
+			SuscriptorProyectoPK spPK;
+			SuscriptorProyecto subscriberProject;
+			spPK= new SuscriptorProyectoPK();
+			spPK.setIdProyecto(idProyecto);
+			spPK.setIdSuscriptor(idSuscriptor);
+			subscriberProject= entityManager.find(SuscriptorProyecto.class, spPK);
+			if (subscriberProject==null) {
+				subscriberProject= new SuscriptorProyecto();
+				subscriberProject.setId(spPK);
+				subscriberProject.setEstadoSuscriptorModulo(EstadoSuscriptorProyecto.ACTIVO.name());
+				entityManager.persist(subscriberProject);
+				
+			}
+			else{
+				subscriberProject.setEstadoSuscriptorModulo(EstadoSuscriptorProyecto.ACTIVO.name());
+				entityManager.merge(subscriberProject);
+			}
+			error.setCode(EducadorConstants.ErrorCode.SUCCESS);
+		} catch (Exception e) {
+			error.setCode(EducadorConstants.ErrorCode.DEFAULT_ERROR);
+			e.printStackTrace();
+		}
+		return error;
+		
+
+	}
+
+
+
+
 }

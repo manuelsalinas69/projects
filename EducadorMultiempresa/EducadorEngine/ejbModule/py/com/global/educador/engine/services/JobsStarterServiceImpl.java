@@ -155,11 +155,15 @@ public class JobsStarterServiceImpl {
 	
 	@SuppressWarnings("unchecked")
 	private List<Modulo> getModulos(List<String> estadosModulo, EstadoRegistro estadoRegistro) {
-		String hql = "SELECT _m FROM Modulo _m WHERE _m.estadoModulo in (:estadosModulo) AND _m.estadoRegistro= :estadoRegistro AND _m.fechaInicio<= :lowIni AND _m.fechaFin>=:lowIni";
+		String hql = "SELECT _m FROM Modulo _m WHERE _m.estadoModulo in (:estadosModulo) " +
+				" AND _m.estadoRegistro= :estadoRegistro " +
+				" AND _m.fechaInicio<= :lowIni AND _m.fechaFin>=:lowIni" +
+				" AND _m.canalSms=:canalSms";
 		Query q = entityManager.createQuery(hql);
 		q.setParameter("estadosModulo", estadosModulo);
 		q.setParameter("estadoRegistro", estadoRegistro.name());
 		q.setParameter("lowIni", new Date());
+		q.setParameter("canalSms", Boolean.TRUE);
 		return q.getResultList();
 	}
 

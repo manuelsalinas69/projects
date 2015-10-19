@@ -26,6 +26,7 @@
 		<class>py.com.global.educador.jpa.entity.LogAcreditacion</class>
 		<class>py.com.global.educador.jpa.entity.Promo</class>
 		<class>py.com.global.educador.jpa.entity.Empresa</class>
+		<class>py.com.global.educador.jpa.entity.Usuario</class>
 		
 		
 		

@@ -34,6 +34,7 @@ import py.com.global.educador.gui.enums.ABMActions;
 import py.com.global.educador.gui.enums.EstadoEvaluacion;
 import py.com.global.educador.gui.enums.EstadoModulo;
 import py.com.global.educador.gui.enums.EstadoRegistro;
+import py.com.global.educador.gui.enums.FiltroSuscriptor;
 import py.com.global.educador.gui.enums.PlanificacionEnvioType;
 import py.com.global.educador.gui.enums.ScheduleDaysOfWeek;
 import py.com.global.educador.gui.session.ModuloHome;
@@ -439,18 +440,29 @@ public class ModuleController extends EntityBaseController<Modulo> {
 				String field= "Nombre";
 				return new ValidationResult(false, "msg_error_already_exists", field);
 			}
-			if (getInstance().getFechaInicio().before(new Date())) {
-				return new ValidationResult(false, "La fecha de inicio no puede ser menor al dia/hora actual");
-			}
+			if (getInstance().getCanalSms()!=null && getInstance().getCanalSms()) {
+				if (getInstance().getFechaInicio()==null) {
+					return new ValidationResult(false, "Si marca el cana SMS debe seleccionar una fecha de inicio para el modulo");
+				}
+				if (getInstance().getFechaFin()==null) {
+					return new ValidationResult(false, "Si marca el cana SMS debe seleccionar una fecha de fin para el modulo");
+				}
+				
+				if (getInstance().getFechaInicio().before(new Date())) {
+					return new ValidationResult(false, "La fecha de inicio no puede ser menor al dia/hora actual");
+				}
 
-			if (getInstance().getFechaFin().before(getInstance().getFechaInicio())) {
-				return new ValidationResult(false, "La fecha de fin no puede ser menor a la fecha de inicio");
-			}
+				if (getInstance().getFechaFin().before(getInstance().getFechaInicio())) {
+					return new ValidationResult(false, "La fecha de fin no puede ser menor a la fecha de inicio");
+				}
 
-			if (fechasSolapadas(getInstance().getFechaInicio(), getInstance().getFechaFin())) {
-				return new ValidationResult(false, "Las fechas de inicio y fin se solapan con otros modulos ");
-			}
+				if (fechasSolapadas(getInstance().getFechaInicio(), getInstance().getFechaFin())) {
+					return new ValidationResult(false, "Las fechas de inicio y fin se solapan con otros modulos ");
+				}
 
+			}
+			
+			
 
 			break;
 
@@ -509,6 +521,8 @@ public class ModuleController extends EntityBaseController<Modulo> {
 
 	@Override
 	public void setCommonData(Modulo instance) {
+		//default value for filtro
+		getInstance().setFiltroSuscriptor(FiltroSuscriptor.ANY.getCodigo0());
 		if (isNew()) {
 			getInstance().setFechaAlta(new Date());
 			getInstance().setUsuarioAlta(usuario);

@@ -119,10 +119,8 @@ public class RestServices {
 			@PathParam("idDetalle") Long idDetalle) {
 
 		Properties formDto= appServices.status(idEjecucion, idDetalle);
-		
 		Properties p= new Properties();
 		p.put("formulario", formDto);
-		
 		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);
 
 		return r;
@@ -135,10 +133,8 @@ public class RestServices {
 			@PathParam("idEjecucion") Long idEjecucion) {
 
 		Properties formDto= appServices.resume(idEjecucion);
-		
 		Properties p= new Properties();
 		p.put("formulario", formDto);
-		
 		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);
 
 		return r;
@@ -155,6 +151,7 @@ public class RestServices {
 			@FormParam("idPregunta") Long idPregunta,
 			@FormParam("idRespuesta") Long idRespuesta,
 			@FormParam("respuesta") String respuesta) {
+
 		Properties data = appServices.putResponse(idEjecucion, idDetalle,
 				idEvaluacion, idPregunta, idRespuesta, respuesta);
 		Properties p=new Properties();
@@ -163,6 +160,22 @@ public class RestServices {
 				ServiceStatus.OK.getDescripcion(), p);
 
 		return r;
+	}
+
+	@POST
+	@Path("login")
+	public ResponseDto login(@FormParam("user") String user, @FormParam("pass") String pass){
+		Properties loginInfo=appServices.login(user, pass);
+		ResponseDto d= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), loginInfo);
+		return d;
+	}
+	
+	@POST
+	@Path("login")
+	public ResponseDto subscribe(@FormParam("idSuscriptor") Long idSuscriptor, @FormParam("idProyecto") Long idProyecto){
+		Properties suscriptionInfo=appServices.subscribe(idSuscriptor, idProyecto);
+		ResponseDto d= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), suscriptionInfo);
+		return d;
 	}
 
 }

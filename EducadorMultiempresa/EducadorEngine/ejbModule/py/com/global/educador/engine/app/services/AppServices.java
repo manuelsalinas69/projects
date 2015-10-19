@@ -10,7 +10,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import py.com.global.educador.engine.app.managers.CredentialsAppManager;
 import py.com.global.educador.engine.app.managers.EjecucionAppManager;
+import py.com.global.educador.engine.app.managers.SubscriptionAppManager;
+import py.com.global.educador.engine.dto.CredentialsDto;
+import py.com.global.educador.engine.dto.ResponseDto;
 import py.com.global.educador.engine.enums.EstadoRegistro;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.Proyecto;
@@ -23,8 +27,10 @@ public class AppServices {
 	
 	@EJB
 	EjecucionAppManager ejecucionAppManager;
-	
-	
+	@EJB
+	CredentialsAppManager credentialsAppManager;
+	@EJB
+	SubscriptionAppManager subscriptionAppManager;
 	
 	@SuppressWarnings("unchecked")
 	public List<Proyecto> getProyectos(Long idEmpresa){
@@ -88,4 +94,26 @@ public class AppServices {
 		return ejecucionAppManager.resumeEjecucion(idEjecucion);
 	}
 
+	public Properties login(String user, String pass){
+		CredentialsDto d=credentialsAppManager.login(user, pass);
+		Properties p= new Properties();
+		
+		if (d==null) {
+			p.put("success", Boolean.FALSE);
+		}
+		else{
+			p.put("success", Boolean.TRUE);
+			p.put("idSuscriptor", d.getIdSuscriptor());
+			p.put("idEmpresa", d.getIdEmpresa());
+			p.put("nombreEmpresa", d.getNombreEmpresa());
+		}
+		return p;
+		
+	}
+
+	public Properties subscribe(Long idSuscriptor,Long idProyecto){
+		return subscriptionAppManager.subscribe(idSuscriptor, idProyecto);
+	}
 }
+
+

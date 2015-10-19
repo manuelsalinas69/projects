@@ -102,6 +102,7 @@ public class EducadorConstants {
 
 	public static final class ErrorCode{
 		public static final String SUCCESS="SUCCESS";
+		public static final String DEFAULT_ERROR="DEFAULT_ERROR";
 		public static final String SUBSCRIBER_EXIST_ERROR="SUBSCRIBER_EXIST_ERROR";
 		public static final String SUBSCRIBER_DOES_NOT_EXIST_ERROR="SUBSCRIBER_DOES_NOT_EXIST_ERROR";
 		

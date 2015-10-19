@@ -26,7 +26,7 @@ import py.com.global.educador.jpa.entity.Suscriptor;
 @Stateless
 public class EjecucionAppManager {
 
-	@PersistenceContext
+	@PersistenceContext(unitName="EducadorJpa")
 	EntityManager entityManager;
 
 	public Properties createNew(Long idModulo, Long idSuscriptor) {

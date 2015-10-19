@@ -12,7 +12,7 @@ public interface SubscriptionProcessManager {
 
 	public EducadorError deleteSubscriber(QueueMessage message);
 
-	
+	public EducadorError addSubscriber(Long idSuscriptor, Long idProyecto);
 
 
 

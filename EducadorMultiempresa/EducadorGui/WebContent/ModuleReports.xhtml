@@ -42,6 +42,18 @@
 
 		<h:form>
 			<rich:panel style="border:0px;">
+				<h:panelGrid>
+					<s:div style="min-height: 50px">
+						<a:region>
+							<a:status id="_sta">
+								<f:facet name="start">
+									<h:graphicImage value="/img/wait.gif" />
+								</f:facet>
+							</a:status>
+						</a:region>
+					</s:div>
+
+				</h:panelGrid>
 				<h:panelGrid columns="4">
 
 					<s:decorate template="/layout/edit.xhtml"
@@ -75,8 +87,7 @@
 									</ui:define>
 
 						<h:selectOneMenu value="#{moduleReporManager.idProyecto}"
-							onchange="manageProjectSelected(this.value)"
-							>
+							onchange="manageProjectSelected(this.value)">
 							<f:selectItems
 								value="#{selectItemsHelper.proyectoByEmpresaSelectItems(moduleReporManager.idEmpresa)}" />
 						</h:selectOneMenu>
@@ -94,7 +105,7 @@
 
 						</s:decorate>
 					</a:outputPanel>
-					<a:jsFunction name="reloadData"
+					<a:jsFunction name="reloadData" status="_sta"
 						action="#{moduleReporManager.loadPreguntasByModulo()}"
 						render="pnlMain" />
 
@@ -108,11 +119,12 @@
 
 						<rich:tab header="Ejecuciones">
 							<a:commandButton action="#{moduleReporManager.reportTest()}"
-								execute="@this" data="#{moduleReporManager.resumenEjecucion}"
+								status="_sta" execute="@this"
+								data="#{moduleReporManager.resumenEjecucion}"
 								oncomplete="plotBarReport('#resumenEjecucion','Resumen Ejecuciones',event.data);"
 								value="Resumen" />
 							<a:commandButton
-								action="#{moduleReporManager.reportCancelados()}"
+								action="#{moduleReporManager.reportCancelados()}" status="_sta"
 								execute="@this" data="#{moduleReporManager.resumenCancelados}"
 								oncomplete="plotBarReport('#resumenCancelados','Resumen Cancelados',event.data);"
 								value="Cancelados" />
@@ -134,7 +146,7 @@
 						<rich:tab header="Comportamiento de env&iacute;o de respuestas">
 							<a:commandButton
 								action="#{moduleReporManager.reportFechaRespuestas()}"
-								execute="@this"
+								execute="@this" status="_sta"
 								data="#{moduleReporManager.resumenfechaRespuestas}"
 								oncomplete="plotDateReport('#resumenRespuestas','Fechas Respuestas',event.data);"
 								value="Respuestas" />
@@ -150,12 +162,13 @@
 						</rich:tab>
 						<rich:tab header="Tips">
 							<h:panelGrid columns="2">
-								<a:commandButton value="Ver enviados"
+								<a:commandButton value="Ver enviados" status="_sta"
 									action="#{moduleReporManager.reportTipEviados()}"
 									render="pnlTips" data="#{moduleReporManager.jsonData}"
 									execute="@this"
 									oncomplete="plotBarLegendReport('#tipReportes','Enviados',event.data);" />
-								<a:commandButton value="Ver fallidos"
+								<a:commandButton value="Ver fallidos (SMS)" status="_sta"
+									title="Aplica solo para envios via canal SMS"
 									action="#{moduleReporManager.reportTipFallidos()}"
 									render="pnlTips" data="#{moduleReporManager.jsonData}"
 									execute="@this"
@@ -176,9 +189,11 @@
 														<h:outputText value="#{_det.contenido}" />
 													</rich:column>
 													<rich:column>
-														<a:commandLink value="Ver fallidos"
+														<a:commandLink value="Ver fallidos (SMS)"
+															title="Aplica solo para envios via canal SMS"
 															action="#{moduleReporManager.reporteFallidoPorTip(_det.idTip)}"
-															execute="@this" data="#{moduleReporManager.jsonData}"
+															status="_sta" execute="@this"
+															data="#{moduleReporManager.jsonData}"
 															oncomplete="plotBarReport('#tipFallidosPorTip','Resumen Fallidos',event.data);" />
 													</rich:column>
 												</rich:dataTable>
@@ -201,12 +216,7 @@
 						</rich:tab>
 						<rich:tab header="Preguntas">
 							<rich:panel styleClass="tabContent">
-								<f:facet name="header">
-									Preguntas
-								</f:facet>
-
 								<h:panelGrid columns="4" columnClasses="top,top,top,top">
-
 									<rich:dataTable value="#{moduleReporManager.preguntas}"
 										var="_det" rowKeyVar="_index">
 										<rich:column>
@@ -215,7 +225,7 @@
 										</f:facet>
 											<a:commandLink value="#{_det.contenidoPregunta}"
 												onclick="res4(#{_det.idPregunta});res5(#{_det.idPregunta});res1(#{_det.idPregunta}); res2(#{_det.idPregunta}); res3(#{_det.idPregunta});" />
-											<a:jsFunction name="res4" execute="@this"
+											<a:jsFunction name="res4" execute="@this" status="_sta"
 												action="#{moduleReporManager.reportEnvioPregunta()}"
 												data="#{moduleReporManager.jsonData}"
 												oncomplete="plotBarReport('#resumenPreguntaEnvios','Resumen Envios',event.data);">
@@ -223,7 +233,7 @@
 													assignTo="#{moduleReporManager.idPregunta}" />
 											</a:jsFunction>
 
-											<a:jsFunction name="res5" execute="@this"
+											<a:jsFunction name="res5" execute="@this" status="_sta"
 												action="#{moduleReporManager.reporteEnvioFallidoEnvioPregunta()}"
 												data="#{moduleReporManager.jsonData}"
 												oncomplete="plotBarReport('#resumenPreguntasFallidas','Fallidos',event.data);">
@@ -231,14 +241,14 @@
 													assignTo="#{moduleReporManager.idPregunta}" />
 											</a:jsFunction>
 
-											<a:jsFunction name="res1" execute="@this"
+											<a:jsFunction name="res1" execute="@this" status="_sta"
 												action="#{moduleReporManager.reportPregunta()}"
 												data="#{moduleReporManager.resumenPregunta}"
 												oncomplete="plotBarReport('#resumenPregunta','Resumen General Pregunta',event.data);">
 												<a:param name="idPregunta"
 													assignTo="#{moduleReporManager.idPregunta}" />
 											</a:jsFunction>
-											<a:jsFunction name="res2"
+											<a:jsFunction name="res2" status="_sta"
 												action="#{moduleReporManager.reportPreguntaRespondidas()}"
 												execute="@this"
 												data="#{moduleReporManager.resumenPreguntasRepondidas}"
@@ -246,7 +256,7 @@
 												<a:param name="idPregunta"
 													assignTo="#{moduleReporManager.idPregunta}" />
 											</a:jsFunction>
-											<a:jsFunction name="res3"
+											<a:jsFunction name="res3" status="_sta"
 												action="#{moduleReporManager.reportPreguntasCorrectas()}"
 												data="#{moduleReporManager.jsonData}" execute="@this"
 												oncomplete="plotPieReport('#resumenPreguntaRespondidaPie','Porcentaje',event.data);">
@@ -288,7 +298,17 @@
 								</h:panelGrid>
 							</rich:panel>
 						</rich:tab>
-
+						<rich:tab header="Descargas">
+							<rich:panel styleClass="tabContent" style="border:0px">
+								<h:panelGrid>
+									<s:div styleClass="infoClass">
+										Descargue todos los datos relevados en los formularios para sacar el analisis de datos que necesite
+									</s:div>
+									<h:commandButton value="#{messages.GENERICO_DESCARGAR}"
+										action="#{moduleReporManager.downloadModuleData()}" />
+								</h:panelGrid>
+							</rich:panel>
+						</rich:tab>
 					</rich:tabPanel>
 				</a:outputPanel>
 

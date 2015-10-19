@@ -195,11 +195,11 @@
 							</h:panelGrid>
 
 							<h:panelGrid columns="2">
-								<s:decorate id="filtro" template="layout/edit.xhtml">
+								<s:decorate id="filtro" template="layout/edit.xhtml" rendered="false">
 									<ui:define name="label">Filtro de suscriptores</ui:define>
-									<h:selectOneMenu
+									<h:selectOneMenu 
 										value="#{moduleController.instance.filtroSuscriptor}"
-										required="true" disabled="#{!moduleController.canEdit()}">
+										disabled="#{!moduleController.canEdit()}">
 										<f:selectItems
 											value="#{enumAppHelper.enumsValueItems('FiltroSuscriptor','getCodigo0',true)}" />
 									</h:selectOneMenu>

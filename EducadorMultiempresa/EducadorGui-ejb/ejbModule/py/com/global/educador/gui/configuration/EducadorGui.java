@@ -44,6 +44,8 @@ public class EducadorGui {
 			public static final String SYSTEM_SERVER_HOST="system.server.host";
 			public static final String SYSTEM_SERVER_PORT="system.server.port";
 			public static final String SYSTEM_GUI_SUPERCOMPANY_ID="system.gui.supercompany.id";
+			public static final String SYSTEM_GUI_REPORTS_MODULE_QUERY_BASE="system.gui.reports.module.query.base";
+			public static final String SYSTEM_GUI_REPORTS_MODULE_FILE_NAME="system.gui.reports.module.file.name";
 		}
 		
 		

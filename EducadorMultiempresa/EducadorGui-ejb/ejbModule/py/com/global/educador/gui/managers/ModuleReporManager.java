@@ -13,7 +13,11 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.international.StatusMessages;
+import org.jboss.seam.international.StatusMessage.Severity;
 
+import py.com.global.educador.gui.configuration.EducadorGui.Constants.SystemParameterKey;
+import py.com.global.educador.gui.entity.Modulo;
 import py.com.global.educador.gui.entity.Pregunta;
 import py.com.global.educador.gui.entity.Tip;
 import py.com.global.educador.gui.enums.EstadoEjecucionSuscriptor;
@@ -21,6 +25,7 @@ import py.com.global.educador.gui.enums.EstadoEjecucionSuscriptorDetalle;
 import py.com.global.educador.gui.enums.EstadoEnvio;
 import py.com.global.educador.gui.enums.EstadoEvaluacionSuscriptor;
 import py.com.global.educador.gui.enums.PlanificacionEnvioType;
+import py.com.global.educador.gui.utils.SystemParametersHelper;
 
 @Name("moduleReporManager")
 @Scope(ScopeType.PAGE)
@@ -39,6 +44,10 @@ public class ModuleReporManager implements Serializable {
 	DynamicReportHelper dynamicReportHelper;
 	@In(create=true)
 	SessionManager sessionManager;
+	@In(create=true)
+	SystemParametersHelper systemParametersHelper;
+	@In(create=true)
+	StatusMessages statusMessages;
 	
 	List<Object[]> resumenEjecucion;
 	List<Object[]> resumenCancelados;
@@ -228,6 +237,26 @@ public class ModuleReporManager implements Serializable {
 		}
 	}
 	
+	
+	public void downloadModuleData(){
+		try {
+			if (idModulo==null) {
+				statusMessages.add(Severity.ERROR,"Para descargar el archivo de datos, debe seleccionar un modulo");
+				return;
+			}
+			String baseSql=systemParametersHelper.getParameterValue(SystemParameterKey.SYSTEM_GUI_REPORTS_MODULE_QUERY_BASE);
+			System.out.println("--------------BASE SQL--------------");
+			System.out.println(baseSql);
+			baseSql=baseSql.replace("<MODULE_ID>", idModulo.toString());
+			String baseReportName=systemParametersHelper.getParameterValue(SystemParameterKey.SYSTEM_GUI_REPORTS_MODULE_FILE_NAME);
+			Modulo m=entityManager.find(Modulo.class, idModulo);
+			baseReportName=baseReportName.replace("<MODULE_NAME>",m.getNombre());
+			dynamicReportHelper.generateReport(baseSql, baseReportName);
+			
+		} catch (Exception e) {
+			System.out.println("ModuleReporManager.downloadModuleData(): "+e);
+		}
+	}
 
 	private Long getResumentPreguntasCorrectas0(Long idPregunta, boolean correctas) {
 		String hql="SELECT count(_es) FROM EvaluacionSuscriptor _es WHERE _es.pregunta.idPregunta= :idPregunta AND _es.estadoEvaluacion= :estadoEvaluacion"; 

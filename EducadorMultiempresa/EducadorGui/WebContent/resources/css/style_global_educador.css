@@ -51,10 +51,10 @@ a {
 }
 
 legend {
-	font-family: "Open Sans"; 
-	font-size : 14px; 
-	color : #5f5f5f; 
-	display :block;
+	font-family: "Open Sans";
+	font-size: 14px;
+	color: #5f5f5f;
+	display: block;
 	-webkit-padding-start: 2px;
 	-webkit-padding-end: 2px;
 	border: none;
@@ -68,12 +68,9 @@ legend {
 	color: #5f5f5f;
 }
 
-
-
-table{
-	font-family: "Open Sans"; 
+table {
+	font-family: "Open Sans";
 }
-
 
 /*================================
 			HEADER
@@ -81,7 +78,7 @@ table{
 .header {
 	min-width: 100px;
 	background: rgba(48, 142, 173, 0.58);
-	border-bottom: 15px solid rgba(252, 252, 165,0.9);
+	border-bottom: 15px solid rgba(252, 252, 165, 0.9);
 }
 
 .header_app_name {
@@ -156,7 +153,7 @@ table{
 	margin: 0;
 	padding-left: 250px;
 	text-align: center;
-	margin: 0 auto;	
+	margin: 0 auto;
 	padding: 0;
 	width: 1000px;
 }
@@ -216,8 +213,9 @@ table{
 	======================*/
 .dr-mpnl-mask-div-opaque,.rich-mpnl-mask-div-opaque,.rich-mpnl-mask-div
 	{
-	filter: alpha(opacity =                                                         
-		 50);
+	filter: alpha(opacity =
+		                                                         
+		  50);
 	opacity: .8;
 	background: #28467D;
 }
@@ -1058,7 +1056,7 @@ ol li .send {
 	font-weight: 300;
 	background: #444;
 	opacity: .85;
-	filter: alpha(opacity =                                   85);
+	filter: alpha(opacity =                                     85);
 	border: 1px solid #444;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -1546,8 +1544,10 @@ a.historialClass {
 }
 
 .infoClass {
-	background-color: #D2E9FF;
-	border: 1px solid #379BFF;
+	background-color: #80B7D0;
+	border: 1px solid #70B2C4;
+	padding: 10px;
+	color: white;
 }
 
 .selected {
@@ -2037,7 +2037,7 @@ a.historialClass {
 	top: 0px;
 	left: 0px;
 	opacity: 0.8;
-	filter: alpha(opacity =   50);
+	filter: alpha(opacity =     50);
 	background: #28467D;
 }
 
@@ -2064,13 +2064,13 @@ a.historialClass {
 	top: 0px;
 	z-index: -300;
 	opacity: 0.1;
-	filter: alpha(opacity =   10);
+	filter: alpha(opacity =     10);
 }
 
 *.rf-pp-shdw {
 	background-color: rgb(0, 0, 0);
 	opacity: 0.1;
-	filter: alpha(opacity =   10);
+	filter: alpha(opacity =     10);
 	position: absolute;
 	top: 6px;
 	left: 6px;
@@ -2194,12 +2194,14 @@ a.historialClass {
 	min-height: 350px;
 	max-height: 500px;
 	overflow-y: scroll;
+	border: 0px;
 }
 
 .infoClass {
-	background-color: #D2E9FF;
-	border: 1px solid #379BFF;
-	padding: 5px;
+	background-color: #80B7D0;
+	border: 1px solid #70B2C4;
+	padding: 10px;
+	color: white !important;
 }
 
 .defaultText {
@@ -2346,7 +2348,7 @@ FILE UPLOAD
 }
 
 *.rf-fu-inp {
-	filter: alpha(opacity =   0);
+	filter: alpha(opacity =     0);
 	font-size: 10em;
 	margin: 0;
 	opacity: 0;
@@ -2392,8 +2394,8 @@ FILE UPLOAD
 	font-size: 12px;
 }
 
-.info_div{
-	background-color: rgba(0,0,0,0.7);
+.info_div {
+	background-color: rgba(0, 0, 0, 0.7);
 	vertical-align: middle;
 	text-align: center;
 	border: 1px solid black;
@@ -2401,5 +2403,4 @@ FILE UPLOAD
 	min-height: 20px;
 	padding: 10px;
 	border-radius: 3px;
-	
 }

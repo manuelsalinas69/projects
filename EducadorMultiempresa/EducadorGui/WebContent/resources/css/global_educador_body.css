@@ -1543,9 +1543,12 @@ a.historialClass {
 }
 
 .infoClass {
-	background-color: #D2E9FF;
-	border: 1px solid #379BFF;
+	background-color: #80B7D0;
+	border: 1px solid #70B2C4;
+	padding: 10px;
+	color: white;
 }
+
 
 .selected {
 	background-color: #0055AA;
