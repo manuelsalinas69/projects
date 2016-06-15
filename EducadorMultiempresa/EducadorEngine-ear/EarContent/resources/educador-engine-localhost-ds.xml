@@ -11,8 +11,8 @@
 			<prefill>true</prefill>
 		</pool>
 		<security>
-			<user-name>educador_global</user-name>
-			<password>educador_global</password>
+			<user-name>els</user-name>
+			<password>els</password>
 		</security>
 	</datasource>
 </datasources>

@@ -51,13 +51,13 @@ public class EjecucionAppManager {
 		Properties p;
 		List<Properties> returnList= new ArrayList<Properties>();
 		for (EjecucionSuscriptor _e : l) {
-			Long cantPregModulo = getCantidadPreguntasModulo(idModulo);
+			//Long cantPregModulo = getCantidadPreguntasModulo(idModulo);
 			Long cantPregRespondidas = getCantidadPreguntasRespondidas(_e);
 			p= new Properties();
 			p.put("idEjecucion", _e.getIdEjecucionSuscriptor());
 			p.put("fecha", _e.getFechaAlta());
 			p.put("estado", _e.getEstadoEjecucion());
-			p.put("cantPreguntas", cantPregModulo);
+			//p.put("cantPreguntas", cantPregModulo);
 			p.put("cantRespondidas", cantPregRespondidas);
 			returnList.add(p);
 			
@@ -85,12 +85,21 @@ public class EjecucionAppManager {
 		return createForm(ej, det);
 	}
 	
-	public Properties resumeEjecucion(Long idEjecucion){
+	public Properties resumeEjecucion(Long idEjecucion,String order){
 		EjecucionSuscriptor ej = entityManager.find(EjecucionSuscriptor.class,
 				idEjecucion);
-		EjecucionSuscriptorDetalle det = getLastDetail(ej);
+		EjecucionSuscriptorDetalle det =null;
+		if (order==null || order.trim().isEmpty()) {
+			 det = getLastDetail(ej);
+		}
+		else{
+			det = getDetailByOrder(ej, order);
+		}
+		
 		return createForm(ej, det);
 	}
+
+	
 
 	
 
@@ -131,7 +140,7 @@ public class EjecucionAppManager {
 			finalForm.put("nextActions", "false");
 			return finalForm;
 		}
-
+		
 		EjecucionSuscriptorDetalle nextDetail = nextDetail(ej, det);
 		return createForm(ej, nextDetail);
 	}
@@ -154,9 +163,10 @@ public class EjecucionAppManager {
 			EjecucionSuscriptorDetalle det) {
 
 		Properties d = new Properties();
-
+		d.put("nextActions", "true");
 		d.put("idEjecucion", ej.getIdEjecucionSuscriptor());
 		d.put("idDetalleEjecucion", det.getIdEjecucionDetalle());
+		d.put("orden", det.getOrden());
 		d.put("formType", det.getEnviar());
 		d.put("final",
 				det.getEnvioFinal() == null ? false : det.getEnvioFinal());
@@ -322,19 +332,27 @@ public class EjecucionAppManager {
 		return r.longValue();
 	}
 
-	private Long getCantidadPreguntasModulo(Long idModulo) {
-		String hql = "SELECT count(p) FROM Pregunta p WHERE p.evaluacion.modulo.idModulo= :idModulo ";
-		Query q = entityManager.createQuery(hql);
-		q.setParameter("idModulo", idModulo);
-		Number r = (Number) q.getSingleResult();
-		return r.longValue();
-	}
-	
+		
 	@SuppressWarnings("unchecked")
 	private EjecucionSuscriptorDetalle getLastDetail(EjecucionSuscriptor ej) {
 		String hql= "SELECT d FROM EjecucionSuscriptorDetalle d WHERE d.ejecucionSuscriptor= :ej ORDER BY d.idEjecucionDetalle DESC";
 		Query q= entityManager.createQuery(hql);
 		q.setParameter("ej", ej);
+		List<EjecucionSuscriptorDetalle> l=q.getResultList();
+		if (l.isEmpty()) {
+			return crearEjecucionSuscriptorDetalle(ej, 1);
+		}
+		return l.get(0);
+	}
+	
+	private EjecucionSuscriptorDetalle getDetailByOrder(EjecucionSuscriptor ej, String order) {
+		String hql= "SELECT d FROM EjecucionSuscriptorDetalle d "
+				+ " WHERE d.ejecucionSuscriptor= :ej and d.orden= :order "
+				+ " ORDER BY d.idEjecucionDetalle";
+		Query q= entityManager.createQuery(hql);
+		q.setParameter("ej", ej);
+		q.setParameter("order", Long.parseLong(order));
+		@SuppressWarnings("unchecked")
 		List<EjecucionSuscriptorDetalle> l=q.getResultList();
 		if (l.isEmpty()) {
 			return crearEjecucionSuscriptorDetalle(ej, 1);

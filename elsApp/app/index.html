@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" ng-app="elsApp">
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ELS APP</title>
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="css/app.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.min.js"></script>
+   <script src="bower_components/jquery/dist/jquery.min.js"></script>
+   <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+     
+     <script src="js/app.js"></script>
+    <script src="js/app.config.js"></script>
+    <script src="js/login.component.js"></script>
+     <script src="js/project.component.js"></script>
+     <script src="js/project_modules.component.js"></script>
+    <script src="js/module_form.component.js"></script>
+    <script src="js/module_home.component.js"></script>
+    <script src="js/utils.js"></script>
+
+   
+  
+    
+      <div id="requiredSelectedMessage" class="alert alert-warning" role="alert" hidden="true">
+            
+               Debe seleccionar un valor
+        </div>
+    <div id="requiredInputMessage" class="alert alert-warning" role="alert" hidden="true">
+           
+               Debe ingresar un valor
+        </div>
+   
+</head>
+<body >
+
+  <div ng-view></div>
+
+</body>
+</html>

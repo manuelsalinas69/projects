@@ -8,8 +8,8 @@
        <driver-class>oracle.jdbc.OracleDriver</driver-class>  
 		<driver>OracleJDBCDriver</driver>
         <security>
-		      <user-name>educador_global</user-name>
-		      <password>educador_global</password>
+		      <user-name>els</user-name>
+		      <password>els</password>
         </security>
     </datasource>
 </datasources>

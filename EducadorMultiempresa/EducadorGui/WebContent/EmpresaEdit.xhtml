@@ -22,6 +22,14 @@
             <f:facet name="header">#{empresaHome.managed ? messages.msg_edit : messages.GENERICO_ADD} #{messages.Empresa_single}</f:facet>
 
 
+ 		<s:decorate id="empresaIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Cod. Empresa</ui:define>
+                <h:inputText id="nombre"
+                       	disabled="true"
+                          value="#{empresaFormController.instance.idEmpresa}">
+                   
+                </h:inputText>
+            </s:decorate>
           
 
             <s:decorate id="nombreField" template="layout/edit.xhtml">

@@ -1,0 +1,60 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+   
+     
+       <ul class="nav navbar-nav">
+        <li >
+            <a class="navbar-brand" href="#">
+         <a  ng-click="back();">
+           <span class="glyphicon glyphicon-chevron-left"></span> Ejecuciones</div>  
+    </a></li>
+       
+
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+  
+  <div class="row">
+       <div class="col-md-2">    
+            <div class="panel panel-info">
+
+                <div class="panel-heading">
+                   Formulario</div>
+                <div class="panel-body">
+                    
+                    <div ng-show="isEval">
+                          <p>{{formulario.evaluacion.contenidoPregunta}}</p>
+
+                        <select required="true" ng-model="idRespuesta" ng-show="!formulario.evaluacion.preguntaAbierta">
+                            <option value="{{respuesta.idRespuesta}}" ng-repeat="respuesta in formulario.evaluacion.respuestas">{{respuesta.contenidoRespuesta}}</option>
+
+                        </select>
+
+                        <input required="true" ng-model="respuestaAbierta" ng-show="formulario.evaluacion.preguntaAbierta">
+
+                        <div class="row">
+                            <div class="col-md-2" ng-show="formulario.orden>1"><input type="button" class="btn btn-primary" value="Anterior" ng-click="resumeExecByOrder(formulario.orden-1);"/>  </div>
+                            <div class="col-md-2"><input type="button" class="btn btn-primary" value="Enviar y siguiente" ng-click="sendResponse();" ng-show="!isFinal" />  </div>
+                            <div class="col-md-2"><input type="button" class="btn btn-primary" value="Enviar y finalizar" ng-click="sendResponse();" ng-show="isFinal"/>  </div>
+                     
+                         </div>
+                      </div>
+                    
+                    
+                    <div ng-show="!isEval">
+                              <p>{{formulario.info}}</p>
+                        <input type="button" class="btn btn-primary" value="Anterior" ng-click="resumeExecByOrder(formulario.orden-1);"/> 
+                                <input type="button" class="btn btn-primary" value="Siguiente" ng-click="sendResponse();" ng-show="!isFinal"/>
+                        <input type="button" class="btn btn-primary" value="Finalizar" ng-click="sendResponse();" ng-show="isFinal"/>
+
+
+                    </div>
+
+            </div>
+</div>
+</div>
+ 
+
+
+

@@ -41,6 +41,7 @@ public class CredentialsAppManager {
 			
 		} catch (Exception e) {
 			System.out.println("CredentialsAppManager.login(): "+e);
+			e.printStackTrace();
 		}
 		
 		return null;

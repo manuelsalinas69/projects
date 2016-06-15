@@ -1,0 +1,46 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+   
+     
+       <ul class="nav navbar-nav">
+        <li >
+            <a class="navbar-brand" href="#">
+         <a  ng-click="back();">
+           <span class="glyphicon glyphicon-chevron-left"></span> Modulos</div>  
+    </a></li>
+       
+
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row">
+       <div class="col-md-2">    
+<div class="panel panel-info">
+   
+    <div class="panel-heading">
+      Ejecuciones</div>
+    <div class="panel-body">
+    
+        <input type="button" value="Nueva"  class="btn btn-primary" ng-click="createNew(moduleId);"/>
+         <div class="list-group">
+          <a class="list-group-item" ng-repeat="ejec in ejecuciones" ng-click="resumeExec(moduleId,ejec.idEjecucion);">
+             
+               <h4 class="list-group-item-heading">Nro.Formulario: {{ejec.idEjecucion}}</h4>
+                <p class="list-group-item-text"><span class="glyphicon glyphicon-calendar"></span> {{toDate(ejec.fecha);}}</p>
+          </a>
+         
+        </div>
+   
+   
+   
+   
+  </div>
+</div>
+            </div>
+</div>
+</div>
+ 
+
+
+

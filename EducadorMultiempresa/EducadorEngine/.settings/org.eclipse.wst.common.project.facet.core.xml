@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
-  <runtime name="JBoss 7.1 Runtime Educador"/>
+  <runtime name="JBoss 7.1 Runtime 2"/>
   <fixed facet="jst.ejb"/>
   <fixed facet="java"/>
   <installed facet="jst.ejb" version="3.0"/>

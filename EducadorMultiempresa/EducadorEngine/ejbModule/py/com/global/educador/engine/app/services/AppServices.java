@@ -14,7 +14,6 @@ import py.com.global.educador.engine.app.managers.CredentialsAppManager;
 import py.com.global.educador.engine.app.managers.EjecucionAppManager;
 import py.com.global.educador.engine.app.managers.SubscriptionAppManager;
 import py.com.global.educador.engine.dto.CredentialsDto;
-import py.com.global.educador.engine.dto.ResponseDto;
 import py.com.global.educador.engine.enums.EstadoRegistro;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.Proyecto;
@@ -73,6 +72,19 @@ public class AppServices {
 		}
 		return l;
 	}
+	
+	public Long getCantidadPreguntasModulo(Long idModulo) {
+		try {
+			String hql = "SELECT count(p) FROM Pregunta p WHERE p.evaluacion.modulo.idModulo= :idModulo ";
+			Query q = entityManager.createQuery(hql);
+			q.setParameter("idModulo", idModulo);
+			Number r = (Number) q.getSingleResult();
+			return r.longValue();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0L;
+	}
 
 	public List<Properties> getEjecuciones(Long idModulo, Long idSuscriptor){
 		return ejecucionAppManager.getEjecucciones(idModulo, idSuscriptor);
@@ -90,8 +102,8 @@ public class AppServices {
 		return ejecucionAppManager.statusEjecucion(idEjecucion, idDetalle);
 	}
 	
-	public Properties resume(Long idEjecucion){
-		return ejecucionAppManager.resumeEjecucion(idEjecucion);
+	public Properties resume(Long idEjecucion, String order){
+		return ejecucionAppManager.resumeEjecucion(idEjecucion,order);
 	}
 
 	public Properties login(String user, String pass){

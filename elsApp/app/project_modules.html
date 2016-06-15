@@ -1,0 +1,49 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+   
+     
+       <ul class="nav navbar-nav">
+        <li >
+            
+         <a  ng-click="back();">
+             <span class="glyphicon glyphicon-chevron-left"></span> Proyectos</div> </a> 
+    </li>
+       
+
+    </div>
+  </div>
+</nav>
+ 
+  <div class="row">
+       <div class="col-md-2"> 
+   
+<div class="panel panel-info">
+    
+    
+   
+    <div class="panel-heading">
+     Modulos</div>
+    <div class="panel-body">
+    
+       
+         <div class="list-group">
+          <a class="list-group-item" ng-repeat="module in modules" ng-click="showModuleHome(module.idModulo);">
+             
+               <h4 class="list-group-item-heading">{{module.nombreModulo}}</h4>
+                <p class="list-group-item-text">Preguntas: {{module.cantPreguntas}}</p>
+          </a>
+         
+        </div>
+   
+   
+   
+   
+  </div>
+</div>
+            </div>
+</div>
+</div>
+ 
+
+
+
