@@ -24,17 +24,16 @@ import org.apache.log4j.Logger;
 import py.com.global.educador.engine.app.services.AppServices;
 import py.com.global.educador.engine.dto.ModuloDto;
 import py.com.global.educador.engine.dto.ProyectoDto;
-import py.com.global.educador.engine.dto.QueueMessage;
 import py.com.global.educador.engine.dto.ResponseDto;
 import py.com.global.educador.engine.enums.ServiceStatus;
+import py.com.global.educador.engine.utils.DefaultResponse;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.Proyecto;
 
-@Path("/Services")
-public class RestServices {
-	QueueMessage message = new QueueMessage();
+@Path("/services/survey")
+public class SurveyServices{
 
-	Logger log = Logger.getLogger(RestServices.class);
+	Logger log = Logger.getLogger(SurveyServices.class);
 	@Context HttpServletRequest request;
 
 	@EJB
@@ -57,6 +56,9 @@ public class RestServices {
 		if (isOptionRequest()) {
 			return getACKResponse();
 		}
+		
+		
+		
 		List<ProyectoDto> l = new ArrayList<ProyectoDto>();
 		try {
 			if (idEmpresa==null) {
@@ -239,27 +241,12 @@ public class RestServices {
 
 	private Response getACKResponse(){
 		System.out.println("Just OPTION request, ACK will be send");
-		return Response	
-				.status(200)
-				//				.header("access-control-allow-origin", "http://127.0.0.1:55888")
-				.header("Access-Control-Allow-Origin", "*")
-				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, access-control-allow-origin")
-				// .header("Access-Control-Allow-Credentials", "true")
-				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-				.build();
+		return DefaultResponse.getACKResponse();
 
 	}
 
 	private Response getEntityResponse(Object d){
-		return Response	
-				.status(200)
-				//				.header("access-control-allow-origin", "http://127.0.0.1:55888")
-				.header("Access-Control-Allow-Origin", "*")
-				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, access-control-allow-origin")
-				// .header("Access-Control-Allow-Credentials", "true")
-				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD")
-				.entity(d)
-				.build();
+		return DefaultResponse.getEntityResponse(d);
 
 	}
 

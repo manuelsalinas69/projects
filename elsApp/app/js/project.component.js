@@ -2,19 +2,38 @@ app.
   component('project', {
     templateUrl: 'project.html',
     controllerAs: 'projectController',
-    controller:  function ($scope, $http,$location) {
+    controller:  function ($scope, $http,$location,$rootScope,sessionManager) {
     
     this.$onInit= function(){
-        if(!userData.company.id){
+         $('.blockingDiv').hide(); 
+       
+        if(!sessionManager.getSessionId()){
              $location.path('/');
             return;
         }
-        $http.get("http://localhost:8080/EducadorEngineServices/Services/project/list?idEmpresa="+userData.company.id)
-            .success(function(data) {
-                $scope.projects=data;
-                         
-            }); 
-    };
+        $('.blockingDiv').show(); 
+        var sessionDataPromises=sessionManager.manageSessionStatus();
+        sessionDataPromises.then(function(data){
+                if(!data.responseBody){
+                    $location.path('/');
+                    return;
+                }
+                if(!("ACTIVO"==data.responseBody.status)){
+                    $location.path('/');
+                    return;                     
+                }
+                $http.get(projectListUrl+"?idEmpresa="+sessionManager.getSessionData('idEmpresa'),
+                 {
+                     headers : {'sessionId':sessionManager.getSessionId()} 
+                }).success(function(data) {
+                    $scope.projects=data;
+                });
+              $('.blockingDiv').hide(); 
+               
+        });
+        
+       
+    };//onInit
     
     $scope.showModule= function(projectId){
         $location.path('/home/project/'+projectId);

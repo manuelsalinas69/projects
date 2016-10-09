@@ -2,23 +2,53 @@ app.
   component('moduleHome', {
     templateUrl: 'module_home.html',
     controller:
-      function ($routeParams,$scope, $http,$location) {
+      function ($routeParams,$scope, $http,$location,$rootScope,sessionManager) {
           var idProject;
+       
         this.$onInit= function(){
           //  $http.get("http://localhost:8080/EducadorEngineServices/Services/project/list?idEmpresa"+credentials.company.id)
-           
-            $scope.moduleId=$routeParams.idModule;
-            idProject=$routeParams.idProject;
-            $http.get("http://localhost:8080/EducadorEngineServices/Services/module/ejec/list?idSuscriptor="+userData.subscriberId+'&idModulo='+$routeParams.idModule)
-            .success(function(data) {
-                $scope.ejecuciones=data.responseBody.ejecuciones;
-                         
-            });
+          
+               $('.blockingDiv').hide(); 
+       
+                if(!sessionManager.getSessionId()){
+                     $location.path('/');
+                    return;
+                }
+                $('.blockingDiv').show(); 
+                var sessionDataPromises=sessionManager.manageSessionStatus();
+                sessionDataPromises.then(function(data){
+                        if(!data.responseBody){
+                            $location.path('/');
+                            return;
+                        }
+                        if(!("ACTIVO"==data.responseBody.status)){
+                            $location.path('/');
+                            return;                     
+                        }
+                        $scope.moduleId=$routeParams.idModule;
+                        idProject=$routeParams.idProject;
+                         $http.get(moduleEjecListUrl+"?idSuscriptor="+sessionManager.getSessionData('idSuscriptor')+'&idModulo='+$routeParams.idModule,
+                         {
+                             headers : {'sessionId':sessionManager.getSessionId()} 
+                        })
+                        .success(function(data) {
+                            $scope.ejecuciones=data.responseBody.ejecuciones;
+
+                        });
+
+                      $('.blockingDiv').hide(); 
+
+                });
+            
+            
+            
+            
+            
                   
         };//init
         
            $scope.createNew= function(moduleId){
-               $http.get("http://localhost:8080/EducadorEngineServices/Services/module/new?idSuscriptor="+userData.subscriberId+'&idModulo='+moduleId)
+               $http.get(moduleNewUrl+"?idSuscriptor="+sessionManager.getSessionData('idSuscriptor')+'&idModulo='+moduleId)
                 .success(function(data) {
                      
                     $location.path('/home/project/'+idProject+'/modules/'+moduleId+'/form/'+data.responseBody.formulario.idEjecucion+'/'+data.responseBody.formulario.idDetalleEjecucion);

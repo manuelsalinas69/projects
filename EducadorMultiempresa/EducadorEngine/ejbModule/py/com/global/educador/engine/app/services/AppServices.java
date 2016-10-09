@@ -118,8 +118,18 @@ public class AppServices {
 			p.put("idSuscriptor", d.getIdSuscriptor());
 			p.put("idEmpresa", d.getIdEmpresa());
 			p.put("nombreEmpresa", d.getNombreEmpresa());
+			p.put("sessionId", d.getSessionToken());
+			p.put("userName", user);
 		}
 		return p;
+		
+	}
+	
+	public Properties checkSessionId(String sid){
+		
+		return credentialsAppManager.checkSessionId(sid);
+		
+		
 		
 	}
 

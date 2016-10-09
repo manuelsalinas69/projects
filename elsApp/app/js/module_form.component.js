@@ -2,7 +2,7 @@ app.
   component('moduleForm', {
     templateUrl: 'module_form.html',
   
-    controller: function ($routeParams,$scope, $http,$location) {
+    controller: function ($routeParams,$scope, $http,$location,sessionManager) {
                 var fillForm= function(data){
                     $scope.respuestaAbierta="";
                     $scope.idRespuesta="";
@@ -27,23 +27,72 @@ app.
         var idProject;
         this.$onInit= function(){
           //  $http.get("http://localhost:8080/EducadorEngineServices/Services/project/list?idEmpresa"+credentials.company.id)
-           idModule=$routeParams.idModule;
-            idProject=$routeParams.idProject;
-            if($routeParams.idDetail){
-                $http.get('http://localhost:8080/EducadorEngineServices/Services/module/ejec/'+$routeParams.idExecution+'/'+$routeParams.idDetail)
-                .success(function(data) {
-                        fillForm(data);
-
-                    });
-            }
-            else{
-                $http.get('http://localhost:8080/EducadorEngineServices/Services/module/ejec/'+$routeParams.idExecution)
-                .success(function(data){
-                    
-                     fillForm(data);
-
-                    });
+            
+            $('.blockingDiv').hide(); 
+       
+                if(!sessionManager.getSessionId()){
+                     $location.path('/');
+                    return;
                 }
+                $('.blockingDiv').show(); 
+                var sessionDataPromises=sessionManager.manageSessionStatus();
+                sessionDataPromises.then(function(data){
+                        if(!data.responseBody){
+                            $location.path('/');
+                            return;
+                        }
+                        if(!("ACTIVO"==data.responseBody.status)){
+                            $location.path('/');
+                            return;                     
+                        }
+                       
+                    idModule=$routeParams.idModule;
+                    idProject=$routeParams.idProject;
+                    if($routeParams.idDetail){
+                        $http.get(moduleEjecUrl+'/'+$routeParams.idExecution+'/'+$routeParams.idDetail,
+                         {
+                             headers : {'sessionId':sessionManager.getSessionId()} 
+                        })
+                        .success(function(data) {
+                                fillForm(data);
+
+                            });
+                    }
+                    else{
+                        $http.get(moduleEjecUrl+'/'+$routeParams.idExecution,
+                         {
+                             headers : {'sessionId':sessionManager.getSessionId()} 
+                        })
+                        .success(function(data){
+
+                             fillForm(data);
+
+                            });
+                        }
+                    
+                    
+                    
+                         $http.get(moduleEjecListUrl+"?idSuscriptor="+sessionManager.getSessionData('idSuscriptor')+'&idModulo='+$routeParams.idModule,
+                         {
+                             headers : {'sessionId':sessionManager.getSessionId()} 
+                        })
+                        .success(function(data) {
+                            $scope.ejecuciones=data.responseBody.ejecuciones;
+
+                        });
+
+                      $('.blockingDiv').hide(); 
+
+                });
+            
+            
+            
+            
+            
+            
+            
+            
+            
             };//init
         
             
@@ -77,7 +126,7 @@ app.
                     else{
                         formParameters="";
                     }
-                     $http.post('http://localhost:8080/EducadorEngineServices/Services/module/ejec/'+$scope.formulario.idEjecucion+'/'+$scope.formulario.idDetalleEjecucion,
+                     $http.post(moduleEjecUrl+'/'+$scope.formulario.idEjecucion+'/'+$scope.formulario.idDetalleEjecucion,
                              
                         formParameters,
                         {
@@ -95,7 +144,7 @@ app.
             $scope.resumeExecByOrder= function(order){
                 if(order){
               
-                  $http.get('http://localhost:8080/EducadorEngineServices/Services/module/ejec/'+$scope.formulario.idEjecucion+'?orden='+order)
+                  $http.get(moduleEjecUrl+'/'+$scope.formulario.idEjecucion+'?orden='+order)
                     .success(function(data){
 
                          fillForm(data);
@@ -103,7 +152,7 @@ app.
                         });
                 }
                 else{
-                    $http.get('http://localhost:8080/EducadorEngineServices/Services/module/ejec/'+$scope.formulario.idExecution)
+                    $http.get(moduleEjecUrl+'/'+$scope.formulario.idExecution)
                         .success(function(data){
                                             
                     

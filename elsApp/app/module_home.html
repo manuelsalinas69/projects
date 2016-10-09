@@ -4,30 +4,37 @@
      
        <ul class="nav navbar-nav">
         <li >
-            <a class="navbar-brand" href="#">
+            
          <a  ng-click="back();">
-           <span class="glyphicon glyphicon-chevron-left"></span> Modulos</div>  
-    </a></li>
-       
+             <span class="glyphicon glyphicon-chevron-left"></span> Modulos </a> 
+    </li>
+      </ul>
 
-    </div>
+   
   </div>
 </nav>
 <div class="container-fluid">
   <div class="row">
        <div class="col-md-2">    
-<div class="panel panel-info">
+<div class="panel panel-blue">
    
     <div class="panel-heading">
-      Ejecuciones</div>
+        <h3 class="panel-title">
+            <i class="fa fa-list-ol" aria-hidden="true"></i>Ejecuciones
+        </h3>
+      </div>
     <div class="panel-body">
     
-        <input type="button" value="Nueva"  class="btn btn-primary" ng-click="createNew(moduleId);"/>
+        <button  class="btn-u btn-u-blue" ng-click="createNew(moduleId);" >
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            Nuevo Formulario
+        </button>
+        <span></span>
          <div class="list-group">
           <a class="list-group-item" ng-repeat="ejec in ejecuciones" ng-click="resumeExec(moduleId,ejec.idEjecucion);">
              
                <h4 class="list-group-item-heading">Nro.Formulario: {{ejec.idEjecucion}}</h4>
-                <p class="list-group-item-text"><span class="glyphicon glyphicon-calendar"></span> {{toDate(ejec.fecha);}}</p>
+                <p class="list-group-item-text"><i class="fa fa-calendar" aria-hidden="true"></i> {{toDate(ejec.fecha);}}</p>
           </a>
          
         </div>

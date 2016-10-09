@@ -1,5 +1,5 @@
 
-var app=angular.module('elsApp',['ngRoute']);
+var app=angular.module('elsApp',['ngRoute','ngCookies']);
 
 app.config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.useXDomain = true;
@@ -33,4 +33,18 @@ app.config(['$locationProvider', '$routeProvider',
         otherwise('/');
     }
   ])
+
+app.config(['$provide', function($provide) {
+  $provide.factory('SessionService', function() {
+     var isSessionAvailable=function(){return false};
+      
+      var shinyNewServiceInstance;
+    
+      // factory function body that constructs shinyNewServiceInstance
+      
+      
+    return shinyNewServiceInstance;
+  });
+}]);
+
 

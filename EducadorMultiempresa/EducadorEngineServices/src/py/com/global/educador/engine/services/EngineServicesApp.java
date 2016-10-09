@@ -17,7 +17,8 @@ public class EngineServicesApp extends Application {
 		
 		getClasses().add(Suscripcion.class);
 		getClasses().add(UtilsServices.class);
-		getClasses().add(RestServices.class);
+		getClasses().add(SurveyServices.class);
+		getClasses().add(LoginServices.class);
 	}
 	@Override
 	public Set<Class<?>> getClasses() {

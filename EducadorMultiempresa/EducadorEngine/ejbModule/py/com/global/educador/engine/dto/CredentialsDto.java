@@ -5,6 +5,7 @@ public class CredentialsDto {
 	public Long idSuscriptor;
 	public Long idEmpresa;
 	public String nombreEmpresa;
+	public String sessionToken;
 	public CredentialsDto() {
 	}
 	
@@ -32,6 +33,14 @@ public class CredentialsDto {
 	}
 	public void setNombreEmpresa(String nombreEmpresa) {
 		this.nombreEmpresa = nombreEmpresa;
+	}
+
+	public String getSessionToken() {
+		return sessionToken;
+	}
+
+	public void setSessionToken(String sessionToken) {
+		this.sessionToken = sessionToken;
 	}
 	
 	
