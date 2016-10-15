@@ -1,0 +1,1 @@
+im=imread('miro.png');

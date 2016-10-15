@@ -125,11 +125,20 @@ public class AppServices {
 		
 	}
 	
+	public Properties logout(String sid){
+		boolean r= credentialsAppManager.logout(sid);
+		Properties p= new Properties();
+		
+		
+			p.put("success", r);
+		
+		return p;
+		
+	}
+	
 	public Properties checkSessionId(String sid){
 		
 		return credentialsAppManager.checkSessionId(sid);
-		
-		
 		
 	}
 

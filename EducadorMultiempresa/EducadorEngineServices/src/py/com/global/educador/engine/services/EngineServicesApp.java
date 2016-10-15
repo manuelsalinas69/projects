@@ -4,6 +4,9 @@ import java.util.Set;
 import java.util.HashSet;
 import javax.ws.rs.core.Application;
 
+import py.com.global.educador.engine.filters.AuthorizationRequestFilter;
+import py.com.global.educador.engine.filters.CorRequestFilter;
+
 public class EngineServicesApp extends Application {
 
 	private Set<Object> singletons = new HashSet<Object>();
@@ -14,7 +17,8 @@ public class EngineServicesApp extends Application {
 //	     singletons.add(new Suscripcion());
 //	     singletons.add(new UtilsServices());
 //	     singletons.add(new Services());
-		
+		getClasses().add(AuthorizationRequestFilter.class);
+		getClasses().add(CorRequestFilter.class);
 		getClasses().add(Suscripcion.class);
 		getClasses().add(UtilsServices.class);
 		getClasses().add(SurveyServices.class);

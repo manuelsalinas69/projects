@@ -36,10 +36,7 @@ public class LoginServices {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response login(@FormParam("user") String user, @FormParam("pass") String pass){
 		
-		if (isOptionRequest()) {
-			return DefaultResponse.getACKResponse();
-		}
-
+		
 		Properties loginInfo=appServices.login(user, pass);
 		ResponseDto d= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), loginInfo);
 		return DefaultResponse.getEntityResponse(d);
@@ -53,10 +50,21 @@ public class LoginServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response checksession(@QueryParam("sid") String sid){
 		
-		if (isOptionRequest()) {
-			return DefaultResponse.getACKResponse();
-		}
+		
+		Properties checkSessionInfo=appServices.checkSessionId(sid);
+		ResponseDto d= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), checkSessionInfo);
+		return DefaultResponse.getEntityResponse(d);
 
+
+	}
+	
+	@GET()
+	@OPTIONS
+	@Path("session/logout")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response logout(@QueryParam("sid") String sid){
+		
+		
 		Properties checkSessionInfo=appServices.checkSessionId(sid);
 		ResponseDto d= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), checkSessionInfo);
 		return DefaultResponse.getEntityResponse(d);
@@ -65,9 +73,6 @@ public class LoginServices {
 	}
 
 	
-	private boolean isOptionRequest(){
-		return "OPTIONS".equalsIgnoreCase(request.getMethod());
-	}
 	
 	
 

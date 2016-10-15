@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="elsApp">
+<html lang="en" ng-app="elsApp" ng-controller="appUserDataController">
 <head>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,17 +25,36 @@
     <script src="js/app.config.js"></script>
     <script src="js/services.js"></script>
     <script src="js/login.component.js"></script>
-     <script src="js/project.component.js"></script>
+     <script src="js/project_home.component.js"></script>
      <script src="js/project_modules.component.js"></script>
     <script src="js/module_form.component.js"></script>
     <script src="js/module_home.component.js"></script>
     
     <script src="js/utils.js"></script>
 
-    <div class="blockingDiv">
+  <div class="blockingDiv">
         <div class="ajax-loader">Cargando...</div>
     </div>
 
+   
+</head>
+<body >
+    <div >
+    
+        <nav class="navbar navbar-default">
+
+         <div class="container">
+        <div class="navbar-header">
+
+        </div>
+
+             <p class="navbar-text navbar-right"><i class="fa fa-user" aria-hidden="true"></i> {{userName}}</p>
+      </div>
+   
+        </nav>
+    
+    
+    </div>
    
   
     
@@ -47,10 +66,6 @@
            
                Debe ingresar un valor
         </div>
-   
-</head>
-<body >
-
   <div ng-view></div>
 
 </body>

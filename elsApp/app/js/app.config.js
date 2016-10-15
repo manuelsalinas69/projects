@@ -16,7 +16,7 @@ app.config(['$locationProvider', '$routeProvider',
           template: '<login></login>'
         }).
         when('/home', {
-          template: '<project></project>'
+          template: '<project-home></project-home>'
         }).
         when('/home/project/:idProject', {
           template: '<project-modules></project-modules>'
@@ -46,5 +46,18 @@ app.config(['$provide', function($provide) {
     return shinyNewServiceInstance;
   });
 }]);
-
+app.controller("appUserDataController",function($scope,sessionManager){
+    $scope.userName = function() {
+       sessionManager.getSessionData('username');
+    };
+    
+    getUserName= function (){
+        var userName=  sessionManager.getSessionData('username');
+        return userName;
+    };
+    
+    
+    
+   
+});
 

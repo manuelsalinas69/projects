@@ -8,10 +8,12 @@ var authenticationTree=servicesRootTree+"/authentication";
 var loginRootTree=authenticationTree+"/login";
 var sessionRootTree=authenticationTree+"/session";
 var sessionCheckRootTree=sessionRootTree+"/check";
+var logoutRootTree=sessionRootTree+"/logout";
 
 var sessionCheckUrl=protocol+host+sessionCheckRootTree;
 var surveyUrl=protocol+host+surveyRootTree;
 var loginUrl=protocol+host+loginRootTree;
+var logoutUrl=protocol+host+logoutRootTree;
 //proyect
 var projectUrl=surveyUrl+"/project";
 var projectListUrl=projectUrl+"/list";

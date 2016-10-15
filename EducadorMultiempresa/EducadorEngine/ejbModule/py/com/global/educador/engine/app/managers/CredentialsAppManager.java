@@ -56,6 +56,18 @@ public class CredentialsAppManager {
 		return null;
 	}
 	
+	public boolean logout(String sid){
+		if (sid==null) {
+			return false;
+		}
+		Sessions s= entityManager.find(Sessions.class, sid);
+		if (s==null) {
+			return true;
+		}
+		entityManager.remove(s);
+		return true;
+	}
+	
 	
 	private CredentialsDto subscriberFor(Usuario usuario) {
 		Suscriptor s=getSuscriptor(usuario);
