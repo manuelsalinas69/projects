@@ -12,6 +12,17 @@ public class ReferenceVector {
 		this.rMax = rMax;
 	}
 	
+	public double[][] vectorMaxMin(){
+		double[][] v={
+						{
+							rMax[0][0]-rMin[0][0],
+							rMax[0][1]-rMin[0][1],
+							rMax[0][2]-rMin[0][2]
+						}
+				};
+		return v;
+	} 
+
 	public double[][] getrMin() {
 		return rMin;
 	}

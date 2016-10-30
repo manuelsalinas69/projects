@@ -42,8 +42,19 @@ public class StructuringElement {
 			preproccess(se);
 		}
 		private void preproccess(StructuringElement se) {
-			centerRow=se.getSize()/2;
-			centerCol=se.getSize()/2;//TODO: ver de modificar para otros tipos de SE
+			
+			int mod=se.getSize()%2;
+			
+			if (mod==1) {
+				centerRow=(se.getSize()/2)+1;
+				centerCol=(se.getSize()/2)+1;
+			}
+			else{
+				centerRow=se.getSize()/2;
+				centerCol=se.getSize()/2;	
+			}
+			
+			//TODO: ver de modificar para otros tipos de SE
 			distOrigenFilas=centerRow-1;
 			distOrigenColumnas=centerCol-1;
 			distFinFilas=se.getSize()-centerRow;

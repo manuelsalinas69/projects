@@ -2,6 +2,7 @@ package pdi.ppm.util;
 
 import java.awt.BorderLayout;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -68,12 +69,18 @@ public class Utils {
           
            for (int u = 0; u < cp.getHeight(); u++) {
                 for (int v = 0; v < cp.getWidth(); v++) {
-                	pixels[u][v]= new Pixel(channel[0].get(u, v), channel[1].get(u, v), channel[2].get(u, v));
+                	if (channel[0].get(v, u)==61
+                			&& channel[1].get(v, u)==60
+                			&& channel[2].get(v, u)==58
+                			) {
+						System.out.println("u[fila]:"+u+",v[col]: "+v);
+					}
+                	pixels[u][v]= new Pixel(channel[0].get(v, u), channel[1].get(v, u), channel[2].get(v, u)); //channel[2].get(columna or width, fila or heigth)
                 	//System.out.print(pixels[u][v]);
                 }
            }
            
-           return new ImageMatrix(pixels,cp.getWidth(),cp.getHeight());
+           return new ImageMatrix(pixels,cp.getHeight(),cp.getWidth());
 	}
 	
 	public double getMean(Matrix x, int col) {
@@ -104,27 +111,72 @@ public class Utils {
 		return (sum/rows);
 	}
 	
-	public PCA getPCA(){
-		if (p!=null) {
-			return p;
+	public double dot(double[] A, double[]B) throws Exception{
+		if (A.length!=B.length) {
+			throw new Exception("La dimensiones debe ser iguales");
 		}
-		
-		Matrix trainindData= new Matrix(new double[][] {
-            {1, 2, 3},
-            {3, 2, 1}});
-		p=new PCA(trainindData);
-		
-		return p;
-		
+		double sum=0;
+		for (int i = 0; i < A.length; i++) {
+			sum+=A[i]*B[i];
+		}
+		return sum;
 	}
 	
-	public Matrix getScores(List<Pixel> pixels, PCA p){
-		double[][] data= new double[pixels.size()][3];
-		for (int i = 0; i < data.length; i++) {
-			data[i]=pixels.get(i).toVector();
+	public double dot(double[][] A, double[][]B) throws Exception{
+		if (A[0].length!=B[0].length) {
+			throw new Exception("La dimensiones debe ser iguales");
 		}
-		Matrix m= new Matrix(data);
-		return p.transform(m, TransformationType.ROTATION);
+		double sum=0;
+		for (int i = 0; i < A[0].length; i++) {
+			sum+=A[0][i]*B[0][i];
+		}
+		return sum;
+	}
+	
+	public double[][] toVector(double[][]pOrigen,double[][]pExtremo){
+		double[][] v= {{
+			
+			
+				pExtremo[0][0]-pOrigen[0][0],
+				pExtremo[0][1]-pOrigen[0][1],
+				pExtremo[0][2]-pOrigen[0][2]
+			
+		}};
+		
+		return v;
+	}
+	
+	public void printPixels(List<Pixel> l, int h, int w) {
+		try {
+			int pos=0;
+			Pixel[][] pixels=new Pixel[h][w];
+			
+			for (int i = 0; i < h; i++) {
+				for (int j = 0; j < w; j++) {
+					pixels[i][j]= l.get(pos);
+					pos++;
+				}
+			}
+			ImageMatrix out=new ImageMatrix(pixels, h, w);
+			BufferedImage image = new BufferedImage(out.getWidth(), out.getHeight(), BufferedImage.TYPE_INT_RGB); 
+
+			  for (int y = 0; y < out.getHeight(); y++) {
+			     for (int x = 0; x < out.getWidth(); x++) {
+			        int rgb = out.R[y][x];
+			        rgb = (rgb << 8) + out.G[y][x];
+			        rgb = (rgb << 8) + out.B[y][x];
+			        image.setRGB(x, y, rgb);
+			     }
+			  }
+
+			  File outputFile = new File("/Users/Manuel/Documents/Tesis/output.jpg");
+			  ImageIO.write(image, "jpg", outputFile);
+			  Utils.getInstance().showImage("/Users/Manuel/Documents/Tesis/output.jpg");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	

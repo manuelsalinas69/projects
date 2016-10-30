@@ -8,7 +8,7 @@ public class ImageMatrix {
 	
 	 Pixel[][] pixel=null;
 	 List<Pixel> lPixels=null;
-	 int [][] R,G,B;
+	 public int [][] R,G,B;
 	 int [] rCol, bCol, gCol;
 	 int width;
 	 int height;
@@ -16,7 +16,7 @@ public class ImageMatrix {
 	
 	
 	
-	public ImageMatrix(Pixel[][] pixel, int width, int height) {
+	public ImageMatrix(Pixel[][] pixel, int height , int width) {
 		super();
 		this.pixel = pixel;
 		this.width = width;
