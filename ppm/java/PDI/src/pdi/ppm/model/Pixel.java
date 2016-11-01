@@ -47,5 +47,17 @@ public class Pixel {
 		return "Pixel [R=" + R + ", G=" + G + ", B=" + B + "]";
 	}
 	
+	public long volume(){
+		return G*R*B;
+	}
+	
+	public Pixel minus(Pixel other){
+		int R=this.R-other.R;
+		int G=this.G-other.G;
+		int B=this.B-other.B;
+		
+		return new Pixel(R, G, B);
+	}
+	
 	
 }

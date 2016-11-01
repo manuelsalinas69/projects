@@ -12,8 +12,10 @@ import pdi.ppm.model.ImageMatrix;
 import pdi.ppm.model.PCAResult;
 import pdi.ppm.model.ReferenceVector;
 import pdi.ppm.model.StructuringElement;
+import pdi.ppm.operations.BaseOperation;
+import pdi.ppm.operations.PseudoDil;
 import pdi.ppm.operations.PseudoErode;
-import pdi.ppm.operations.References;
+import pdi.ppm.operations.ReferencesFactory;
 import pdi.ppm.util.PCAUtils;
 import pdi.ppm.util.StructuringElementFactory;
 import pdi.ppm.util.Utils;
@@ -24,17 +26,21 @@ public class Test {
 	public static void main(String[] args) throws Exception {
 		long t1=System.currentTimeMillis();
 		File f= new File("/Users/Manuel/Documents/Tesis/miro.jpg");
+		Utils.getInstance().showImage("/Users/Manuel/Documents/Tesis/miro.jpg");
 		ColorProcessor cp=new ColorProcessor(ImageIO.read(f));
 		ImageMatrix m= Utils.getInstance().parseToImageMatrix(cp);
-		List<ReferenceVector> l= References.getReferences(m);
+		List<ReferenceVector> l= ReferencesFactory.getReferences(m);
 		
 		//PCAResult r=PCAUtils.PCA(m);
 		
 		PPMConstanst.referenceVectors=l;
-		PseudoErode erode=new PseudoErode();
-		StructuringElement se = StructuringElementFactory.getInstance().buildStrel("square", 3);
-		ImageMatrix out = erode.process(m, se);
+		BaseOperation erode=new PseudoErode();
+		BaseOperation dil=new PseudoDil();
+		StructuringElement se = StructuringElementFactory.getInstance().buildStrel("square", 11);
+//		ImageMatrix out = erode.process(m, se);
+		ImageMatrix out = dil.process(m, se);
 //		ImageMatrix out = m;
+		
 		BufferedImage image = new BufferedImage(out.getWidth(), out.getHeight(), BufferedImage.TYPE_INT_RGB); 
 
 		  for (int y = 0; y < out.getHeight(); y++) {

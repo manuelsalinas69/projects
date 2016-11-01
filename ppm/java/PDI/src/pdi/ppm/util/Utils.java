@@ -180,5 +180,27 @@ public class Utils {
 		
 	}
 	
+	public long getVolume(ImageMatrix im){
+		long v=0;
+		  for (int y = 0; y < im.getHeight(); y++) {
+			     for (int x = 0; x < im.getWidth(); x++) {
+			        v+=im.getPixel(y, x).volume();
+			     }
+			  }
+		return v;
+		
+	}
+	
+	public ImageMatrix minus(ImageMatrix A, ImageMatrix B){
+		Pixel [][] out=new Pixel[A.getHeight()][A.getWidth()];
+		
+		for (int i = 0; i < out.length; i++) {
+			for (int j = 0; j < out[0].length; j++) {
+				out[i][j]=A.getPixel(i, j).minus(B.getPixel(i, j));
+			}
+		}
+		return new ImageMatrix(out, A.getHeight(), A.getWidth());
+	}
+	
 	
 }

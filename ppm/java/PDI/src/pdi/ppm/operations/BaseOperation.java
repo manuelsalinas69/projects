@@ -27,9 +27,10 @@ public abstract class BaseOperation {
 			for (int j = 0; j < im.getWidth(); j++) {
 				
 				Pixel p=im.getPixel(i, j);
-				boolean print=p.R==61 
-						&& p.G==60
-						&& p.B==58;
+//				boolean print=p.R==61 
+//						&& p.G==60
+//						&& p.B==58;
+				boolean print=false;
 				if (print) {
 					System.out.println("i:"+i+",j:"+j+" - "+p);
 				}
@@ -57,8 +58,8 @@ public abstract class BaseOperation {
 	private Pixel baseOper0(List<Pixel> intersect, boolean print)  {
 		
 		
-		PCAResult r=PCAUtils.PCA(intersect);
-		Matrix inverse=r.getEiVec().inverse();
+		PCAResult r=PCAUtils.PCA2(intersect);
+		//Matrix inverse=r.getEiVec().inverse();
 		
 		
 		ChebyshevResult cbr=Chebyshev.proccess(r.getSc(), 0, PPMConstanst.K,print);
@@ -66,16 +67,17 @@ public abstract class BaseOperation {
 		double[][] beta_pca={{cbr.getBeta(),0d,0d}};
 		double[][] alfa=null;
 		double[][] beta=null;
-		alfa=parseToInitialCoordinates(alfa_pca,inverse,r.getCenters());
+//		alfa=parseToInitialCoordinates(alfa_pca,inverse,r.getCenters());
+//		beta=parseToInitialCoordinates(beta_pca,inverse,r.getCenters());
 		
-		
-		beta=parseToInitialCoordinates(beta_pca,inverse,r.getCenters());
+		alfa=parseToInitialCoordinates(alfa_pca, r);
+		beta=parseToInitialCoordinates(beta_pca, r);
 		Extremos extremos=ordenarExtremos(alfa,beta);
 		
 		if (print) {
 			r.getSc().print(1, 1);
 			r.getEiVec().print(1, 1);
-			inverse.print(1, 1);
+			//inverse.print(1, 1);
 			System.out.println("alfa_pca:"+Arrays.toString(alfa_pca[0]));
 			System.out.println("alfa:"+Arrays.toString(alfa[0]));
 			System.out.println("beta_pca:"+Arrays.toString(beta_pca[0]));
@@ -99,11 +101,19 @@ public abstract class BaseOperation {
 		//return r1;
 		return r;
 	}
+	
+	private double[][] parseToInitialCoordinates(double[][] pcaCoorData, PCAResult r) {
+		double[] d= r.getPca().eigenToSampleSpace(pcaCoorData[0]);
+		double [][]dd= {d};
+		return dd;
+	}
 
 	private Extremos ordenarExtremos(double[][] alfa, double[][] beta) {
 		double[][] exMin=null;
 		double[][] exMax=null;
-		double[][] vecBetaAlfa={{beta[0][0]-alfa[0][0],0d,0d}};
+		double[][] vecBetaAlfa={{beta[0][0]-alfa[0][0],
+								beta[0][1]-alfa[0][1],
+								beta[0][2]-alfa[0][2]}};
 		double[][] vBetaR;
 		double[][] vAlfaR;
 		
@@ -112,22 +122,24 @@ public abstract class BaseOperation {
 		
 		for (ReferenceVector v : PPMConstanst.referenceVectors) {
 			try {
-				if (Utils.getInstance().dot(vecBetaAlfa, v.vectorMaxMin())==0) {
+				if (Utils.getInstance().dot(vecBetaAlfa, v.vectorMaxMinD())==0) {
 					continue;
 				}
-				vBetaR=Utils.getInstance().toVector(v.getrMin(), beta);
-				vAlfaR=Utils.getInstance().toVector(v.getrMin(), alfa);
+				vBetaR=Utils.getInstance().toVector(v.getrMinD(), beta);
+				vAlfaR=Utils.getInstance().toVector(v.getrMinD(), alfa);
 				
-				dotBeta=Utils.getInstance().dot(vBetaR, v.vectorMaxMin());
-				dotAlfa=Utils.getInstance().dot(vAlfaR, v.vectorMaxMin());
+				dotBeta=Utils.getInstance().dot(vBetaR, v.vectorMaxMinD());
+				dotAlfa=Utils.getInstance().dot(vAlfaR, v.vectorMaxMinD());
 				
 				if (dotBeta>dotAlfa) {
 					exMax=beta;
 					exMin=alfa;
+					return new Extremos(exMin, exMax);
 				}
 				else{
 					exMax=alfa;
 					exMin=beta;
+					return new Extremos(exMin, exMax);
 				}
 				
 			} catch (Exception e) {

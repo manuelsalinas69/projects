@@ -62,8 +62,23 @@ public class ImageMatrix {
 		
 	} 
 	
+	public ImageMatrix subMatrix(int f0,int f1, int c0, int c1){
+		Pixel[][] pixels= new Pixel[(f1-f0)+1][(c1-c0)+1];
+		int row=0;
+		int col=0;
+		for (int i = f0; i <= f1; i++) {
+			
+			for (int j = c0; j <= c1; j++) {
+				pixels[row][col]=this.getPixel(i, j);
+				col++;
+			}
+			col=0;
+			row++;
+		}
+		return new ImageMatrix(pixels, pixels.length, pixels[0].length);
+	}
 
-
+	
 	public Pixel getPixel(int row, int col){
 		return pixel[row][col];
 	}

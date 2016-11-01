@@ -18,13 +18,7 @@ public class PCAUtils {
 	public static PCAResult PCA(List<Pixel> pixels){
 
 		
-		double[][] data= new double[pixels.size()][3];
-		//System.out.println("---------------");
-		for (int i = 0; i < data.length; i++) {
-			data[i]=pixels.get(i).toVector();
-			
-			//System.out.println(Arrays.toString(data[i]));
-		}
+		double[][] data=toArray(pixels);
 		smile.projection.PCA pca= new PCA(data);
 
 		Matrix mxData= new Matrix(data);
@@ -35,4 +29,37 @@ public class PCAUtils {
 		return new PCAResult(mxData, eiVec, sc,pca.getCenter());
 	}
 
+	
+	public static PCAResult PCA2(ImageMatrix im){
+		return PCA2(im.toList());
+	}
+	
+	public static PCAResult PCA2(List<Pixel> pixels){
+		double[][] data=toArray(pixels);
+		PrincipalComponentAnalysis pca= new PrincipalComponentAnalysis();
+		pca.setup(data.length, data[0].length);
+		double[][] pcaData=new double[data.length][data[0].length];
+		for (int i = 0; i < data.length; i++) {
+			pca.addSample(data[i]);
+		}
+		pca.computeBasis(3);
+		for (int i = 0; i < data.length; i++) {
+			pcaData[i]=pca.sampleToEigenSpace(data[i]);
+		}
+		
+		
+		return new PCAResult(new Matrix(data), null, new Matrix(pcaData),null,pca);
+	}
+	
+	private static double[][] toArray(List<Pixel> pixels){
+		double[][] data= new double[pixels.size()][3];
+		//System.out.println("---------------");
+		for (int i = 0; i < data.length; i++) {
+			data[i]=pixels.get(i).toVector();
+			
+			//System.out.println(Arrays.toString(data[i]));
+		}
+		return data;
+
+	}
 }
