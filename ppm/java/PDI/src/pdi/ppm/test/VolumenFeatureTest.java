@@ -14,6 +14,8 @@ import pdi.kmeans.KMeans;
 import pdi.kmeans.KMeansResultado;
 import pdi.kmeans.Punto;
 import pdi.ppm.conf.PPMConstanst;
+import pdi.ppm.model.FeatureMatrix;
+import pdi.ppm.model.FeatureVector;
 import pdi.ppm.model.ImageMatrix;
 import pdi.ppm.model.Pixel;
 import pdi.ppm.model.ReferenceVector;
@@ -45,18 +47,20 @@ public class VolumenFeatureTest {
 
 		//long v= VolumeFeature.getVolumeFeature(m, se);
 		
-		long [][] kout=VolumeFeature.buildFeatureVector(m, 32, 32, 5, 11, "square", 1);
+		FeatureMatrix fMatrix=VolumeFeature.buildFeatureVector(m, 32, 32, 5, 11, "square", 1);
 		long t2=System.currentTimeMillis();
 		System.out.println("Elapsed Time: "+(t2-t1)+"ms.");
-		System.out.println("Feacture Vector: "+kout);
+		//System.out.println("Feacture Vector: "+kout);
 		List<Punto> puntos= new ArrayList<Punto>();
-		int row=0;
-		int col=0;
-		for (int i = 0; i < kout.length; i++) {
-			row=i/m.getWidth();
-			col=(i+m.getWidth())%m.getWidth();
-			puntos.add(new Punto(kout[i],row,col));
+		//List<long[]> lFeatures=new ArrayList<long[]>();
+		Punto punto=null;
+		for (int i = 0; i < fMatrix.getHeight(); i++) {
+			for (int j = 0; j < fMatrix.getWidth();j++) {
+				punto=new Punto(fMatrix.getFeatureAtPos(i, j).getFeatures(), i, j);
+				puntos.add(punto);
+			}
 		}
+		
 		KMeans kMeans= new KMeans();
 		KMeansResultado kMeansResultado = kMeans.calcular(puntos, 2);
 		Pixel [][] imKmeans=new Pixel[m.getHeight()][m.getWidth()];

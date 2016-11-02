@@ -36,20 +36,35 @@ public class PCAUtils {
 	
 	public static PCAResult PCA2(List<Pixel> pixels){
 		double[][] data=toArray(pixels);
+		
+		int cant=pixels.size();
+		
+		boolean b=cant<3;
+		
 		PrincipalComponentAnalysis pca= new PrincipalComponentAnalysis();
 		pca.setup(data.length, data[0].length);
 		double[][] pcaData=new double[data.length][data[0].length];
 		for (int i = 0; i < data.length; i++) {
 			pca.addSample(data[i]);
 		}
-		pca.computeBasis(3);
+		if (b) {
+			pca.computeBasis(cant);
+		}
+		else{
+			pca.computeBasis(3);
+		}
+		
 		for (int i = 0; i < data.length; i++) {
-			pcaData[i]=pca.sampleToEigenSpace(data[i]);
+			
+				pcaData[i]=pca.sampleToEigenSpace(data[i]);
+			
 		}
 		
 		
 		return new PCAResult(new Matrix(data), null, new Matrix(pcaData),null,pca);
 	}
+	
+	
 	
 	private static double[][] toArray(List<Pixel> pixels){
 		double[][] data= new double[pixels.size()][3];

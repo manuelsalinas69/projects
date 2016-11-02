@@ -20,6 +20,8 @@ package pdi.ppm.util;
 
 
 
+import java.util.Arrays;
+
 import org.ejml.data.DenseMatrix64F;
 import org.ejml.factory.DecompositionFactory;
 import org.ejml.interfaces.decomposition.SingularValueDecomposition;
@@ -115,9 +117,13 @@ public class PrincipalComponentAnalysis {
            throw new IllegalArgumentException("More components requested that the data's length.");
        if( sampleIndex != A.getNumRows() )
            throw new IllegalArgumentException("Not all the data has been added");
-       if( numComponents > sampleIndex )
-           throw new IllegalArgumentException("More data needed to compute the desired number of components");
-
+       if( numComponents > sampleIndex ){
+    	   numComponents=sampleIndex;
+    	   System.out.println("Se bajo el numero de componentes a la cantidad de puntos que se tienen: "+numComponents);
+       }
+           
+    	   //throw new IllegalArgumentException("More data needed to compute the desired number of components");
+    	   
        this.numComponents = numComponents;
 
        // compute the mean of all the samples
@@ -190,6 +196,15 @@ public class PrincipalComponentAnalysis {
        return r.data;
    }
 
+   
+   private static double[] subData(double[]data, int size){
+		double[] newDta= new double[size];
+		for (int i = 0; i < newDta.length; i++) {
+			newDta[i]=data[i];
+		}
+		return newDta;
+	}
+   
    /**
     * Converts a vector from eigen space into sample space.
     *
@@ -197,8 +212,12 @@ public class PrincipalComponentAnalysis {
     * @return Sample space projection.
     */
    public double[] eigenToSampleSpace( double[] eigenData ) {
-       if( eigenData.length != numComponents )
-           throw new IllegalArgumentException("Unexpected sample length");
+       if( eigenData.length != numComponents ){
+    	   eigenData=subData(eigenData, numComponents);
+    	   //System.out.println("OJO, se achico el dato a "+Arrays.toString(eigenData));
+       }
+         
+    	   //throw new IllegalArgumentException("Unexpected sample length");
 
        DenseMatrix64F s = new DenseMatrix64F(A.getNumCols(),1);
        DenseMatrix64F r = DenseMatrix64F.wrap(numComponents,1,eigenData);
