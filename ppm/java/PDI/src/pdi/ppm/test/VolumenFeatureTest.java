@@ -83,10 +83,12 @@ public class VolumenFeatureTest {
 		        image.setRGB(x, y, rgb);
 		     }
 		  }
+		  
+		  
 
-		  File outputFile = new File("/Users/Manuel/Documents/Tesis/output.jpg");
+		  File outputFile = new File("/Users/Manuel/Documents/Tesis/output/output.jpg");
 		  ImageIO.write(image, "jpg", outputFile);
-		  Utils.getInstance().showImage("/Users/Manuel/Documents/Tesis/output.jpg");
+		  Utils.getInstance().showImage("/Users/Manuel/Documents/Tesis/output/output.jpg");
 		//List<Cluster> clusters = kMeansResultado.getClusters();
 		
 	}

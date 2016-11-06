@@ -31,19 +31,16 @@ public class ReferencesFactory {
 		ReferenceVector r0=getReferenceVector(r.getSc(), 0, PPMConstanst.K);
 		ReferenceVector r1=getReferenceVector(r.getSc(), 1, PPMConstanst.K);
 		ReferenceVector r2=getReferenceVector(r.getSc(), 2, PPMConstanst.K);
-		
-		//Matrix inverse=r.getEiVec().inverse();
-//		r0=passToInitialCoordinates(r0,inverse,r.getCenters(),print);
-//		r1=passToInitialCoordinates(r1,inverse,r.getCenters(),print);
-//		r2=passToInitialCoordinates(r2,inverse,r.getCenters(),print);
+
 		
 		r0=passToInitialCoordinates(r0,r,print);
 		r1=passToInitialCoordinates(r1,r,print);
 		r2=passToInitialCoordinates(r2,r,print);
-		System.out.println("R0: "+r0);
-		System.out.println("R1: "+r1);
-		System.out.println("R2: "+r2);
-	
+		if (print) {
+			System.out.println("R0: "+r0);
+			System.out.println("R1: "+r1);
+			System.out.println("R2: "+r2);
+		}
 		List<ReferenceVector> l=new ArrayList<ReferenceVector>();
 		l.add(r0);
 		l.add(r1);
