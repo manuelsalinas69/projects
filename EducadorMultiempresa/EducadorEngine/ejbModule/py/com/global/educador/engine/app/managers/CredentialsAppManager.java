@@ -37,6 +37,13 @@ public class CredentialsAppManager {
 	@SuppressWarnings("unchecked")
 	public CredentialsDto login(String user, String pass){
 		try {
+			//System.out.println("Login-->"+user);
+			if (user==null || user.trim().isEmpty()) {
+				return null;
+			}
+			if (pass==null || pass.trim().isEmpty()) {
+				return null;
+			}
 			String hql="SELECT u FROM Usuario u WHERE lower(trim(u.usuario))= lower(trim(:user)) and u.contrasena=:pass AND u.estado=:estado";
 			Query q= entityManager.createQuery(hql);
 			q.setParameter("user", user);
