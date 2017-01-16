@@ -1,9 +1,5 @@
 package pdi.ppm.operations;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import Jama.Matrix;
 import pdi.ppm.model.FeatureMatrix;
 import pdi.ppm.model.FeatureVector;
 import pdi.ppm.model.ImageMatrix;
@@ -13,9 +9,10 @@ import pdi.ppm.util.Utils;
 
 public class VolumeFeature {
 	
-	public static long getVolumeFeature(ImageMatrix m, StructuringElement se){
+	public static long getVolumeFeature(ImageMatrix m, StructuringElement se) throws Exception{
 		BaseOperation e=new PseudoErode();
 		BaseOperation d=new PseudoDil();
+		int K=100;
 		ImageMatrix out=Utils.getInstance().minus(d.process(m, se), e.process(m, se));
 		long v=Utils.getInstance().getVolume(out);
 		return v;
@@ -23,7 +20,7 @@ public class VolumeFeature {
 	}
 	
 	public static FeatureMatrix featureFor(ImageMatrix im, StructuringElement se, int winH,
-			int winW,int slide,FeatureMatrix f, int pos){
+			int winW,int slide,FeatureMatrix f, int pos) throws Exception{
 		
 		int i=0,j=0;
 		
@@ -39,18 +36,24 @@ public class VolumeFeature {
 		//Matrix out=new Matrix(data); 
 		//int row=0;
 		//int col=0;
-		int iter=0;
+//		int iter=0;
 		while (i<h) {
 			while (j<w) {
+				
+				
 				rangeF=Math.min((h-1),i+winH-1);
 				rangeC=Math.min((w-1), j+winW-1);
+				
+				//ImageMatrix sub1=preproccessMx(im,i,rangeF,j,rangeC);
 				ImageMatrix sub=im.subMatrix(i, rangeF, j, rangeC);
+				
+				
 				vf=getVolumeFeature(sub, se);
 				//data[pos]=vf;
 				
 				f.setSubMatrix(i, rangeF, j, rangeC, vf,pos);
 				j+=slide;
-				iter++;
+				//iter++;
 			}
 			j=0;
 			i+=slide;

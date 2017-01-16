@@ -13,7 +13,7 @@ import pdi.ppm.model.Pixel;
 
 public class KmeansProccess {
 	
-	public static ImageMatrix proccess(FeatureMatrix fMatrix, int k){
+	public static ImageMatrix proccess(FeatureMatrix fMatrix, int k) throws Exception{
 		List<Pixel> px= new ArrayList<Pixel>();
 		px.add(new Pixel(0,0,0));
 		px.add(new Pixel(255, 255, 255));

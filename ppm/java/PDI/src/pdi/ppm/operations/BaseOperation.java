@@ -18,7 +18,7 @@ import pdi.ppm.util.Utils;
 
 public abstract class BaseOperation {
 	
-	public ImageMatrix process(ImageMatrix im,StructuringElement se){
+	public ImageMatrix process(ImageMatrix im,StructuringElement se) throws Exception{
 		
 		List<Pixel> intersect;
 		Pixel[][] pixels=new Pixel[im.getHeight()][im.getWidth()];
@@ -27,18 +27,11 @@ public abstract class BaseOperation {
 			for (int j = 0; j < im.getWidth(); j++) {
 				
 				Pixel p=im.getPixel(i, j);
-//				boolean print=p.R==61 
-//						&& p.G==60
-//						&& p.B==58;
 				boolean print=false;
 				if (print) {
 					System.out.println("i:"+i+",j:"+j+" - "+p);
 				}
-//				
-//				
-//				if (i==10 && j==50) {
-//					System.out.println("----");
-//			  }
+
 				intersect= getIntersection(im,se,i,j,print);
 				if (print) {
 					System.out.println("----");
@@ -46,8 +39,7 @@ public abstract class BaseOperation {
 						System.out.println(pxi);
 					}
 				}
-//				//Math.sqrt(intersect.size());
-//				//Utils.getInstance().printPixels(intersect,6,6);
+
 				Pixel out= baseOper0(intersect,print);
 				pixels[i][j]=out;
 			}

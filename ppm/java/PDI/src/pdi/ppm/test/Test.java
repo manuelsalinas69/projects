@@ -45,9 +45,9 @@ public class Test {
 
 		  for (int y = 0; y < out.getHeight(); y++) {
 		     for (int x = 0; x < out.getWidth(); x++) {
-		        int rgb = out.R[y][x];
-		        rgb = (rgb << 8) + out.G[y][x];
-		        rgb = (rgb << 8) + out.B[y][x];
+		        int rgb = (int)out.R[y][x];
+		        rgb = (rgb << 8) +(int) out.G[y][x];
+		        rgb = (rgb << 8) + (int)out.B[y][x];
 		        image.setRGB(x, y, rgb);
 		     }
 		  }

@@ -18,7 +18,7 @@ import pdi.ppm.util.Utils;
 
 public class PCATest {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		//long t1=System.currentTimeMillis();
 		File f= new File("/Users/Manuel/Documents/Tesis/miro.jpg");
 		ColorProcessor cp=new ColorProcessor(ImageIO.read(f));
@@ -28,9 +28,9 @@ public class PCATest {
 
 		  for (int y = 0; y < out.getHeight(); y++) {
 		     for (int x = 0; x < out.getWidth(); x++) {
-		        int rgb = out.R[y][x];
-		        rgb = (rgb << 8) + out.G[y][x];
-		        rgb = (rgb << 8) + out.B[y][x];
+		        int rgb =(int) out.R[y][x];
+		        rgb = (rgb << 8) + (int)out.G[y][x];
+		        rgb = (rgb << 8) +(int) out.B[y][x];
 		        image.setRGB(x, y, rgb);
 		     }
 		  }
@@ -43,7 +43,7 @@ public class PCATest {
 	}
 	
 	
-public static ImageMatrix process(ImageMatrix im,StructuringElement se){
+public static ImageMatrix process(ImageMatrix im,StructuringElement se) throws Exception{
 		
 		
 		Pixel[][] pixels=new Pixel[im.getHeight()][im.getWidth()];

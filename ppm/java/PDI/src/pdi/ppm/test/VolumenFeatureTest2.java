@@ -12,13 +12,14 @@ import pdi.ppm.model.FeatureMatrix;
 import pdi.ppm.model.ImageMatrix;
 import pdi.ppm.model.Pixel;
 import pdi.ppm.model.ReferenceVector;
+import pdi.ppm.model.SlideWindowMap;
 import pdi.ppm.operations.KmeansProccess;
 import pdi.ppm.operations.ReferencesFactory;
 import pdi.ppm.operations.VolumeFeature;
 import pdi.ppm.operations.VolumeFeatureV2;
 import pdi.ppm.util.Utils;
 
-public class VolumenFeatureTest {
+public class VolumenFeatureTest2 {
 
 	
 	
@@ -39,15 +40,29 @@ public class VolumenFeatureTest {
 		List<ReferenceVector> l= ReferencesFactory.getReferences(m);
 		PPMConstanst.referenceVectors=l;
 	
-		FeatureMatrix fMatrix=VolumeFeature.buildFeatureVector(m, 32, 32, 5, 11, "square", 1);
-//		FeatureMatrix fMatrix=VolumeFeatureV2.buildFeatureVector(m, 32, 32, 5, 11, "square", 10);
-		
+		SlideWindowMap swm=VolumeFeatureV2.generateSlideWindowMap(m, 32, 32);
+		FeatureMatrix fMatrix=VolumeFeatureV2.buildFeatureVector(m, swm, 5, 11, "square");
 		long t2=System.currentTimeMillis();
+		
+		
 		System.out.println("Elapsed Time: "+(t2-t1)+"ms.");
-		
+//		System.out.print("X:");
+//		int i=0;
+//		for ( i=0; i < swm.getxVector().length; i++) {
+//			
+//			System.out.print(swm.getxVector()[i]+" ");
+//			if (i%30==0) {
+//				System.out.println("");
+//			}
+//			if (swm.getxVector()[i]<0) {
+//				
+//				break;
+//			}
+//		}
 		ImageMatrix kmeansOut=KmeansProccess.proccess(fMatrix, 2);
-		
-
+//		ImageMatrix sub1=m.subMatrix(0, 30, 0, 120);
+//		ImageMatrix sub=m.subMatrix(0, 30, 0, 146);
+//		Utils.getInstance().showImage(sub);
 		Utils.getInstance().showImage(kmeansOut);
 		
 

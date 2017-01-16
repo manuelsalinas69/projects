@@ -8,50 +8,45 @@ import javax.imageio.ImageIO;
 
 import ij.process.ColorProcessor;
 import pdi.ppm.conf.PPMConstanst;
-import pdi.ppm.model.FeatureMatrix;
 import pdi.ppm.model.ImageMatrix;
 import pdi.ppm.model.Pixel;
 import pdi.ppm.model.ReferenceVector;
-import pdi.ppm.operations.KmeansProccess;
+import pdi.ppm.model.StructuringElement;
+import pdi.ppm.operations.PseudoDil;
+import pdi.ppm.operations.PseudoErode;
 import pdi.ppm.operations.ReferencesFactory;
-import pdi.ppm.operations.VolumeFeature;
-import pdi.ppm.operations.VolumeFeatureV2;
+import pdi.ppm.util.StructuringElementFactory;
 import pdi.ppm.util.Utils;
 
-public class VolumenFeatureTest {
+public class OperationTest {
+	
 
-	
-	
+			
 	public static void main(String[] args) throws Exception {
-		
 		List<Pixel> px= new ArrayList<Pixel>();
 		px.add(new Pixel(0,0,0));
 		px.add(new Pixel(255, 255, 255));
 		px.add(new Pixel(100, 100, 100));
 		
 		File f= new File("/Users/Manuel/Documents/Tesis/tiger.jpg");
-//		File f= new File("/Users/Manuel/Documents/Tesis/tiger_var1.jpg");
-//		File f= new File("/Users/Manuel/Documents/Tesis/tiger_var2.jpg");
-
 		ColorProcessor cp=new ColorProcessor(ImageIO.read(f));
-		long t1=System.currentTimeMillis();
+		//long t1=System.currentTimeMillis();
 		ImageMatrix m= Utils.getInstance().parseToImageMatrix(cp);
 		List<ReferenceVector> l= ReferencesFactory.getReferences(m);
 		PPMConstanst.referenceVectors=l;
-	
-		FeatureMatrix fMatrix=VolumeFeature.buildFeatureVector(m, 32, 32, 5, 11, "square", 1);
-//		FeatureMatrix fMatrix=VolumeFeatureV2.buildFeatureVector(m, 32, 32, 5, 11, "square", 10);
 		
-		long t2=System.currentTimeMillis();
-		System.out.println("Elapsed Time: "+(t2-t1)+"ms.");
+		PseudoErode er=new PseudoErode();
+		PseudoDil dil=new PseudoDil();
+		StructuringElement se= StructuringElementFactory.getInstance().buildStrel("square", 11);
+		ImageMatrix outErod=er.process(m, se);
+		Utils.getInstance().showImage(outErod);
+		ImageMatrix outDil=dil.process(m, se);
+		Utils.getInstance().showImage(outDil);
 		
-		ImageMatrix kmeansOut=KmeansProccess.proccess(fMatrix, 2);
-		
-
-		Utils.getInstance().showImage(kmeansOut);
-		
-
-		
+		//ImageMatrix out3=Utils.getInstance().minus(dil.process(outDil, se), er.process(outErod, se));
+		ImageMatrix out3=Utils.getInstance().minus(outDil, outErod);
+		//Utils.getInstance().showImage(dil.process(out3, se));
+		Utils.getInstance().showImage(out3);
 	}
 
 }

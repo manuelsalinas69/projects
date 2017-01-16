@@ -1,6 +1,6 @@
 'use strict';
 var protocol="http://"
-var host="localhost:8080";
+var host="192.168.0.18:8080";
 var rootTree="/EducadorEngineServices";
 var servicesRootTree=rootTree+"/services";
 var surveyRootTree=servicesRootTree+"/survey";

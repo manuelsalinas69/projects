@@ -13,9 +13,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.mkobos.pca_transform.PCA;
-import com.mkobos.pca_transform.PCA.TransformationType;
-
 import Jama.Matrix;
 import ij.process.ByteProcessor;
 import ij.process.ColorProcessor;
@@ -26,11 +23,12 @@ public class Utils {
 	
 	private static Utils instance= new Utils();
 	
+	boolean preserveImageFile=true;
+	
 	public static Utils getInstance(){
 		return instance;
 	}
 
-	private PCA p;
 	
 	public void showImage(String filePath) throws IOException{
 		File f = new File(filePath);
@@ -45,7 +43,7 @@ public class Utils {
 
 		JLabel lblimage = new JLabel(new ImageIcon(im));
 		frame.getContentPane().add(lblimage, BorderLayout.CENTER);
-		frame.setSize(300, 400);
+		frame.setSize(im.getWidth(lblimage), im.getHeight(lblimage));
 		frame.setVisible(true);
 		
 		JPanel mainPanel = new JPanel(new BorderLayout());
@@ -55,8 +53,34 @@ public class Utils {
 		frame.setVisible(true);
 	}
 	
+	public void showImage(ImageMatrix im) throws IOException{
+
+		BufferedImage image = new BufferedImage(im.getWidth(), im.getHeight(), BufferedImage.TYPE_INT_RGB); 
+
+		  for (int y = 0; y < im.getHeight(); y++) {
+		     for (int x = 0; x < im.getWidth(); x++) {
+		        int rgb = (int)im.R[y][x];
+		        rgb = (rgb << 8) + (int)im.G[y][x];
+		        rgb = (rgb << 8) + (int)im.B[y][x];
+		        image.setRGB(x, y, rgb);
+		     }
+		  }
+		  
+		  String fileName="output";
+		  String fileExt=".jpg";
+		  long t=System.currentTimeMillis();
+		  if (preserveImageFile) {
+			fileName+=t;
+		  }
+		  fileName+=fileExt;
+
+		  File outputFile = new File("/Users/Manuel/Documents/Tesis/output/"+fileName);
+		  ImageIO.write(image, "jpg", outputFile);
+		  Utils.getInstance().showImage("/Users/Manuel/Documents/Tesis/output/"+fileName);
+	}
 	
-	public ImageMatrix parseToImageMatrix(ColorProcessor cp){
+	
+	public ImageMatrix parseToImageMatrix(ColorProcessor cp) throws Exception{
 		ByteProcessor[] channel;
 		//cp=cp.convertToRGB();
         channel = new ByteProcessor[cp.getNChannels()];
@@ -162,9 +186,9 @@ public class Utils {
 
 			  for (int y = 0; y < out.getHeight(); y++) {
 			     for (int x = 0; x < out.getWidth(); x++) {
-			        int rgb = out.R[y][x];
-			        rgb = (rgb << 8) + out.G[y][x];
-			        rgb = (rgb << 8) + out.B[y][x];
+			        int rgb = (int)out.R[y][x];
+			        rgb = (rgb << 8) + (int)out.G[y][x];
+			        rgb = (rgb << 8) + (int)out.B[y][x];
 			        image.setRGB(x, y, rgb);
 			     }
 			  }
@@ -191,7 +215,7 @@ public class Utils {
 		
 	}
 	
-	public ImageMatrix minus(ImageMatrix A, ImageMatrix B){
+	public ImageMatrix minus(ImageMatrix A, ImageMatrix B) throws Exception{
 		Pixel [][] out=new Pixel[A.getHeight()][A.getWidth()];
 		
 		for (int i = 0; i < out.length; i++) {
@@ -202,5 +226,17 @@ public class Utils {
 		return new ImageMatrix(out, A.getHeight(), A.getWidth());
 	}
 	
+	
+	public double[][] toArray(List<Pixel> pixels){
+		double[][] data= new double[pixels.size()][3];
+		//System.out.println("---------------");
+		for (int i = 0; i < data.length; i++) {
+			data[i]=pixels.get(i).toVector();
+			
+			//System.out.println(Arrays.toString(data[i]));
+		}
+		return data;
+
+	}
 	
 }

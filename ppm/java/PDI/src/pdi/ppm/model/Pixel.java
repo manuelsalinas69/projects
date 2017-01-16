@@ -1,5 +1,7 @@
 package pdi.ppm.model;
 
+import pdi.ppm.conf.PPMConstanst;
+
 public class Pixel {
 
 	public int R;
@@ -52,9 +54,9 @@ public class Pixel {
 	}
 	
 	public Pixel minus(Pixel other){
-		int R=this.R-other.R;
-		int G=this.G-other.G;
-		int B=this.B-other.B;
+		int R=(this.R+PPMConstanst.FACTOR_REALCE)-(other.R-PPMConstanst.FACTOR_REALCE);
+		int G=(this.G+PPMConstanst.FACTOR_REALCE)-(other.G-PPMConstanst.FACTOR_REALCE);
+		int B=(this.B+PPMConstanst.FACTOR_REALCE)-(other.B-PPMConstanst.FACTOR_REALCE);
 		
 		return new Pixel(R, G, B);
 	}
