@@ -86,7 +86,7 @@ public class SurveyServices{
 		if (isOptionRequest()) {
 			return getACKResponse();
 		}
-
+		ResponseDto r=null;
 		List<ModuloDto> l = new ArrayList<ModuloDto>();
 		try {
 			List<Modulo> modulos = appServices
@@ -94,12 +94,19 @@ public class SurveyServices{
 			for (Modulo _m : modulos) {
 				l.add(new ModuloDto(_m.getIdModulo(), _m.getNombre(), appServices.getCantidadPreguntasModulo(_m.getIdModulo())));
 			}
-
+			
+			ProyectoDto pDto=appServices.getProjectInfo(idProyecto);
+			
+			Properties p= new Properties();
+			p.put("modulos", l);
+			p.put("proyecto", pDto);
+			 r= new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);
+			 return getEntityResponse(r);
 		} catch (Exception e) {
 			System.out.println("Services.process(): " + e);
 			e.printStackTrace();
 		}
-		return getEntityResponse(l);
+		return getEntityResponse(new ResponseDto(ServiceStatus.UNKNOM_ERROR.getCode(), ServiceStatus.UNKNOM_ERROR.getDescripcion(), null));
 	}
 
 	@GET()
@@ -132,8 +139,12 @@ public class SurveyServices{
 			return getACKResponse();
 		}
 		List<Properties> l= appServices.getEjecuciones(idModulo, idSuscriptor);
+		ModuloDto modulo=appServices.getModuloInfo(idModulo);
+		ProyectoDto proyectoDto=appServices.getProjectInfoByModule(idModulo);
 		Properties p= new Properties();
 		p.put("ejecuciones", l);
+		p.put("modulo", modulo);
+		p.put("proyecto", proyectoDto);
 		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);
 
 		return getEntityResponse(r);
@@ -151,6 +162,7 @@ public class SurveyServices{
 			return getACKResponse();
 		}
 		Properties formDto= appServices.status(idEjecucion, idDetalle);
+		formDto.put("idEjecuccion", idEjecucion);
 		Properties p= new Properties();
 		p.put("formulario", formDto);
 		ResponseDto r = new ResponseDto(ServiceStatus.OK.getCode(), ServiceStatus.OK.getDescripcion(), p);

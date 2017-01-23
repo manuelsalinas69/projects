@@ -14,6 +14,8 @@ import py.com.global.educador.engine.app.managers.CredentialsAppManager;
 import py.com.global.educador.engine.app.managers.EjecucionAppManager;
 import py.com.global.educador.engine.app.managers.SubscriptionAppManager;
 import py.com.global.educador.engine.dto.CredentialsDto;
+import py.com.global.educador.engine.dto.ModuloDto;
+import py.com.global.educador.engine.dto.ProyectoDto;
 import py.com.global.educador.engine.enums.EstadoRegistro;
 import py.com.global.educador.jpa.entity.Modulo;
 import py.com.global.educador.jpa.entity.Proyecto;
@@ -144,6 +146,32 @@ public class AppServices {
 
 	public Properties subscribe(Long idSuscriptor,Long idProyecto){
 		return subscriptionAppManager.subscribe(idSuscriptor, idProyecto);
+	}
+	
+	public ModuloDto getModuloInfo(Long moduloId){
+		if (moduloId==null) {
+			return null;
+		}
+		Modulo _m=entityManager.find(Modulo.class, moduloId);
+		return new ModuloDto(_m.getIdModulo(), _m.getNombre(), null);
+	}
+	
+	public ProyectoDto getProjectInfo(Long projectId){
+		if (projectId==null) {
+			return null;
+		}
+		Proyecto _p=entityManager.find(Proyecto.class, projectId);
+		return new ProyectoDto(_p.getIdProyecto(),_p.getNombre(),_p.getDescripcion());
+	}
+	
+	public ProyectoDto getProjectInfoByModule(Long moduleId){
+		if (moduleId==null) {
+			return null;
+		}
+		Modulo m=entityManager.find(Modulo.class, moduleId);
+		
+		Proyecto _p=entityManager.find(Proyecto.class, m.getProyecto().getIdProyecto());
+		return new ProyectoDto(_p.getIdProyecto(),_p.getNombre(),_p.getDescripcion());
 	}
 }
 

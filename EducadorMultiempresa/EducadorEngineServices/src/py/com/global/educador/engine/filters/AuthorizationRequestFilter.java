@@ -39,7 +39,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter{
 	            return;
 	        }
 	        
-	        log.debug("RequestPath-->"+ requestCtx.getUriInfo().getPath());
+	        log.info("RequestPath-->"+ requestCtx.getUriInfo().getPath());
 	       
 	        if (AppPath.loginRootTree.equalsIgnoreCase(requestCtx.getUriInfo().getPath())) {
 				log.debug("Pass to login method");
@@ -47,6 +47,7 @@ public class AuthorizationRequestFilter implements ContainerRequestFilter{
 			}
 	        
 	        if (requestCtx.getHeaders().get("sessionId")==null) {
+	        	log.error("[sessionId] no esta presente en la cabecera");
 	        	requestCtx.abortWith(Response
 	                      .status(Response.Status.UNAUTHORIZED)
 	                      .entity("User cannot access the resource.")

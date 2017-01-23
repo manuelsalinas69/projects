@@ -29,8 +29,8 @@ public class VolumenFeatureTest2 {
 		px.add(new Pixel(0,0,0));
 		px.add(new Pixel(255, 255, 255));
 		px.add(new Pixel(100, 100, 100));
-		
-		File f= new File("/Users/Manuel/Documents/Tesis/tiger.jpg");
+		File f= new File("/Users/Manuel/Documents/Tesis/input/134008.jpg");
+		//File f= new File("/Users/Manuel/Documents/Tesis/tiger.jpg");
 //		File f= new File("/Users/Manuel/Documents/Tesis/tiger_var1.jpg");
 //		File f= new File("/Users/Manuel/Documents/Tesis/tiger_var2.jpg");
 
@@ -41,7 +41,7 @@ public class VolumenFeatureTest2 {
 		PPMConstanst.referenceVectors=l;
 	
 		SlideWindowMap swm=VolumeFeatureV2.generateSlideWindowMap(m, 32, 32);
-		FeatureMatrix fMatrix=VolumeFeatureV2.buildFeatureVector(m, swm, 5, 11, "square");
+		//FeatureMatrix fMatrix=VolumeFeatureV2.buildFeatureVector(m, swm, 5, 11, "square");
 		long t2=System.currentTimeMillis();
 		
 		
@@ -59,11 +59,11 @@ public class VolumenFeatureTest2 {
 //				break;
 //			}
 //		}
-		ImageMatrix kmeansOut=KmeansProccess.proccess(fMatrix, 2);
+//		ImageMatrix kmeansOut=KmeansProccess.proccess(fMatrix, 2);
 //		ImageMatrix sub1=m.subMatrix(0, 30, 0, 120);
 //		ImageMatrix sub=m.subMatrix(0, 30, 0, 146);
 //		Utils.getInstance().showImage(sub);
-		Utils.getInstance().showImage(kmeansOut);
+	//	Utils.getInstance().showImage(kmeansOut);
 		
 
 		

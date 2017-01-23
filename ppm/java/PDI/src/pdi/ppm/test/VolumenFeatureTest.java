@@ -29,8 +29,9 @@ public class VolumenFeatureTest {
 		px.add(new Pixel(255, 255, 255));
 		px.add(new Pixel(100, 100, 100));
 		
-		File f= new File("/Users/Manuel/Documents/Tesis/tiger.jpg");
-//		File f= new File("/Users/Manuel/Documents/Tesis/tiger_var1.jpg");
+//		File f= new File("/Users/Manuel/Documents/Tesis/tiger.jpg");
+//		File f= new File("/Users/Manuel/Documents/Tesis/input/persona.jpg");
+		File f= new File("/Users/Manuel/Documents/Tesis/input/134008.jpg");
 //		File f= new File("/Users/Manuel/Documents/Tesis/tiger_var2.jpg");
 
 		ColorProcessor cp=new ColorProcessor(ImageIO.read(f));

@@ -24,9 +24,15 @@ app.factory('sessionManager', [ '$rootScope','$cookies','$http','$location',
         getSessionData: function(key){
           return $cookies.get(key);                         
         },
-        getSessionId(){
+        getSessionId: function(){
             return this.getSessionData("sessionId");                           
-        },                           
+        }, 
+         isSessionId: function(){
+           if(this.getSessionId()){
+               return true;
+           }
+           return false;
+        },  
 
         clearExpiredSessionData: function(){
             this.removeSessionData();
@@ -40,20 +46,45 @@ app.factory('sessionManager', [ '$rootScope','$cookies','$http','$location',
             $cookies.put('sessionId',data.responseBody.sessionId);
             $cookies.put('username',data.responseBody.userName);
             $rootScope.userName=data.responseBody.userName;
+            $rootScope.empresa=data.responseBody.nombreEmpresa;
         },
         remoteSessiondata: function(){
-            $cookies.removeAll();
+            
+            $cookies.remove('idEmpresa');
+            $cookies.remove('nombreEmpresa');
+            $cookies.remove('idSuscriptor');
+            $cookies.remove('sessionId');
+            $cookies.remove('username');
             
         },
         logout: function(){
-             return $http.get(logoutUrl+"?sid="+sessionId,
+             return $http.get(logoutUrl+"?sid="+this.getSessionId(),
                         {
-                             headers : {'sessionId':sessionId} 
+                             headers : {'sessionId':this.getSessionId()} 
                         })
             
                 .then(function(result) {
                    return result.data;
                 }); 
+        },
+        
+        login: function(username,password){
+             return  $http.post(loginUrl,"user="+encodeURIComponent(username)+"&pass="+encodeURIComponent(password),
+                        {
+                         headers : {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Access-Control-Allow-Origin': '*'} 
+                        }
+                    )
+                 .then(
+                    function successCallback(response) {
+                       return response;
+                                                 
+                     }, function errorCallback(response) {
+                         // Well-handled error (details are logged)
+                         $exceptionHandler('An error has occurred.\nHTTP error: ' + response.status + '(' + response.statusText + ')');
+                         alert('Ocurrio un error inesperado. No se puede conectar con el servidor');
+                        return response;
+                     }
+                );
         }
   };
 }]);
