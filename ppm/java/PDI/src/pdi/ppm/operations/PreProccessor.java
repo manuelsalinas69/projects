@@ -73,8 +73,8 @@ public class PreProccessor {
 		int skipRows=0;
 		if (isUmbralMinor(pivData)) 
 		{
-			//skipRows=Math.max(1, slideWindow.getHeight());
-			skipRows=0;
+			skipRows=Math.max(1, slideWindow.getHeight());
+			//skipRows=0;
 			skipCols=Math.max(1, slideWindow.getWidth());
 			//System.out.println("Grupo de pixels similares encontrado i0:"+i+", i1:"+rangeF+" - j0:"+j+", j1:"+rangeC);
 			//Utils.getInstance().showImage(piv);

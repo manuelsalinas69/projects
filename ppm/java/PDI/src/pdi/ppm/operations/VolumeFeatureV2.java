@@ -69,6 +69,7 @@ public class VolumeFeatureV2 {
 		int[] yVector=new int[h*w];
 		int[] xSlideWindow= new int[h*w];
 		int[] ySlideWindow= new int[h*w];
+		int[] yFlagVector=new int[w];
 		int vectorPos=0;
 		int rangeF=0;
 		int rangeC=0;
@@ -77,18 +78,28 @@ public class VolumeFeatureV2 {
 			xVector[k]=-1;
 			yVector[k]=-1;
 		}
-		xVector[0]=0;
-		yVector[0]=0;
-		xSlideWindow[0]=winW;
-		ySlideWindow[0]=winH;
-		vectorPos++;
+//		xVector[0]=0;
+//		yVector[0]=0;
+//		xSlideWindow[0]=winW;
+//		ySlideWindow[0]=winH;
+//		vectorPos++;
+		
 		while (i<h) {
-			xVector[vectorPos]=0;
-			yVector[vectorPos]=i;
-			xSlideWindow[vectorPos]=winW;
-			ySlideWindow[vectorPos]=winH;
-			vectorPos++;
+//			xVector[vectorPos]=0;
+//			yVector[vectorPos]=i;
+//			xSlideWindow[vectorPos]=winW;
+//			ySlideWindow[vectorPos]=winH;
+//			vectorPos++;
 			while (j<w) {
+				
+				if ((yFlagVector[j]-i)>5) {//rango de solapamiento
+					//System.out.println("yFlagVector[j]: "+yFlagVector[j]+",i:"+i);
+					j++;
+					continue;
+				}
+				
+				xVector[vectorPos]=j;
+				yVector[vectorPos]=i;
 				
 
 				rangeF=Math.min((h-1),i+winH-1);
@@ -97,13 +108,17 @@ public class VolumeFeatureV2 {
 				PreProccessor p= new PreProccessor();
 				PreProccesorResult ppr=p.preProccess(im, i, rangeF, j, rangeC);
 				
-				xVector[vectorPos]=Math.min((w-1),j+ppr.getSkipCols());
-				yVector[vectorPos]=i;//ppr.getSkipRows();
+//				xVector[vectorPos]=Math.min((w-1),j+ppr.getSkipCols());
+//				yVector[vectorPos]=i;//ppr.getSkipRows();
+				for (int k = j; k < j+ppr.getSkipCols(); k++) {
+					yFlagVector[k]=i+ppr.getSkipRows();
+				}
 				xSlideWindow[vectorPos]=ppr.getOptimal().getWidth();
 				ySlideWindow[vectorPos]=ppr.getOptimal().getHeight();
-				vectorPos++;
+//				vectorPos++;
 				
 				j+=ppr.getSkipCols();
+				vectorPos++;
 			}
 			j=0;
 			i++;
