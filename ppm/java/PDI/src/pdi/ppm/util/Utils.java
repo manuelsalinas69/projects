@@ -79,6 +79,35 @@ public class Utils {
 		  Utils.getInstance().showImage("/Users/Manuel/Documents/Tesis/output/"+fileName);
 	}
 	
+	public File saveImage(ImageMatrix im, String outputDir){
+		try {
+			BufferedImage image = new BufferedImage(im.getWidth(), im.getHeight(), BufferedImage.TYPE_INT_RGB); 
+
+			  for (int y = 0; y < im.getHeight(); y++) {
+			     for (int x = 0; x < im.getWidth(); x++) {
+			        int rgb = (int)im.R[y][x];
+			        rgb = (rgb << 8) + (int)im.G[y][x];
+			        rgb = (rgb << 8) + (int)im.B[y][x];
+			        image.setRGB(x, y, rgb);
+			     }
+			  }
+			  
+			  String fileName="output";
+			  String fileExt=".jpg";
+			  long t=System.currentTimeMillis();
+			  fileName+=t;
+			  fileName+=fileExt;
+
+			  File outputFile = new File(outputDir+"/"+fileName);
+			  ImageIO.write(image, "jpg", outputFile);
+			  return outputFile;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 	public ImageMatrix parseToImageMatrix(ColorProcessor cp) throws Exception{
 		ByteProcessor[] channel;

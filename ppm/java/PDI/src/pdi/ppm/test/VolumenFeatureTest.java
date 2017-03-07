@@ -24,10 +24,7 @@ public class VolumenFeatureTest {
 	
 	public static void main(String[] args) throws Exception {
 		
-		List<Pixel> px= new ArrayList<Pixel>();
-		px.add(new Pixel(0,0,0));
-		px.add(new Pixel(255, 255, 255));
-		px.add(new Pixel(100, 100, 100));
+		
 		
 //		File f= new File("/Users/Manuel/Documents/Tesis/tiger.jpg");
 //		File f= new File("/Users/Manuel/Documents/Tesis/input/persona.jpg");

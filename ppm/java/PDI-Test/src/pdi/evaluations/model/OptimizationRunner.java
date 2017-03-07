@@ -1,0 +1,62 @@
+package pdi.evaluations.model;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.imageio.ImageIO;
+
+import ij.process.ColorProcessor;
+import pdi.ppm.conf.PPMConstanst;
+import pdi.ppm.model.FeatureMatrix;
+import pdi.ppm.model.ImageMatrix;
+import pdi.ppm.model.ReferenceVector;
+import pdi.ppm.model.SlideWindowMap;
+import pdi.ppm.operations.KmeansProccess;
+import pdi.ppm.operations.ReferencesFactory;
+import pdi.ppm.operations.VolumeFeatureV2;
+import pdi.ppm.util.Utils;
+
+public class OptimizationRunner extends ClassicRunner{
+
+	@Override
+	public void setParams(HashMap<String, Object> params) {
+		super.setParams(params);
+		
+	}
+
+	@Override
+	public void execute() {
+		File f= new File(inputFile);
+		try {
+			ColorProcessor cp=new ColorProcessor(ImageIO.read(f));
+			long t1=System.currentTimeMillis();
+			ImageMatrix m= Utils.getInstance().parseToImageMatrix(cp);
+			List<ReferenceVector> l= ReferencesFactory.getReferences(m);
+			PPMConstanst.referenceVectors=l;
+
+			SlideWindowMap swm=VolumeFeatureV2.generateSlideWindowMap(m, winH, winW);
+			long t2=System.currentTimeMillis();
+			System.out.println("Elapsed Time [SlideWindowMap]: "+(t2-t1)+"ms.");
+			
+			FeatureMatrix fMatrix=VolumeFeatureV2.buildFeatureVector(m, swm, strelMin, strelMax, strelShape);
+			long t3=System.currentTimeMillis();
+			
+			
+			System.out.println("Elapsed Time [FeatureMatrix]: "+(t3-t2)+"ms.");
+			
+			System.out.println("Elapsed Time [ALL]: "+(t3-t1)+"ms.");
+
+			ImageMatrix kmeansOut=KmeansProccess.proccess(fMatrix, 2);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}
