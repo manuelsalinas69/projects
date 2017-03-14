@@ -53,6 +53,23 @@ public class Utils {
 		frame.setVisible(true);
 	}
 	
+	public void showImage(BufferedImage im){
+
+		JFrame frame = new JFrame();
+
+		JLabel lblimage = new JLabel(new ImageIcon(im));
+		frame.getContentPane().add(lblimage, BorderLayout.CENTER);
+		frame.setSize(im.getWidth(lblimage), im.getHeight(lblimage));
+		frame.setVisible(true);
+		
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		mainPanel.add(lblimage);
+		// add more components here
+		frame.add(mainPanel);
+		frame.setVisible(true);
+		
+	}
+	
 	public void showImage(ImageMatrix im) throws IOException{
 
 		BufferedImage image = new BufferedImage(im.getWidth(), im.getHeight(), BufferedImage.TYPE_INT_RGB); 

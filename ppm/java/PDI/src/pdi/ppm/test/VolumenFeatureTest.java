@@ -15,7 +15,7 @@ import pdi.ppm.model.ReferenceVector;
 import pdi.ppm.operations.KmeansProccess;
 import pdi.ppm.operations.ReferencesFactory;
 import pdi.ppm.operations.VolumeFeature;
-import pdi.ppm.operations.VolumeFeatureV2;
+import pdi.ppm.operations.VolumeFeature2D;
 import pdi.ppm.util.Utils;
 
 public class VolumenFeatureTest {

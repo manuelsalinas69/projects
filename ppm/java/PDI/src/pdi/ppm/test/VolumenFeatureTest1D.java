@@ -15,11 +15,11 @@ import pdi.ppm.model.ReferenceVector;
 import pdi.ppm.model.SlideWindowMap;
 import pdi.ppm.operations.KmeansProccess;
 import pdi.ppm.operations.ReferencesFactory;
-import pdi.ppm.operations.VolumeFeature;
-import pdi.ppm.operations.VolumeFeatureV2;
+import pdi.ppm.operations.VolumeFeature1D;
+import pdi.ppm.operations.VolumeFeature2D;
 import pdi.ppm.util.Utils;
 
-public class VolumenFeatureTest2 {
+public class VolumenFeatureTest1D {
 
 	
 	
@@ -40,11 +40,11 @@ public class VolumenFeatureTest2 {
 		List<ReferenceVector> l= ReferencesFactory.getReferences(m);
 		PPMConstanst.referenceVectors=l;
 	
-		SlideWindowMap swm=VolumeFeatureV2.generateSlideWindowMap(m, 20, 20);
+		SlideWindowMap swm=VolumeFeature2D.generateSlideWindowMap(m, 20, 20);
 		long t2=System.currentTimeMillis();
 		System.out.println("Elapsed Time [SlideWindowMap]: "+(t2-t1)+"ms.");
 		
-		FeatureMatrix fMatrix=VolumeFeatureV2.buildFeatureVector(m, swm, 5, 11, "square");
+		FeatureMatrix fMatrix=VolumeFeature1D.buildFeatureVector(m, swm, 5, 11, "square");
 		long t3=System.currentTimeMillis();
 		
 		

@@ -9,7 +9,7 @@ import pdi.ppm.model.StructuringElement;
 import pdi.ppm.util.StructuringElementFactory;
 import pdi.ppm.util.Utils;
 
-public class VolumeFeatureV2 {
+public class VolumeFeature2D {
 	
 	public static long getVolumeFeature(ImageMatrix m, StructuringElement se) throws Exception{
 		BaseOperation e=new PseudoErode();
