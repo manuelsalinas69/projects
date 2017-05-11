@@ -126,6 +126,22 @@ public class Utils {
 		return null;
 	}
 	
+	public File saveImage(BufferedImage image, String outputDir, String fileName){
+		try {
+			
+
+			 
+			  File outputFile = new File(outputDir+"/"+fileName);
+			  ImageIO.write(image, "jpg", outputFile);
+			  return outputFile;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public ImageMatrix parseToImageMatrix(ColorProcessor cp) throws Exception{
 		ByteProcessor[] channel;
 		//cp=cp.convertToRGB();
