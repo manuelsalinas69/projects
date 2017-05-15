@@ -52,7 +52,7 @@ public class GenerationalGeneticAlgorithmRunner {
   public static void main(String[] args) throws Exception {
    
 	ImageDataLoader idl= new ImageDataLoader();
-	idl.loadBaseImage("/Users/Manuel/Documents/Tesis/input/b.jpg",true);
+	idl.loadBaseImage("/Users/Manuel/Documents/Tesis/input/c.png",true);
 	  
 	Algorithm<IntegerSolution> algorithm;
     IntegerProblem problem = new FiltroProblema(3,1) ;
@@ -63,7 +63,7 @@ public class GenerationalGeneticAlgorithmRunner {
 
     algorithm = new GeneticAlgorithmBuilder<IntegerSolution>(problem, crossoverOperator, mutationOperator)
             .setPopulationSize(200)
-            .setMaxEvaluations(1000)
+            .setMaxEvaluations(2000)
             .setSelectionOperator(selectionOperator)
             .build() ;
 

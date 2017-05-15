@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2017-05-10T22:08:13</date>
-  <millis>1494468493005</millis>
+  <date>2017-05-14T12:42:28</date>
+  <millis>1494780148325</millis>
   <sequence>0</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -13,19 +13,19 @@
   <message>Loggers configured with null</message>
 </record>
 <record>
-  <date>2017-05-10T22:08:13</date>
-  <millis>1494468493041</millis>
+  <date>2017-05-14T12:42:28</date>
+  <millis>1494780148352</millis>
   <sequence>1</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
   <class>una.pdi.AWFGA.main.GenerationalGeneticAlgorithmRunner</class>
   <method>main</method>
   <thread>1</thread>
-  <message>Total execution time: 625021ms</message>
+  <message>Total execution time: 801458ms</message>
 </record>
 <record>
-  <date>2017-05-10T22:08:13</date>
-  <millis>1494468493042</millis>
+  <date>2017-05-14T12:42:28</date>
+  <millis>1494780148352</millis>
   <sequence>2</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -35,8 +35,8 @@
   <message>Objectives values have been written to file FUN.tsv</message>
 </record>
 <record>
-  <date>2017-05-10T22:08:13</date>
-  <millis>1494468493043</millis>
+  <date>2017-05-14T12:42:28</date>
+  <millis>1494780148353</millis>
   <sequence>3</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
