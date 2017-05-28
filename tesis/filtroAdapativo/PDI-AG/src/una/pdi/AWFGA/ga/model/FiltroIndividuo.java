@@ -1,4 +1,4 @@
-package una.pdi.AWFGA.model;
+package una.pdi.AWFGA.ga.model;
 
 import org.uma.jmetal.problem.IntegerProblem;
 import org.uma.jmetal.solution.impl.DefaultIntegerSolution;

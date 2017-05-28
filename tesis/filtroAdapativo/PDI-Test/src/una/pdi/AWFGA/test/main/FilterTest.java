@@ -1,4 +1,4 @@
-package una.pdi.AWFGA.main;
+package una.pdi.AWFGA.test.main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -12,7 +12,7 @@ import ij.ImagePlus;
 import ij.process.ImageProcessor;
 import pdi.image.model.BaseFilter;
 import pdi.image.model.WeigthedFilter;
-import una.pdi.AWFGA.utils.TestUtils;
+import una.pdi.AWFGA.test.utils.TestUtils;
 
 public class FilterTest {
 

@@ -1,4 +1,4 @@
-package una.pdi.AWFGA.utils;
+package una.pdi.AWFGA.test.utils;
 
 import java.util.Arrays;
 

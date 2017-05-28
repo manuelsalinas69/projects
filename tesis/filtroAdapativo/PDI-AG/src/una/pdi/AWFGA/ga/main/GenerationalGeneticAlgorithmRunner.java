@@ -11,7 +11,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package una.pdi.AWFGA.main;
+package una.pdi.AWFGA.ga.main;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ import org.uma.jmetal.util.fileoutput.SolutionListOutput;
 import org.uma.jmetal.util.fileoutput.impl.DefaultFileOutputContext;
 
 import pdi.image.util.ImageDataLoader;
-import una.pdi.AWFGA.model.FiltroProblema;
+import una.pdi.AWFGA.ga.model.FiltroProblema;
 
 /**
  * Class to configure and run a generational genetic algorithm. The target problem is OneMax.

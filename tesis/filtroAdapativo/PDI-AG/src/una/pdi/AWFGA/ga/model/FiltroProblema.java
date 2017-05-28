@@ -1,4 +1,4 @@
-package una.pdi.AWFGA.model;
+package una.pdi.AWFGA.ga.model;
 
 import java.util.ArrayList;
 

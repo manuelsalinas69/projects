@@ -1,11 +1,11 @@
-package una.pdi.AWFGA.main;
+package una.pdi.AWFGA.test.main;
 
 import java.io.FileInputStream;
 import java.util.Properties;
 
 import pdi.image.util.DataProvider;
 import pdi.image.util.ImageDataLoader;
-import una.pdi.AWFGA.main.GenerationalGeneticAlgorithmRunner;
+import una.pdi.AWFGA.ga.main.GenerationalGeneticAlgorithmRunner;
 
 public class Main {
 
