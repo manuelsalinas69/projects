@@ -31,10 +31,12 @@ public class FilterTest {
 		//3 5 8 8 6 7 3 2 5
 		//2 2 8 4 1 3 1 4 1 
 		//2 7 5 7 7 9 4 2 9 
+		//9 1 7 5 4 1 5 8 6 
+		//8 5 9 9 2 10 2 7 4
 		String filerText=new String(Files.readAllBytes(Paths.get("VAR.tsv")));
 		System.out.println("OutPutFilter: "+filerText);
 //		int[][] filter={{2, 7, 5},{ 7, 7, 9},{ 4, 2, 9} };
-		int[][] filter=TestUtils.parseToArray(filerText, 3, 3,true);
+		int[][] filter=TestUtils.parseToArray("8 5 9 9 2 10 2 7 4", 3, 3,true);
 		BaseFilter mf=new WeigthedFilter(filter);
 //		BaseFilter mf=new MedianFilter();
 

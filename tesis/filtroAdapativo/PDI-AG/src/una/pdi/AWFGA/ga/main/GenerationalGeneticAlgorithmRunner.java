@@ -88,7 +88,7 @@ public class GenerationalGeneticAlgorithmRunner {
 
 	public static void run(Properties p){
 		int populationSize=Integer.parseInt(p.getProperty("ALGORITM_GA_POPULATION"));
-		int iteraciones=Integer.parseInt(p.getProperty("ALGORITM_GA_ITERATIONS"));
+		int iteraciones=Integer.parseInt(p.getProperty("ALGORITM_GA_ITERATIONS_START"));
 
 		
 		Algorithm<IntegerSolution> algorithm;
