@@ -10,10 +10,9 @@ public class ImageDataLoader {
 		if (addNoise) {
 			img.getProcessor().noise(10);
 		}
+		
 		DataProvider.getInstance().setBaseImage(img);
-		DataProvider.getInstance().setParam(DataProvider.DataParams.FILTER_COLUMN_SIZE, 3);
-		DataProvider.getInstance().setParam(DataProvider.DataParams.MAE_FITNESS_PERCENT, 0.6);
-		DataProvider.getInstance().setParam(DataProvider.DataParams.NOISE_DENSITY_FITNESS_PERCENT, 0.4);
+		
 	}
 
 }

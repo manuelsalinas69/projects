@@ -1,7 +1,9 @@
 package pdi.image.util;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import ij.ImagePlus;
 
@@ -59,6 +61,12 @@ public class DataProvider {
 		public static String NOISE_DENSITY_FITNESS_PERCENT="NOISE_DENSITY_FITNESS_PERCENT";
 		public static String MAE_FITNESS_PERCENT="MAE_FITNESS_PERCENT";
 		public static String FILTER_COLUMN_SIZE="FILTER_COLUMN_SIZE";
+	}
+	
+	public void print(){
+		for (Entry<String, Object> _p : params.entrySet()) {
+			System.out.println(_p.getKey()+": "+_p.getValue());
+		}
 	}
 	
 	

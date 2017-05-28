@@ -13,20 +13,19 @@
 
 package una.pdi.AWFGA.main;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 import org.uma.jmetal.algorithm.Algorithm;
 import org.uma.jmetal.algorithm.singleobjective.geneticalgorithm.GeneticAlgorithmBuilder;
 import org.uma.jmetal.operator.CrossoverOperator;
 import org.uma.jmetal.operator.MutationOperator;
 import org.uma.jmetal.operator.SelectionOperator;
 import org.uma.jmetal.operator.impl.crossover.IntegerSBXCrossover;
-import org.uma.jmetal.operator.impl.crossover.SinglePointCrossover;
-import org.uma.jmetal.operator.impl.mutation.BitFlipMutation;
 import org.uma.jmetal.operator.impl.mutation.IntegerPolynomialMutation;
 import org.uma.jmetal.operator.impl.selection.BinaryTournamentSelection;
-import org.uma.jmetal.problem.BinaryProblem;
 import org.uma.jmetal.problem.IntegerProblem;
-import org.uma.jmetal.problem.singleobjective.OneMax;
-import org.uma.jmetal.solution.BinarySolution;
 import org.uma.jmetal.solution.IntegerSolution;
 import org.uma.jmetal.util.AlgorithmRunner;
 import org.uma.jmetal.util.JMetalLogger;
@@ -34,11 +33,7 @@ import org.uma.jmetal.util.fileoutput.SolutionListOutput;
 import org.uma.jmetal.util.fileoutput.impl.DefaultFileOutputContext;
 
 import pdi.image.util.ImageDataLoader;
-import una.pdi.AWFGA.model.FiltroIndividuo;
 import una.pdi.AWFGA.model.FiltroProblema;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class to configure and run a generational genetic algorithm. The target problem is OneMax.
@@ -46,45 +41,86 @@ import java.util.List;
  * @author Antonio J. Nebro <antonio@lcc.uma.es>
  */
 public class GenerationalGeneticAlgorithmRunner {
-  /**
-   * Usage: java org.uma.jmetal.runner.singleobjective.GenerationalGeneticAlgorithmRunner
-   */
-  public static void main(String[] args) throws Exception {
-   
-	ImageDataLoader idl= new ImageDataLoader();
-	idl.loadBaseImage("/Users/Manuel/Documents/Tesis/input/c.png",true);
-	  
-	Algorithm<IntegerSolution> algorithm;
-    IntegerProblem problem = new FiltroProblema(3,1) ;
+	/**
+	 * Usage: java org.uma.jmetal.runner.singleobjective.GenerationalGeneticAlgorithmRunner
+	 */
+	public static void main(String[] args) throws Exception {
 
-    CrossoverOperator<IntegerSolution> crossoverOperator = new IntegerSBXCrossover(0.9,1) ;
-    MutationOperator<IntegerSolution> mutationOperator = new IntegerPolynomialMutation() ;
-    SelectionOperator<List<IntegerSolution>, IntegerSolution> selectionOperator = new BinaryTournamentSelection<IntegerSolution>();
+		ImageDataLoader idl= new ImageDataLoader();
+		idl.loadBaseImage("/Users/Manuel/Documents/Tesis/input/test.jpg",true);
 
-    algorithm = new GeneticAlgorithmBuilder<IntegerSolution>(problem, crossoverOperator, mutationOperator)
-            .setPopulationSize(200)
-            .setMaxEvaluations(2000)
-            .setSelectionOperator(selectionOperator)
-            .build() ;
+		int populationSize=200;
+		int iteraciones=10;
 
-    AlgorithmRunner algorithmRunner = new AlgorithmRunner.Executor(algorithm)
-            .execute() ;
+		Algorithm<IntegerSolution> algorithm;
+		IntegerProblem problem = new FiltroProblema(3,1) ;
 
-    IntegerSolution solution = algorithm.getResult() ;
-    List<IntegerSolution> population = new ArrayList<>(1) ;
-    population.add(solution) ;
+		CrossoverOperator<IntegerSolution> crossoverOperator = new IntegerSBXCrossover(0.9,1) ;
+		MutationOperator<IntegerSolution> mutationOperator = new IntegerPolynomialMutation() ;
+		SelectionOperator<List<IntegerSolution>, IntegerSolution> selectionOperator = new BinaryTournamentSelection<IntegerSolution>();
 
-    long computingTime = algorithmRunner.getComputingTime() ;
+		algorithm = new GeneticAlgorithmBuilder<IntegerSolution>(problem, crossoverOperator, mutationOperator)
+				.setPopulationSize(populationSize)
+				.setMaxEvaluations(iteraciones*populationSize)
+				.setSelectionOperator(selectionOperator)
+				.build() ;
 
-    new SolutionListOutput(population)
-            .setSeparator("\t")
-            .setVarFileOutputContext(new DefaultFileOutputContext("VAR.tsv"))
-            .setFunFileOutputContext(new DefaultFileOutputContext("FUN.tsv"))
-            .print();
+		AlgorithmRunner algorithmRunner = new AlgorithmRunner.Executor(algorithm)
+				.execute() ;
 
-    JMetalLogger.logger.info("Total execution time: " + computingTime + "ms");
-    JMetalLogger.logger.info("Objectives values have been written to file FUN.tsv");
-    JMetalLogger.logger.info("Variables values have been written to file VAR.tsv");
+		IntegerSolution solution = algorithm.getResult() ;
+		List<IntegerSolution> population = new ArrayList<>(1) ;
+		population.add(solution) ;
 
-  }
+		long computingTime = algorithmRunner.getComputingTime() ;
+
+		new SolutionListOutput(population)
+		.setSeparator("\t")
+		.setVarFileOutputContext(new DefaultFileOutputContext("VAR.tsv"))
+		.setFunFileOutputContext(new DefaultFileOutputContext("FUN.tsv"))
+		.print();
+
+		JMetalLogger.logger.info("Total execution time: " + computingTime + "ms");
+		JMetalLogger.logger.info("Objectives values have been written to file FUN.tsv");
+		JMetalLogger.logger.info("Variables values have been written to file VAR.tsv");
+
+	}
+
+	public static void run(Properties p){
+		int populationSize=Integer.parseInt(p.getProperty("ALGORITM_GA_POPULATION"));
+		int iteraciones=Integer.parseInt(p.getProperty("ALGORITM_GA_ITERATIONS"));
+
+		
+		Algorithm<IntegerSolution> algorithm;
+		IntegerProblem problem = new FiltroProblema(Integer.parseInt(p.getProperty("FILTER_COLUMN_SIZE", "3"))
+				,Integer.parseInt(p.getProperty("ALGORITM_GA_OBJETIVES"))) ;
+		CrossoverOperator<IntegerSolution> crossoverOperator = new IntegerSBXCrossover(0.9,1) ;
+		MutationOperator<IntegerSolution> mutationOperator = new IntegerPolynomialMutation() ;
+		SelectionOperator<List<IntegerSolution>, IntegerSolution> selectionOperator = new BinaryTournamentSelection<IntegerSolution>();
+
+		algorithm = new GeneticAlgorithmBuilder<IntegerSolution>(problem, crossoverOperator, mutationOperator)
+				.setPopulationSize(populationSize)
+				.setMaxEvaluations(iteraciones*populationSize)
+				.setSelectionOperator(selectionOperator)
+				.build() ;
+
+		AlgorithmRunner algorithmRunner = new AlgorithmRunner.Executor(algorithm)
+				.execute() ;
+
+		IntegerSolution solution = algorithm.getResult() ;
+		List<IntegerSolution> population = new ArrayList<>(1) ;
+		population.add(solution) ;
+
+		long computingTime = algorithmRunner.getComputingTime() ;
+
+		new SolutionListOutput(population)
+		.setSeparator("\t")
+		.setVarFileOutputContext(new DefaultFileOutputContext("VAR.tsv"))
+		.setFunFileOutputContext(new DefaultFileOutputContext("FUN.tsv"))
+		.print();
+
+		JMetalLogger.logger.info("Total execution time: " + computingTime + "ms");
+		JMetalLogger.logger.info("Objectives values have been written to file FUN.tsv");
+		JMetalLogger.logger.info("Variables values have been written to file VAR.tsv");
+	}
 }
