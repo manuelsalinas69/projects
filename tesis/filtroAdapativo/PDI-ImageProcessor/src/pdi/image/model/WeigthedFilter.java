@@ -12,7 +12,7 @@ public class WeigthedFilter extends BaseFilter {
 	}
 
 	@Override
-	public int processFilter(int[][] pixels) {
+	public int processFilter(int[][] pixels, int pixel) {
 		List<Integer> values= new ArrayList<Integer>();
 		for (int i = 0; i < pixels.length; i++) {
 			for (int j = 0; j < pixels[0].length; j++) {
@@ -25,6 +25,11 @@ public class WeigthedFilter extends BaseFilter {
 		values.toArray(a);
 		Arrays.sort(a);
 		return a[a.length/2];
+	}
+
+	@Override
+	protected int getBorderValue() {
+		return 0;
 	}
 
 }

@@ -18,7 +18,7 @@ public class ExperimentMain {
 		p.load(new FileInputStream(args[0]));
 		System.out.println("Loaded Properties: "+p);
 		ImageDataLoader idl= new ImageDataLoader();
-		idl.loadBaseImage(p.getProperty("IMG_URL"),Boolean.valueOf(p.getProperty("IMG_ADD_NOISE")));
+		idl.setAndPreProccessBaseImage(p.getProperty("IMG_URL"),Boolean.valueOf(p.getProperty("IMG_ADD_NOISE")));
 		DataProvider.getInstance().setParam(DataProvider.DataParams.FILTER_COLUMN_SIZE, Integer.parseInt(p.getProperty("FILTER_COLUMN_SIZE")));
 		DataProvider.getInstance().setParam(DataProvider.DataParams.MAE_FITNESS_PERCENT, Double.parseDouble(p.getProperty("MAE_FITNESS_PERCENT")));
 		DataProvider.getInstance().setParam(DataProvider.DataParams.NOISE_DENSITY_FITNESS_PERCENT, Double.parseDouble(p.getProperty("NOISE_DENSITY_FITNESS_PERCENT")));

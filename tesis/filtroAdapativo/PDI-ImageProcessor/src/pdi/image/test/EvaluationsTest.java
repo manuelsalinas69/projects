@@ -2,6 +2,7 @@ package pdi.image.test;
 
 import ij.IJ;
 import ij.ImagePlus;
+import ij.process.ImageConverter;
 import ij.process.ImageProcessor;
 import pdi.image.evaluations.MAE;
 import pdi.image.evaluations.NoiseDensity;
@@ -10,9 +11,13 @@ public class EvaluationsTest {
 	
 	public static void main(String[] args) {
 		//ImagePlus img0=IJ.openImage("/Users/Manuel/Documents/Tesis/input/B2DBy.jpg");
-		ImagePlus img=IJ.openImage("/Users/Manuel/Documents/Tesis/input/a.jpg");
+		ImagePlus img=IJ.openImage("/Users/Manuel/Documents/Tesis/input/b.jpg");
 		//img.show();
+		ImageConverter ic = new ImageConverter(img);
+		ic.convertToGray8();
+		img.updateAndDraw();
 		ImageProcessor imp=img.getProcessor();
+		
 		
 		int[][] original=imp.getIntArray();
 		imp.noise(10);

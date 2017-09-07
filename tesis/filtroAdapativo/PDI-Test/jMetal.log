@@ -2,8 +2,8 @@
 <!DOCTYPE log SYSTEM "logger.dtd">
 <log>
 <record>
-  <date>2017-05-28T14:38:05</date>
-  <millis>1495996685181</millis>
+  <date>2017-09-06T22:04:03</date>
+  <millis>1504749843350</millis>
   <sequence>0</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
@@ -13,24 +13,36 @@
   <message>Loggers configured with null</message>
 </record>
 <record>
-  <date>2017-05-28T14:38:05</date>
-  <millis>1495996685212</millis>
+  <date>2017-09-06T22:04:03</date>
+  <millis>1504749843450</millis>
   <sequence>1</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.component.ExecuteAlgorithms</class>
+  <class>una.pdi.AWFGA.ga.main.GenerationalGeneticAlgorithmRunner</class>
   <method>run</method>
   <thread>1</thread>
-  <message>ExecuteAlgorithms: Preparing output directory</message>
+  <message>Total execution time: 5084335ms</message>
 </record>
 <record>
-  <date>2017-05-28T14:38:05</date>
-  <millis>1495996685212</millis>
+  <date>2017-09-06T22:04:03</date>
+  <millis>1504749843452</millis>
   <sequence>2</sequence>
   <logger>org.uma.jmetal.util.JMetalLogger</logger>
   <level>INFO</level>
-  <class>org.uma.jmetal.util.experiment.util.ExperimentAlgorithm</class>
-  <method>runAlgorithm</method>
+  <class>una.pdi.AWFGA.ga.main.GenerationalGeneticAlgorithmRunner</class>
+  <method>run</method>
   <thread>1</thread>
-  <message> Running algorithm: GA_10, problem: FiltroMedianaAdaptativo, run: 0, funFile: /Users/Manuel/Documents/Tesis/output/experiments/GA_Study/data/GA_10/FiltroMedianaAdaptativo/FUN0.tsv</message>
+  <message>Objectives values have been written to file FUN.tsv</message>
 </record>
+<record>
+  <date>2017-09-06T22:04:03</date>
+  <millis>1504749843454</millis>
+  <sequence>3</sequence>
+  <logger>org.uma.jmetal.util.JMetalLogger</logger>
+  <level>INFO</level>
+  <class>una.pdi.AWFGA.ga.main.GenerationalGeneticAlgorithmRunner</class>
+  <method>run</method>
+  <thread>1</thread>
+  <message>Variables values have been written to file VAR.tsv</message>
+</record>
+</log>

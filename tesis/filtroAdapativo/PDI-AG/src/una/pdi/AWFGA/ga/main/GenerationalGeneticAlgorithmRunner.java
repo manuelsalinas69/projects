@@ -34,6 +34,7 @@ import org.uma.jmetal.util.fileoutput.impl.DefaultFileOutputContext;
 
 import pdi.image.util.ImageDataLoader;
 import una.pdi.AWFGA.ga.model.FiltroProblema;
+import una.pdi.AWFGA.ga.model.GeneticAlgBuilder;
 
 /**
  * Class to configure and run a generational genetic algorithm. The target problem is OneMax.
@@ -47,7 +48,7 @@ public class GenerationalGeneticAlgorithmRunner {
 	public static void main(String[] args) throws Exception {
 
 		ImageDataLoader idl= new ImageDataLoader();
-		idl.loadBaseImage("/Users/Manuel/Documents/Tesis/input/test.jpg",true);
+		idl.setAndPreProccessBaseImage("/Users/Manuel/Documents/Tesis/input/test.jpg",true);
 
 		int populationSize=200;
 		int iteraciones=10;
@@ -56,7 +57,7 @@ public class GenerationalGeneticAlgorithmRunner {
 		IntegerProblem problem = new FiltroProblema(3,1) ;
 
 		CrossoverOperator<IntegerSolution> crossoverOperator = new IntegerSBXCrossover(0.9,1) ;
-		MutationOperator<IntegerSolution> mutationOperator = new IntegerPolynomialMutation() ;
+		MutationOperator<IntegerSolution> mutationOperator = new IntegerPolynomialMutation(0.2,20) ;
 		SelectionOperator<List<IntegerSolution>, IntegerSolution> selectionOperator = new BinaryTournamentSelection<IntegerSolution>();
 
 		algorithm = new GeneticAlgorithmBuilder<IntegerSolution>(problem, crossoverOperator, mutationOperator)
@@ -89,7 +90,8 @@ public class GenerationalGeneticAlgorithmRunner {
 	public static void run(Properties p){
 		int populationSize=Integer.parseInt(p.getProperty("ALGORITM_GA_POPULATION"));
 		int iteraciones=Integer.parseInt(p.getProperty("ALGORITM_GA_ITERATIONS_START"));
-
+		int maxEval=iteraciones*populationSize;
+		System.out.println("MAX EVAL: "+maxEval);
 		
 		Algorithm<IntegerSolution> algorithm;
 		IntegerProblem problem = new FiltroProblema(Integer.parseInt(p.getProperty("FILTER_COLUMN_SIZE", "3"))
@@ -98,9 +100,9 @@ public class GenerationalGeneticAlgorithmRunner {
 		MutationOperator<IntegerSolution> mutationOperator = new IntegerPolynomialMutation() ;
 		SelectionOperator<List<IntegerSolution>, IntegerSolution> selectionOperator = new BinaryTournamentSelection<IntegerSolution>();
 
-		algorithm = new GeneticAlgorithmBuilder<IntegerSolution>(problem, crossoverOperator, mutationOperator)
+		algorithm = new GeneticAlgBuilder<IntegerSolution>(problem, crossoverOperator, mutationOperator)
 				.setPopulationSize(populationSize)
-				.setMaxEvaluations(iteraciones*populationSize)
+				.setMaxEvaluations(maxEval)
 				.setSelectionOperator(selectionOperator)
 				.build() ;
 

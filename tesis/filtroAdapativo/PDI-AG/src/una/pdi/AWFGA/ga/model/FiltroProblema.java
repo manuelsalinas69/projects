@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.uma.jmetal.problem.impl.AbstractIntegerProblem;
 import org.uma.jmetal.solution.IntegerSolution;
 
+import pdi.image.util.DataProvider;
+
 public class FiltroProblema extends AbstractIntegerProblem{
 	
 	
@@ -45,8 +47,8 @@ private void setLimits() {
 	  java.util.List<Integer> upperLimit=new ArrayList<>() ;
 
 	  for (int i = 0; i < getNumberOfVariables(); i++) {
-		lowerLimit.add(1);
-		upperLimit.add(10);
+		lowerLimit.add(DataProvider.getInstance().getGA_MinLimit());
+		upperLimit.add(DataProvider.getInstance().getGA_MaxLimit());
 	}
 	  setUpperLimit(upperLimit);
 	  setLowerLimit(lowerLimit);

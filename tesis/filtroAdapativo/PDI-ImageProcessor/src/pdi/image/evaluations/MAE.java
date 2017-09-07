@@ -2,16 +2,19 @@ package pdi.image.evaluations;
 
 public class MAE {
 
-	public static double evaluate(int[][] noisyImage,int[][] originalImage){
-		int sum=0;
-		int N=originalImage.length*originalImage[0].length;
-		for (int i = 0; i < originalImage.length; i++) {
-			for (int j = 0; j < originalImage[0].length; j++) {
-				sum+=Math.abs(noisyImage[i][j]-originalImage[i][j]);
+	public static double evaluate(int[][] filteredImage,int[][] baseImage){
+		double sum=0;
+		double MAE_MAX=255;
+		double NxM=baseImage.length*baseImage[0].length;
+		for (int i = 0; i < baseImage.length; i++) {
+			for (int j = 0; j < baseImage[0].length; j++) {
+				sum+=Math.abs(filteredImage[i][j]-baseImage[i][j]);
+				
 			}
 		}
 		//System.out.println("N: "+N);
 		//System.out.println("Sum: "+sum);
-		return new Double((1d/(3d*(double)N)*(double)sum));
+		double MAE=sum/NxM;
+		return MAE;//(MAE/MAE_MAX);
 	}
 }

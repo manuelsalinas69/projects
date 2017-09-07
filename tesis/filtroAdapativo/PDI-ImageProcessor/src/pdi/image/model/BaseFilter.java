@@ -20,7 +20,7 @@ public abstract class BaseFilter {
 				//int col=row[j];
 				
 				int [][] pixels=getPixels(image,i,j);
-				int pixel=processFilter(pixels);
+				int pixel=processFilter(pixels, image[i][j]);
 				
 				outputImage[i][j]=pixel;
 			}
@@ -29,8 +29,9 @@ public abstract class BaseFilter {
 		return outputImage;
 	}
 
-	public abstract int processFilter(int[][] pixels);
-
+	public abstract int processFilter(int[][] pixels, int pivotPixel);
+	protected abstract int getBorderValue();
+	
 	public int[][] getPixels(int[][] image, int i, int j) {
 		int minI=Math.max(0, i-filterCenter[0]);
 		int maxI=Math.min(image.length-1, i+(filter.length-1-filterCenter[0]));
@@ -48,7 +49,7 @@ public abstract class BaseFilter {
 					pixels[k][k2]=image[f][c];
 				}
 				else{
-					pixels[k][k2]=0;
+					pixels[k][k2]=getBorderValue();
 				}
 				//System.out.print(" "+pixels[k][k2]);
 			}
